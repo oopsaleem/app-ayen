@@ -1,0 +1,95 @@
+{
+    "language": "Language",
+    "app": {
+        "sidebar": {
+            "dashboard": "Dashboard",
+            "repository": "Repository",
+            "documentation": "Documentation",
+            "navigation": "Navigation menu"
+        },
+        "header": {
+            "search": "Search"
+        }
+    },
+    "nav": {
+        "user_menu": "User menu",
+        "settings": "Settings",
+        "log_out": "Log out"
+    },
+    "welcome": {
+        "title": "Welcome",
+        "dashboard": "Dashboard",
+        "log_in": "Log in",
+        "register": "Register",
+        "get_started": "Let's get started",
+        "ecosystem": "Laravel has an incredibly rich ecosystem.",
+        "suggest": "We suggest starting with the following.",
+        "read_the": "Read the",
+        "documentation": "Documentation",
+        "watch_tutorials": "Watch video tutorials at",
+        "laracasts": "Laracasts",
+        "deploy_now": "Deploy now"
+    },
+    "auth": {
+        "login": {
+            "page_title": "Log in",
+            "title": "Log in to your account",
+            "description": "Enter your email and password below to log in",
+            "email_address": "Email address",
+            "password": "Password",
+            "forgot_password": "Forgot password?",
+            "remember_me": "Remember me",
+            "log_in": "Log in",
+            "ing": "Logging in",
+            "no_account": "Don't have an account?",
+            "sign_up": "Sign up"
+        }
+    },
+    "settings": {
+        "appearance": {
+            "page_title": "Appearance settings",
+            "title": "Appearance settings",
+            "description": "Update the appearance settings for your account"
+        },
+        "profile": {
+            "page_title": "Profile settings",
+            "title": "Profile",
+            "description": "Update your name and email address",
+            "name": "Name",
+            "full_name": "Full name",
+            "email_address": "Email address",
+            "unverified": "Your email address is unverified.",
+            "resend_link": "Click here to re-send the verification email.",
+            "verification_sent": "A new verification link has been sent to your email address.",
+            "save": "Save",
+            "language": "Language"
+        },
+        "security": {
+            "page_title": "Security settings",
+            "update_password": "Update password",
+            "description": "Ensure your account is using a long, random password to stay secure",
+            "current_password": "Current password",
+            "current_password_label": "Current password",
+            "new_password_label": "New password",
+            "new_password": "New password",
+            "confirm_password_label": "Confirm password",
+            "confirm_password": "Confirm password",
+            "save": "Save"
+        },
+        "title": "Settings",
+        "description": "Manage your profile and account settings",
+        "nav": {
+            "profile": "Profile",
+            "security": "Security",
+            "teams": "Teams",
+            "appearance": "Appearance",
+            "aria_label": "Settings"
+        }
+    },
+    "language_switcher": {
+        "aria_label": "Switch language"
+    },
+    "teams": {
+        "invitation_prompt": "{action} to join the \"{team}\" team."
+    }
+}

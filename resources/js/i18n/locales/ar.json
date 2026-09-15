@@ -1,0 +1,95 @@
+{
+  "language": "اللغة",
+  "app": {
+    "sidebar": {
+      "dashboard": "لوحة التحكم",
+      "repository": "المستودع",
+      "documentation": "الوثائق",
+      "navigation": "قائمة التنقل"
+    },
+    "header": {
+      "search": "بحث"
+    }
+  },
+  "nav": {
+    "user_menu": "قائمة المستخدم",
+    "settings": "الإعدادات",
+    "log_out": "تسجيل الخروج"
+  },
+  "welcome": {
+    "title": "مرحبًا",
+    "dashboard": "لوحة التحكم",
+    "log_in": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "get_started": "لنبدأ",
+    "ecosystem": "يمتلك Laravel نظامًا بيئيًا غنيًا بشكل لا يُصدق.",
+    "suggest": "نقترح البدء بما يلي.",
+    "read_the": "اقرأ",
+    "documentation": "الوثائق",
+    "watch_tutorials": "شاهد فيديوهات الدروس على",
+    "laracasts": "Laracasts",
+    "deploy_now": "انشر الآن"
+  },
+  "auth": {
+    "login": {
+      "page_title": "تسجيل الدخول",
+      "title": "قم بتسجيل الدخول إلى حسابك",
+      "description": "أدخل بريدك الإلكتروني وكلمة المرور أدناه لتسجيل الدخول",
+      "email_address": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgot_password": "هل نسيت كلمة المرور؟",
+      "remember_me": "تذكرني",
+      "log_in": "تسجيل الدخول",
+      "ing": "جارٍ تسجيل الدخول",
+      "no_account": "ليس لديك حساب؟",
+      "sign_up": "إنشاء حساب"
+    }
+  },
+  "settings": {
+    "appearance": {
+      "page_title": "إعدادات المظهر",
+      "title": "إعدادات المظهر",
+      "description": "تحديث إعدادات المظهر لحسابك"
+    },
+    "profile": {
+      "page_title": "إعدادات الملف الشخصي",
+      "title": "الملف الشخصي",
+      "description": "تحديث اسمك وبريدك الإلكتروني",
+      "name": "الاسم",
+      "full_name": "الاسم الكامل",
+      "email_address": "البريد الإلكتروني",
+      "unverified": "بريدك الإلكتروني غير مُوثّق.",
+      "resend_link": "انقر هنا لإعادة إرسال بريد التحقق.",
+      "verification_sent": "تم إرسال رابط تحقق جديد إلى بريدك الإلكتروني.",
+      "save": "حفظ",
+      "language": "اللغة"
+    },
+    "security": {
+      "page_title": "إعدادات الأمان",
+      "update_password": "تحديث كلمة المرور",
+      "description": "تأكد من أن حسابك يستخدم كلمة مرور طويلة وعشوائية للحفاظ على الأمان",
+      "current_password": "كلمة المرور الحالية",
+      "current_password_label": "كلمة المرور الحالية",
+      "new_password_label": "كلمة مرور جديدة",
+      "new_password": "كلمة مرور جديدة",
+      "confirm_password_label": "تأكيد كلمة المرور",
+      "confirm_password": "تأكيد كلمة المرور",
+      "save": "حفظ"
+    },
+    "title": "الإعدادات",
+    "description": "إدارة ملفك الشخصي وإعدادات حسابك",
+    "nav": {
+      "profile": "الملف الشخصي",
+      "security": "الأمان",
+      "teams": "الفرق",
+      "appearance": "المظهر",
+      "aria_label": "الإعدادات"
+    }
+  },
+  "language_switcher": {
+    "aria_label": "تبديل اللغة"
+  },
+  "teams": {
+    "invitation_prompt": "{action} للانضمام إلى فريق \"{team}\"."
+  }
+}
