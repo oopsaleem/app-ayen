@@ -139,7 +139,18 @@
             "resend_link": "Click here to re-send the verification email.",
             "verification_sent": "A new verification link has been sent to your email address.",
             "save": "Save",
-            "language": "Language"
+            "language": "Language",
+            "delete_account": {
+                "heading": "Delete account",
+                "description": "Delete your account and all of its resources",
+                "warning": "Warning",
+                "warning_description": "Please proceed with caution, this cannot be undone.",
+                "delete_button": "Delete account",
+                "confirm_title": "Are you sure you want to delete your account?",
+                "confirm_description": "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+                "password": "Password",
+                "cancel": "Cancel"
+            }
         },
         "security": {
             "page_title": "Security settings",
