@@ -1,7 +1,6 @@
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -13,7 +12,6 @@ import {
     SidebarFooter,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
@@ -57,15 +55,13 @@ export function AppSidebar() {
         >
             <SidebarHeader>
                 <SidebarMenu>
-                    <SidebarMenuItem>
+                    {/* <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboardUrl} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-                <SidebarMenu>
+                    </SidebarMenuItem> */}
                     <SidebarMenuItem>
                         <TeamSwitcher />
                     </SidebarMenuItem>

@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { Check, ChevronsUpDown, Plus, Users } from 'lucide-react';
+import { Check, ChevronsUpDown, Plus } from 'lucide-react';
 import CreateTeamModal from '@/components/create-team-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,6 +13,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import { switchMethod } from '@/routes/teams';
 import type { Team } from '@/types';
+import AppLogoIcon from './app-logo-icon';
 
 type TeamSwitcherProps = {
     inHeader?: boolean;
@@ -63,13 +64,16 @@ export function TeamSwitcher({ inHeader = false }: TeamSwitcherProps) {
                             : 'w-full justify-start px-2 has-[>svg]:px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                     }
                 >
-                    <Users
+                    <div className="flex aspect-square size-8 group-data-[collapsible=icon]:size-5 rtl:-mr-0.5 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                        <AppLogoIcon className="fill-current text-white dark:text-black" />
+                    </div>
+                    {/* <Users
                         className={
                             inHeader
                                 ? 'hidden'
                                 : 'hidden size-4 shrink-0 group-data-[collapsible=icon]:block'
                         }
-                    />
+                    /> */}
                     <div
                         className={
                             inHeader
