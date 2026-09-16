@@ -126,7 +126,10 @@
         "appearance": {
             "page_title": "Appearance settings",
             "title": "Appearance settings",
-            "description": "Update the appearance settings for your account"
+            "description": "Update the appearance settings for your account",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
         },
         "profile": {
             "page_title": "Profile settings",
