@@ -98,7 +98,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 <SheetTitle className="sr-only">
                                     {t('app.sidebar.navigation')}
                                 </SheetTitle>
-                                <SheetHeader className="flex justify-start text-left">
+                                <SheetHeader className="flex justify-start text-left rtl:text-right">
                                     <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
                                 </SheetHeader>
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">

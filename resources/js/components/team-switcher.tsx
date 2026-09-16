@@ -73,14 +73,14 @@ export function TeamSwitcher({ inHeader = false }: TeamSwitcherProps) {
                     <div
                         className={
                             inHeader
-                                ? 'grid flex-1 text-left text-sm leading-tight'
-                                : 'grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden'
+                                ? 'grid flex-1 text-left rtl:text-right text-sm leading-tight'
+                                : 'grid flex-1 text-left rtl:text-right text-sm leading-tight group-data-[collapsible=icon]:hidden'
                         }
                     >
                         <span
                             className={
                                 inHeader
-                                    ? 'max-w-[120px] truncate font-medium'
+                                    ? 'max-w-30 truncate font-medium'
                                     : 'truncate font-semibold'
                             }
                         >
