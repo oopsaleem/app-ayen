@@ -7,6 +7,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
+import { translatePasskeyError } from '@/lib/passkey-error';
 
 type Props = {
     routes?: {
@@ -25,21 +26,24 @@ export default function PasskeyVerify({
     separator,
 }: Props = {}) {
     const { t } = useTranslation();
-    const { verify, isLoading, error, isSupported } = usePasskeyVerify({
-        ...(routes && {
-            routes: {
-                options: routes.options.url,
-                submit: routes.submit.url,
+    const { verify, isLoading, error, errorInstance, isSupported } =
+        usePasskeyVerify({
+            ...(routes && {
+                routes: {
+                    options: routes.options.url,
+                    submit: routes.submit.url,
+                },
+            }),
+            onSuccess: (response) => {
+                router.visit(response.redirect ?? '/dashboard');
             },
-        }),
-        onSuccess: (response) => {
-            router.visit(response.redirect ?? '/dashboard');
-        },
-    });
+        });
 
     if (!isSupported) {
         return null;
     }
+
+    const translatedError = translatePasskeyError(errorInstance, error, t);
 
     return (
         <>
@@ -57,8 +61,11 @@ export default function PasskeyVerify({
                           t('auth.passkey_verify.authenticating'))
                         : (label ?? t('auth.passkey_verify.sign_in'))}
                 </Button>
-                {error && (
-                    <InputError message={error} className="text-center" />
+                {translatedError && (
+                    <InputError
+                        message={translatedError}
+                        className="text-center"
+                    />
                 )}
             </div>
 

@@ -2,7 +2,13 @@
     "language": "Language",
     "common": {
         "error_title": "Something went wrong.",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "passkey_errors": {
+            "not_supported": "Passkeys are not supported in this browser.",
+            "cancelled": "The passkey operation was cancelled.",
+            "already_registered": "This device is already registered as a passkey.",
+            "invalid_domain": "Passkeys can't be used on {{domain}}. For local development, use localhost."
+        }
     },
     "app": {
         "sidebar": {

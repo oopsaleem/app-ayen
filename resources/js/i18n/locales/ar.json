@@ -2,7 +2,13 @@
     "language": "اللغة",
     "common": {
         "error_title": "حدث خطأ ما.",
-        "cancel": "إلغاء"
+        "cancel": "إلغاء",
+        "passkey_errors": {
+            "not_supported": "مفاتيح المرور غير مدعومة في هذا المتصفح.",
+            "cancelled": "تم إلغاء عملية مفتاح المرور.",
+            "already_registered": "هذا الجهاز مسجَّل بالفعل كمفتاح مرور.",
+            "invalid_domain": "لا يمكن استخدام مفاتيح المرور على {{domain}}. للتطوير المحلي، استخدم localhost."
+        }
     },
     "app": {
         "sidebar": {

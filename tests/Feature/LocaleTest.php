@@ -33,3 +33,20 @@ it('sets the application locale from the user preference', function () {
 
     expect(app()->getLocale())->toBe('ar');
 });
+
+it('translates validation messages for the user preferred locale', function () {
+    $user = User::factory()->create(['locale' => 'ar']);
+
+    $this->actingAs($user)->get(route('home'));
+
+    expect(__('validation.required', ['attribute' => __('validation.attributes.password')]))
+        ->toBe('حقل كلمة المرور مطلوب.');
+});
+
+it('translates authentication failure messages for the user preferred locale', function () {
+    $user = User::factory()->create(['locale' => 'ar']);
+
+    $this->actingAs($user)->get(route('home'));
+
+    expect(__('auth.failed'))->toBe('بيانات الاعتماد هذه غير متطابقة مع سجلاتنا.');
+});
