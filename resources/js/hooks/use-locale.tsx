@@ -1,12 +1,11 @@
 import { useSyncExternalStore } from 'react';
-import { applyDocumentLocale, dirFor, i18n, isAppLocale } from '@/i18n';
+import { applyDocumentLocale, i18n, isAppLocale } from '@/i18n';
 import type { AppLocale } from '@/i18n';
 
 export type Locale = AppLocale;
 
 export type UseLocaleReturn = {
     readonly locale: Locale;
-    readonly resolvedDirection: 'ltr' | 'rtl';
     readonly updateLocale: (locale: Locale) => void;
 };
 
@@ -77,8 +76,6 @@ export function useLocale(): UseLocaleReturn {
         () => 'en',
     );
 
-    const resolvedDirection: 'ltr' | 'rtl' = dirFor(locale);
-
     const updateLocale = (next: Locale): void => {
         currentLocale = next;
 
@@ -89,5 +86,5 @@ export function useLocale(): UseLocaleReturn {
         notify();
     };
 
-    return { locale, resolvedDirection, updateLocale } as const;
+    return { locale, updateLocale } as const;
 }

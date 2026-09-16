@@ -10,20 +10,16 @@ export function AppDirectionProvider({
     children: React.ReactNode;
 }) {
     const { locale } = usePage().props;
-    const {
-        locale: storedLocale,
-        resolvedDirection,
-        updateLocale,
-    } = useLocale();
+    const { locale: storedLocale, updateLocale } = useLocale();
 
     useEffect(() => {
         if (isAppLocale(locale) && locale !== storedLocale) {
             updateLocale(locale);
         }
-    }, [locale]);
+    }, [locale, storedLocale, updateLocale]);
 
     return (
-        <DirectionProvider dir={resolvedDirection}>
+        <DirectionProvider dir={dirFromProps(locale)}>
             {children}
         </DirectionProvider>
     );
