@@ -54,7 +54,9 @@ export default function Login({
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth.login.email_address')}</Label>
+                                <Label htmlFor="email">
+                                    {t('auth.login.email_address')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -70,7 +72,9 @@ export default function Login({
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">{t('auth.login.password')}</Label>
+                                    <Label htmlFor="password">
+                                        {t('auth.login.password')}
+                                    </Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
@@ -98,7 +102,9 @@ export default function Login({
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">{t('auth.login.remember_me')}</Label>
+                                <Label htmlFor="remember">
+                                    {t('auth.login.remember_me')}
+                                </Label>
                             </div>
 
                             <Button

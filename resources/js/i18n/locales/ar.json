@@ -1,95 +1,249 @@
 {
-  "language": "اللغة",
-  "app": {
-    "sidebar": {
-      "dashboard": "لوحة التحكم",
-      "repository": "المستودع",
-      "documentation": "الوثائق",
-      "navigation": "قائمة التنقل"
+    "language": "اللغة",
+    "common": {
+        "error_title": "حدث خطأ ما.",
+        "cancel": "إلغاء"
     },
-    "header": {
-      "search": "بحث"
-    }
-  },
-  "nav": {
-    "user_menu": "قائمة المستخدم",
-    "settings": "الإعدادات",
-    "log_out": "تسجيل الخروج"
-  },
-  "welcome": {
-    "title": "مرحبًا",
-    "dashboard": "لوحة التحكم",
-    "log_in": "تسجيل الدخول",
-    "register": "إنشاء حساب",
-    "get_started": "لنبدأ",
-    "ecosystem": "يمتلك Laravel نظامًا بيئيًا غنيًا بشكل لا يُصدق.",
-    "suggest": "نقترح البدء بما يلي.",
-    "read_the": "اقرأ",
-    "documentation": "الوثائق",
-    "watch_tutorials": "شاهد فيديوهات الدروس على",
-    "laracasts": "Laracasts",
-    "deploy_now": "انشر الآن"
-  },
-  "auth": {
-    "login": {
-      "page_title": "تسجيل الدخول",
-      "title": "قم بتسجيل الدخول إلى حسابك",
-      "description": "أدخل بريدك الإلكتروني وكلمة المرور أدناه لتسجيل الدخول",
-      "email_address": "البريد الإلكتروني",
-      "password": "كلمة المرور",
-      "forgot_password": "هل نسيت كلمة المرور؟",
-      "remember_me": "تذكرني",
-      "log_in": "تسجيل الدخول",
-      "ing": "جارٍ تسجيل الدخول",
-      "no_account": "ليس لديك حساب؟",
-      "sign_up": "إنشاء حساب"
-    }
-  },
-  "settings": {
-    "appearance": {
-      "page_title": "إعدادات المظهر",
-      "title": "إعدادات المظهر",
-      "description": "تحديث إعدادات المظهر لحسابك"
+    "app": {
+        "sidebar": {
+            "dashboard": "لوحة التحكم",
+            "repository": "المستودع",
+            "documentation": "الوثائق",
+            "navigation": "قائمة التنقل"
+        },
+        "header": {
+            "search": "بحث"
+        }
     },
-    "profile": {
-      "page_title": "إعدادات الملف الشخصي",
-      "title": "الملف الشخصي",
-      "description": "تحديث اسمك وبريدك الإلكتروني",
-      "name": "الاسم",
-      "full_name": "الاسم الكامل",
-      "email_address": "البريد الإلكتروني",
-      "unverified": "بريدك الإلكتروني غير مُوثّق.",
-      "resend_link": "انقر هنا لإعادة إرسال بريد التحقق.",
-      "verification_sent": "تم إرسال رابط تحقق جديد إلى بريدك الإلكتروني.",
-      "save": "حفظ",
-      "language": "اللغة"
-    },
-    "security": {
-      "page_title": "إعدادات الأمان",
-      "update_password": "تحديث كلمة المرور",
-      "description": "تأكد من أن حسابك يستخدم كلمة مرور طويلة وعشوائية للحفاظ على الأمان",
-      "current_password": "كلمة المرور الحالية",
-      "current_password_label": "كلمة المرور الحالية",
-      "new_password_label": "كلمة مرور جديدة",
-      "new_password": "كلمة مرور جديدة",
-      "confirm_password_label": "تأكيد كلمة المرور",
-      "confirm_password": "تأكيد كلمة المرور",
-      "save": "حفظ"
-    },
-    "title": "الإعدادات",
-    "description": "إدارة ملفك الشخصي وإعدادات حسابك",
     "nav": {
-      "profile": "الملف الشخصي",
-      "security": "الأمان",
-      "teams": "الفرق",
-      "appearance": "المظهر",
-      "aria_label": "الإعدادات"
+        "user_menu": "قائمة المستخدم",
+        "settings": "الإعدادات",
+        "log_out": "تسجيل الخروج"
+    },
+    "welcome": {
+        "title": "مرحبًا",
+        "dashboard": "لوحة التحكم",
+        "log_in": "تسجيل الدخول",
+        "register": "إنشاء حساب",
+        "get_started": "لنبدأ",
+        "ecosystem": "يمتلك Laravel نظامًا بيئيًا غنيًا بشكل لا يُصدق.",
+        "suggest": "نقترح البدء بما يلي.",
+        "read_the": "اقرأ",
+        "documentation": "الوثائق",
+        "watch_tutorials": "شاهد فيديوهات الدروس على",
+        "laracasts": "Laracasts",
+        "deploy_now": "انشر الآن"
+    },
+    "auth": {
+        "login": {
+            "page_title": "تسجيل الدخول",
+            "title": "قم بتسجيل الدخول إلى حسابك",
+            "description": "أدخل بريدك الإلكتروني وكلمة المرور أدناه لتسجيل الدخول",
+            "email_address": "البريد الإلكتروني",
+            "password": "كلمة المرور",
+            "forgot_password": "هل نسيت كلمة المرور؟",
+            "remember_me": "تذكرني",
+            "log_in": "تسجيل الدخول",
+            "ing": "جارٍ تسجيل الدخول",
+            "no_account": "ليس لديك حساب؟",
+            "sign_up": "إنشاء حساب"
+        },
+        "confirm_password": {
+            "page_title": "تأكيد كلمة المرور",
+            "title": "تأكيد كلمة المرور",
+            "description": "هذه منطقة آمنة من التطبيق. يرجى تأكيد كلمة المرور قبل المتابعة.",
+            "passkey_label": "تأكيد باستخدام مفتاح المرور",
+            "passkey_loading": "جارٍ التأكيد...",
+            "passkey_separator": "أو أكّد باستخدام كلمة المرور",
+            "password": "كلمة المرور",
+            "confirm_button": "تأكيد كلمة المرور"
+        },
+        "two_factor": {
+            "page_title": "المصادقة الثنائية",
+            "recovery_title": "رمز الاسترداد",
+            "recovery_description": "يرجى تأكيد الوصول إلى حسابك عن طريق إدخال أحد رموز الاسترداد الطارئة الخاصة بك.",
+            "recovery_toggle": "تسجيل الدخول باستخدام رمز مصادقة",
+            "code_title": "رمز المصادقة",
+            "code_description": "أدخل رمز المصادقة المقدم من تطبيق المصادقة الخاص بك.",
+            "code_toggle": "تسجيل الدخول باستخدام رمز استرداد",
+            "recovery_code_placeholder": "أدخل رمز الاسترداد",
+            "continue": "متابعة",
+            "or_you_can": "أو يمكنك "
+        },
+        "register": {
+            "page_title": "إنشاء حساب",
+            "title": "إنشاء حساب جديد",
+            "description": "أدخل بياناتك أدناه لإنشاء حسابك",
+            "invitation_action": "إنشاء حساب",
+            "name": "الاسم",
+            "full_name": "الاسم الكامل",
+            "email_address": "البريد الإلكتروني",
+            "password": "كلمة المرور",
+            "confirm_password": "تأكيد كلمة المرور",
+            "create_account": "إنشاء حساب",
+            "have_account": "هل لديك حساب بالفعل؟",
+            "log_in": "تسجيل الدخول"
+        },
+        "reset_password": {
+            "page_title": "إعادة تعيين كلمة المرور",
+            "title": "إعادة تعيين كلمة المرور",
+            "description": "يرجى إدخال كلمة المرور الجديدة أدناه",
+            "email": "البريد الإلكتروني",
+            "password": "كلمة المرور",
+            "confirm_password": "تأكيد كلمة المرور",
+            "reset_button": "إعادة تعيين كلمة المرور"
+        },
+        "forgot_password": {
+            "page_title": "نسيت كلمة المرور",
+            "title": "نسيت كلمة المرور",
+            "description": "أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور",
+            "email_address": "البريد الإلكتروني",
+            "email_reset_link": "إرسال رابط إعادة تعيين كلمة المرور",
+            "return_to": "أو، عد إلى",
+            "log_in": "تسجيل الدخول"
+        },
+        "verify_email": {
+            "page_title": "تحقق من البريد الإلكتروني",
+            "title": "تحقق من البريد الإلكتروني",
+            "description": "يرجى التحقق من بريدك الإلكتروني بالنقر على الرابط الذي أرسلناه للتو إليك.",
+            "link_sent": "تم إرسال رابط تحقق جديد إلى البريد الإلكتروني الذي قدمته أثناء التسجيل.",
+            "resend": "إعادة إرسال بريد التحقق",
+            "log_out": "تسجيل الخروج"
+        },
+        "passkey_verify": {
+            "sign_in": "تسجيل الدخول باستخدام مفتاح مرور",
+            "authenticating": "جارٍ المصادقة...",
+            "continue_with_email": "أو تابع باستخدام البريد الإلكتروني"
+        }
+    },
+    "settings": {
+        "appearance": {
+            "page_title": "إعدادات المظهر",
+            "title": "إعدادات المظهر",
+            "description": "تحديث إعدادات المظهر لحسابك"
+        },
+        "profile": {
+            "page_title": "إعدادات الملف الشخصي",
+            "title": "الملف الشخصي",
+            "description": "تحديث اسمك وبريدك الإلكتروني",
+            "name": "الاسم",
+            "full_name": "الاسم الكامل",
+            "email_address": "البريد الإلكتروني",
+            "unverified": "بريدك الإلكتروني غير مُوثّق.",
+            "resend_link": "انقر هنا لإعادة إرسال بريد التحقق.",
+            "verification_sent": "تم إرسال رابط تحقق جديد إلى بريدك الإلكتروني.",
+            "save": "حفظ",
+            "language": "اللغة"
+        },
+        "security": {
+            "page_title": "إعدادات الأمان",
+            "update_password": "تحديث كلمة المرور",
+            "description": "تأكد من أن حسابك يستخدم كلمة مرور طويلة وعشوائية للحفاظ على الأمان",
+            "current_password": "كلمة المرور الحالية",
+            "current_password_label": "كلمة المرور الحالية",
+            "new_password_label": "كلمة مرور جديدة",
+            "new_password": "كلمة مرور جديدة",
+            "confirm_password_label": "تأكيد كلمة المرور",
+            "confirm_password": "تأكيد كلمة المرور",
+            "save": "حفظ",
+            "passkeys": {
+                "heading": "مفاتيح المرور",
+                "description": "إدارة مفاتيح المرور الخاصة بك لتسجيل الدخول بدون كلمة مرور",
+                "empty_title": "لا توجد مفاتيح مرور بعد",
+                "empty_description": "أضف مفتاح مرور لتسجيل الدخول بدون كلمة مرور",
+                "added": "أُضيف {{time}}",
+                "last_used": "آخر استخدام {{time}}",
+                "remove": "إزالة",
+                "remove_passkey": "إزالة مفتاح المرور",
+                "remove_confirm": "هل أنت متأكد أنك تريد إزالة مفتاح المرور \"{{name}}\"؟ لن تتمكن بعد الآن من استخدامه لتسجيل الدخول.",
+                "removing": "جارٍ الإزالة...",
+                "not_supported": "مفاتيح المرور غير مدعومة في هذا المتصفح.",
+                "add_passkey": "إضافة مفتاح مرور",
+                "passkey_name": "اسم مفتاح المرور",
+                "passkey_name_placeholder": "مثال: MacBook Pro أو iPhone",
+                "passkey_name_hint": "الاسم يساعدك على التعرف على هذا المفتاح لاحقًا.",
+                "registering": "جارٍ التسجيل...",
+                "register_passkey": "تسجيل مفتاح المرور"
+            },
+            "two_factor": {
+                "heading": "المصادقة الثنائية",
+                "description": "إدارة إعدادات المصادقة الثنائية الخاصة بك",
+                "enabled_description": "سيُطلب منك إدخال رمز عشوائي آمن أثناء تسجيل الدخول، ويمكنك الحصول عليه من تطبيق المصادقة على هاتفك.",
+                "disable": "تعطيل المصادقة الثنائية",
+                "disabled_description": "عند تفعيل المصادقة الثنائية، سيُطلب منك إدخال رمز آمن أثناء تسجيل الدخول. يمكن الحصول على هذا الرمز من تطبيق مصادقة على هاتفك.",
+                "continue_setup": "متابعة الإعداد",
+                "enable": "تفعيل المصادقة الثنائية",
+                "recovery_codes": {
+                    "heading": "رموز استرداد المصادقة الثنائية",
+                    "description": "تتيح لك رموز الاسترداد استعادة الوصول إذا فقدت جهاز المصادقة الثنائية. احفظها في مدير كلمات مرور آمن.",
+                    "hide_codes": "إخفاء رموز الاسترداد",
+                    "view_codes": "عرض رموز الاسترداد",
+                    "regenerate": "إعادة إنشاء الرموز",
+                    "loading_label": "جارٍ تحميل رموز الاسترداد",
+                    "list_label": "رموز الاسترداد",
+                    "warning": "يمكن استخدام كل رمز استرداد مرة واحدة فقط للوصول إلى حسابك، وسيتم حذفه بعد الاستخدام. إذا احتجت إلى المزيد، انقر على <0>{{action}}</0> أعلاه.",
+                    "warning_action": "إعادة إنشاء الرموز"
+                },
+                "setup_modal": {
+                    "enabled_title": "تم تفعيل المصادقة الثنائية",
+                    "enabled_description": "تم تفعيل المصادقة الثنائية الآن. امسح رمز الاستجابة السريعة أو أدخل مفتاح الإعداد في تطبيق المصادقة الخاص بك.",
+                    "close": "إغلاق",
+                    "verify_title": "التحقق من رمز المصادقة",
+                    "verify_description": "أدخل الرمز المكوّن من 6 أرقام من تطبيق المصادقة الخاص بك",
+                    "continue": "متابعة",
+                    "enable_title": "تفعيل المصادقة الثنائية",
+                    "enable_description": "لإنهاء تفعيل المصادقة الثنائية، امسح رمز الاستجابة السريعة أو أدخل مفتاح الإعداد في تطبيق المصادقة الخاص بك",
+                    "manual_entry": "أو أدخل الرمز يدويًا",
+                    "back": "رجوع",
+                    "confirm": "تأكيد"
+                }
+            }
+        },
+        "title": "الإعدادات",
+        "description": "إدارة ملفك الشخصي وإعدادات حسابك",
+        "nav": {
+            "profile": "الملف الشخصي",
+            "security": "الأمان",
+            "teams": "الفرق",
+            "appearance": "المظهر",
+            "aria_label": "الإعدادات"
+        }
+    },
+    "language_switcher": {
+        "aria_label": "تبديل اللغة"
+    },
+    "teams": {
+        "invitation_prompt": "{{action}} للانضمام إلى فريق \"{{team}}\".",
+        "index": {
+            "page_title": "الفرق",
+            "heading": "الفرق",
+            "description": "إدارة فرقك وعضوياتك فيها",
+            "new_team": "فريق جديد",
+            "personal_badge": "شخصي",
+            "leave_team": "مغادرة الفريق",
+            "view_team": "عرض الفريق",
+            "edit_team": "تعديل الفريق",
+            "no_teams": "أنت لا تنتمي إلى أي فريق حتى الآن."
+        },
+        "edit": {
+            "edit_title": "تعديل {{name}}",
+            "view_title": "عرض {{name}}",
+            "settings_heading": "إعدادات الفريق",
+            "settings_description": "تحديث اسم فريقك وإعداداته",
+            "team_name": "اسم الفريق",
+            "save": "حفظ",
+            "members_heading": "أعضاء الفريق",
+            "members_description": "إدارة من ينتمي إلى هذا الفريق",
+            "invite_member": "دعوة عضو",
+            "remove_member": "إزالة العضو",
+            "pending_invitations_heading": "الدعوات المعلقة",
+            "pending_invitations_description": "الدعوات التي لم يتم قبولها بعد",
+            "cancel_invitation": "إلغاء الدعوة",
+            "delete_team_heading": "حذف الفريق",
+            "delete_team_description": "حذف فريقك نهائيًا",
+            "warning": "تحذير",
+            "warning_description": "يرجى المتابعة بحذر، لا يمكن التراجع عن هذا الإجراء.",
+            "delete_team_button": "حذف الفريق"
+        }
     }
-  },
-  "language_switcher": {
-    "aria_label": "تبديل اللغة"
-  },
-  "teams": {
-    "invitation_prompt": "{action} للانضمام إلى فريق \"{team}\"."
-  }
 }

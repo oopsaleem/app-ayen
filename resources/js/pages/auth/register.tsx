@@ -1,4 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TeamInvitationAlert from '@/components/team-invitation-alert';
@@ -17,9 +18,11 @@ type Props = {
 };
 
 export default function Register({ passwordRules, teamInvitation }: Props) {
+    const { t } = useTranslation();
+
     return (
         <>
-            <Head title="Register" />
+            <Head title={t('auth.register.page_title')} />
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -31,13 +34,15 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                         {teamInvitation && (
                             <TeamInvitationAlert
                                 invitation={teamInvitation}
-                                action="Register"
+                                action={t('auth.register.invitation_action')}
                             />
                         )}
 
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">
+                                    {t('auth.register.name')}
+                                </Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -46,7 +51,7 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                                     tabIndex={1}
                                     autoComplete="name"
                                     name="name"
-                                    placeholder="Full name"
+                                    placeholder={t('auth.register.full_name')}
                                 />
                                 <InputError
                                     message={errors.name}
@@ -55,7 +60,9 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">
+                                    {t('auth.register.email_address')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -69,14 +76,16 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">
+                                    {t('auth.register.password')}
+                                </Label>
                                 <PasswordInput
                                     id="password"
                                     required
                                     tabIndex={3}
                                     autoComplete="new-password"
                                     name="password"
-                                    placeholder="Password"
+                                    placeholder={t('auth.register.password')}
                                     passwordrules={passwordRules}
                                 />
                                 <InputError message={errors.password} />
@@ -84,7 +93,7 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
-                                    Confirm password
+                                    {t('auth.register.confirm_password')}
                                 </Label>
                                 <PasswordInput
                                     id="password_confirmation"
@@ -92,7 +101,9 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                                     tabIndex={4}
                                     autoComplete="new-password"
                                     name="password_confirmation"
-                                    placeholder="Confirm password"
+                                    placeholder={t(
+                                        'auth.register.confirm_password',
+                                    )}
                                     passwordrules={passwordRules}
                                 />
                                 <InputError
@@ -107,12 +118,12 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                                 data-test="register-user-button"
                             >
                                 {processing && <Spinner />}
-                                Create account
+                                {t('auth.register.create_account')}
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Already have an account?{' '}
+                            {t('auth.register.have_account')}{' '}
                             <TextLink
                                 href={
                                     teamInvitation
@@ -127,7 +138,7 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                                 data-test="team-invitation-login-link"
                                 tabIndex={6}
                             >
-                                Log in
+                                {t('auth.register.log_in')}
                             </TextLink>
                         </div>
                     </>
@@ -138,6 +149,6 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
 }
 
 Register.layout = {
-    title: 'Create an account',
-    description: 'Enter your details below to create your account',
+    title: 'auth.register.title',
+    description: 'auth.register.description',
 };

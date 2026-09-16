@@ -10,8 +10,11 @@ export function AppDirectionProvider({
     children: React.ReactNode;
 }) {
     const { locale } = usePage().props;
-    const { locale: storedLocale, resolvedDirection, updateLocale } =
-        useLocale();
+    const {
+        locale: storedLocale,
+        resolvedDirection,
+        updateLocale,
+    } = useLocale();
 
     useEffect(() => {
         if (isAppLocale(locale) && locale !== storedLocale) {

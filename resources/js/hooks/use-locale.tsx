@@ -1,12 +1,6 @@
 import { useSyncExternalStore } from 'react';
-import {
-    applyDocumentLocale,
-    dirFor,
-    i18n,
-    isAppLocale
-    
-} from '@/i18n';
-import type {AppLocale} from '@/i18n';
+import { applyDocumentLocale, dirFor, i18n, isAppLocale } from '@/i18n';
+import type { AppLocale } from '@/i18n';
 
 export type Locale = AppLocale;
 

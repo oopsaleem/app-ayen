@@ -45,9 +45,9 @@ export default function Dashboard({ pendingInvitations = [] }: Props) {
 }
 
 Dashboard.layout = (props: { currentTeam?: { slug: string } | null }) => ({
-            breadcrumbs: [
-                {
-                    title: 'app.sidebar.dashboard',
+    breadcrumbs: [
+        {
+            title: 'app.sidebar.dashboard',
             href: props.currentTeam ? dashboard(props.currentTeam.slug) : '/',
         },
     ],

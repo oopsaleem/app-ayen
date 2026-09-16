@@ -18,7 +18,10 @@ export default function TeamInvitationAlert({ invitation, action }: Props) {
         >
             <InfoIcon />
             <AlertDescription className="text-blue-900 dark:text-blue-100">
-                {t('teams.invitation_prompt', { action, team: invitation.teamName })}
+                {t('teams.invitation_prompt', {
+                    action,
+                    team: invitation.teamName,
+                })}
             </AlertDescription>
         </Alert>
     );

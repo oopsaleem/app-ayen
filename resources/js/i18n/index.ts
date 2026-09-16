@@ -7,7 +7,8 @@ export const SUPPORTED_LOCALES = ['en', 'ar'] as const;
 export type AppLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export const isAppLocale = (locale: unknown): locale is AppLocale =>
-    typeof locale === 'string' && SUPPORTED_LOCALES.includes(locale as AppLocale);
+    typeof locale === 'string' &&
+    SUPPORTED_LOCALES.includes(locale as AppLocale);
 
 export const dirFor = (locale: string) => (locale === 'ar' ? 'rtl' : 'ltr');
 

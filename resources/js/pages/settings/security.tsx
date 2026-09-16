@@ -25,15 +25,15 @@ export default function Security(props: Props) {
 
     return (
         <>
-            <Head title={t("settings.security.page_title")} />
+            <Head title={t('settings.security.page_title')} />
 
-            <h1 className="sr-only">{t("settings.security.page_title")}</h1>
+            <h1 className="sr-only">{t('settings.security.page_title')}</h1>
 
             <div className="space-y-6">
                 <Heading
                     variant="small"
-                    title={t("settings.security.update_password")}
-                    description={t("settings.security.description")}
+                    title={t('settings.security.update_password')}
+                    description={t('settings.security.description')}
                 />
 
                 <Form
@@ -62,7 +62,9 @@ export default function Security(props: Props) {
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="current_password">
-                                    {t("settings.security.current_password_label")}
+                                    {t(
+                                        'settings.security.current_password_label',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -71,14 +73,18 @@ export default function Security(props: Props) {
                                     name="current_password"
                                     className="mt-1 block w-full"
                                     autoComplete="current-password"
-                                    placeholder={t("settings.security.current_password")}
+                                    placeholder={t(
+                                        'settings.security.current_password',
+                                    )}
                                 />
 
                                 <InputError message={errors.current_password} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">{t("settings.security.new_password_label")}</Label>
+                                <Label htmlFor="password">
+                                    {t('settings.security.new_password_label')}
+                                </Label>
 
                                 <PasswordInput
                                     id="password"
@@ -86,7 +92,9 @@ export default function Security(props: Props) {
                                     name="password"
                                     className="mt-1 block w-full"
                                     autoComplete="new-password"
-                                    placeholder={t("settings.security.new_password")}
+                                    placeholder={t(
+                                        'settings.security.new_password',
+                                    )}
                                     passwordrules={props.passwordRules}
                                 />
 
@@ -95,7 +103,9 @@ export default function Security(props: Props) {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
-                                    {t("settings.security.confirm_password_label")}
+                                    {t(
+                                        'settings.security.confirm_password_label',
+                                    )}
                                 </Label>
 
                                 <PasswordInput
@@ -103,7 +113,9 @@ export default function Security(props: Props) {
                                     name="password_confirmation"
                                     className="mt-1 block w-full"
                                     autoComplete="new-password"
-                                    placeholder={t("settings.security.confirm_password")}
+                                    placeholder={t(
+                                        'settings.security.confirm_password',
+                                    )}
                                     passwordrules={props.passwordRules}
                                 />
 
@@ -117,7 +129,7 @@ export default function Security(props: Props) {
                                     disabled={processing}
                                     data-test="update-password-button"
                                 >
-                                    {t("settings.security.save")}
+                                    {t('settings.security.save')}
                                 </Button>
                             </div>
                         </>

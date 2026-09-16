@@ -59,9 +59,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
                             isAppLocale(localeKey) && selectLocale(localeKey)
                         }
                         className={
-                            localeKey === activeLocale
-                                ? 'bg-accent'
-                                : undefined
+                            localeKey === activeLocale ? 'bg-accent' : undefined
                         }
                     >
                         {label}

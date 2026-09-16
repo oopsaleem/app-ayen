@@ -43,7 +43,7 @@ export function UserMenuContent({ user }: Props) {
                         onClick={cleanup}
                     >
                         <Settings className="mr-2" />
-                        {t("nav.settings")}
+                        {t('nav.settings')}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -57,7 +57,7 @@ export function UserMenuContent({ user }: Props) {
                     data-test="logout-button"
                 >
                     <LogOut className="mr-2" />
-                    {t("nav.log_out")}
+                    {t('nav.log_out')}
                 </Link>
             </DropdownMenuItem>
         </>
