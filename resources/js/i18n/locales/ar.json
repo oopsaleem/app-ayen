@@ -264,6 +264,54 @@
             "warning": "تحذير",
             "warning_description": "يرجى المتابعة بحذر، لا يمكن التراجع عن هذا الإجراء.",
             "delete_team_button": "حذف الفريق"
+        },
+        "modals": {
+            "create_team": {
+                "title": "إنشاء فريق جديد",
+                "description": "أنشئ فريقًا جديدًا للتعاون مع الآخرين.",
+                "name_label": "اسم الفريق",
+                "name_placeholder": "فريقي",
+                "submit": "إنشاء الفريق"
+            },
+            "delete_team": {
+                "title": "هل أنت متأكد؟",
+                "description": "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف الفريق <0>\"{{name}}\"</0> نهائيًا.",
+                "confirm_label": "اكتب <0>\"{{name}}\"</0> للتأكيد",
+                "confirm_placeholder": "أدخل اسم الفريق",
+                "submit": "حذف الفريق"
+            },
+            "cancel_invitation": {
+                "title": "إلغاء الدعوة",
+                "description": "هل أنت متأكد من أنك تريد إلغاء الدعوة المرسلة إلى <0>{{email}}</0>؟",
+                "keep": "الاحتفاظ بالدعوة",
+                "submit": "إلغاء الدعوة"
+            },
+            "invite_member": {
+                "title": "دعوة عضو إلى الفريق",
+                "description": "أرسل دعوة للانضمام إلى هذا الفريق.",
+                "email_label": "البريد الإلكتروني",
+                "email_placeholder": "colleague@example.com",
+                "role_label": "الدور",
+                "role_placeholder": "اختر دورًا",
+                "submit": "إرسال الدعوة"
+            },
+            "leave_team": {
+                "title": "مغادرة الفريق",
+                "description": "هل أنت متأكد من أنك تريد مغادرة <0>{{name}}</0>؟",
+                "submit": "مغادرة الفريق"
+            },
+            "remove_member": {
+                "title": "إزالة عضو من الفريق",
+                "description": "هل أنت متأكد من أنك تريد إزالة <0>{{name}}</0> من هذا الفريق؟",
+                "submit": "إزالة العضو"
+            },
+            "pending_invitations": {
+                "title": "دعوات الفريق المعلقة",
+                "description": "اقبل أو ارفض الفرق التي تمت دعوتك للانضمام إليها.",
+                "invited_text": "أرسل لك {{inviter}} دعوة للانضمام إلى هذا الفريق.",
+                "decline": "رفض",
+                "accept": "قبول"
+            }
         }
     }
 }

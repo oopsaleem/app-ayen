@@ -1,5 +1,6 @@
 import { Form } from '@inertiajs/react';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,6 +25,7 @@ type Props = {
 
 export default function DeleteTeamModal({ team, open, onOpenChange }: Props) {
     const [confirmationName, setConfirmationName] = useState('');
+    const { t } = useTranslation();
 
     const canDeleteTeam = confirmationName === team.name;
 
@@ -47,19 +49,30 @@ export default function DeleteTeamModal({ team, open, onOpenChange }: Props) {
                     {({ errors, processing }) => (
                         <>
                             <DialogHeader>
-                                <DialogTitle>Are you sure?</DialogTitle>
+                                <DialogTitle>
+                                    {t('teams.modals.delete_team.title')}
+                                </DialogTitle>
                                 <DialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete the team{' '}
-                                    <strong>"{team.name}"</strong>.
+                                    <Trans
+                                        i18nKey="teams.modals.delete_team.description"
+                                        values={{ name: team.name }}
+                                        components={{
+                                            0: <strong />,
+                                        }}
+                                    />
                                 </DialogDescription>
                             </DialogHeader>
 
                             <div className="space-y-4 py-4">
                                 <div className="grid gap-2">
                                     <Label htmlFor="confirmation-name">
-                                        Type <strong>"{team.name}"</strong> to
-                                        confirm
+                                        <Trans
+                                            i18nKey="teams.modals.delete_team.confirm_label"
+                                            values={{ name: team.name }}
+                                            components={{
+                                                0: <strong />,
+                                            }}
+                                        />
                                     </Label>
                                     <Input
                                         id="confirmation-name"
@@ -71,7 +84,9 @@ export default function DeleteTeamModal({ team, open, onOpenChange }: Props) {
                                                 event.target.value,
                                             )
                                         }
-                                        placeholder="Enter team name"
+                                        placeholder={t(
+                                            'teams.modals.delete_team.confirm_placeholder',
+                                        )}
                                         autoComplete="off"
                                     />
                                     <InputError message={errors.name} />
@@ -80,7 +95,9 @@ export default function DeleteTeamModal({ team, open, onOpenChange }: Props) {
 
                             <DialogFooter className="gap-2">
                                 <DialogClose asChild>
-                                    <Button variant="secondary">Cancel</Button>
+                                    <Button variant="secondary">
+                                        {t('common.cancel')}
+                                    </Button>
                                 </DialogClose>
 
                                 <Button
@@ -89,7 +106,7 @@ export default function DeleteTeamModal({ team, open, onOpenChange }: Props) {
                                     data-test="delete-team-confirm"
                                     disabled={!canDeleteTeam || processing}
                                 >
-                                    Delete team
+                                    {t('teams.modals.delete_team.submit')}
                                 </Button>
                             </DialogFooter>
                         </>

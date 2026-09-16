@@ -1,5 +1,6 @@
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import TeamInvitationController from '@/actions/App/Http/Controllers/Teams/TeamInvitationController';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,6 +24,7 @@ export default function PendingInvitationsModal({
     onOpenChange,
 }: Props) {
     const [processingCode, setProcessingCode] = useState<string | null>(null);
+    const { t } = useTranslation();
 
     const acceptInvitation = (invitation: DashboardInvitation) => {
         router.visit(TeamInvitationController.accept(invitation), {
@@ -47,10 +49,11 @@ export default function PendingInvitationsModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent data-test="pending-invitations-modal">
                 <DialogHeader>
-                    <DialogTitle>Pending team invitations</DialogTitle>
+                    <DialogTitle>
+                        {t('teams.modals.pending_invitations.title')}
+                    </DialogTitle>
                     <DialogDescription>
-                        Accept or decline the teams you have been invited to
-                        join.
+                        {t('teams.modals.pending_invitations.description')}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -66,8 +69,10 @@ export default function PendingInvitationsModal({
                                     {invitation.team.name}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                    {invitation.inviterName} invited you to join
-                                    this team.
+                                    {t(
+                                        'teams.modals.pending_invitations.invited_text',
+                                        { inviter: invitation.inviterName },
+                                    )}
                                 </p>
                             </div>
 
@@ -82,7 +87,9 @@ export default function PendingInvitationsModal({
                                         declineInvitation(invitation)
                                     }
                                 >
-                                    Decline
+                                    {t(
+                                        'teams.modals.pending_invitations.decline',
+                                    )}
                                 </Button>
 
                                 <Button
@@ -92,7 +99,9 @@ export default function PendingInvitationsModal({
                                     }
                                     onClick={() => acceptInvitation(invitation)}
                                 >
-                                    Accept
+                                    {t(
+                                        'teams.modals.pending_invitations.accept',
+                                    )}
                                 </Button>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -27,6 +28,7 @@ export default function RemoveMemberModal({
     onOpenChange,
 }: Props) {
     const [processing, setProcessing] = useState(false);
+    const { t } = useTranslation();
 
     const removeMember = () => {
         if (!member) {
@@ -44,16 +46,25 @@ export default function RemoveMemberModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Remove team member</DialogTitle>
+                    <DialogTitle>
+                        {t('teams.modals.remove_member.title')}
+                    </DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to remove{' '}
-                        <strong>{member?.name}</strong> from this team?
+                        <Trans
+                            i18nKey="teams.modals.remove_member.description"
+                            values={{ name: member?.name }}
+                            components={{
+                                0: <strong />,
+                            }}
+                        />
                     </DialogDescription>
                 </DialogHeader>
 
                 <DialogFooter className="gap-2">
                     <DialogClose asChild>
-                        <Button variant="secondary">Cancel</Button>
+                        <Button variant="secondary">
+                            {t('common.cancel')}
+                        </Button>
                     </DialogClose>
 
                     <Button
@@ -62,7 +73,7 @@ export default function RemoveMemberModal({
                         disabled={processing}
                         onClick={removeMember}
                     >
-                        Remove member
+                        {t('teams.modals.remove_member.submit')}
                     </Button>
                 </DialogFooter>
             </DialogContent>

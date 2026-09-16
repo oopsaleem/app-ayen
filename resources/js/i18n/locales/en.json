@@ -264,6 +264,54 @@
             "warning": "Warning",
             "warning_description": "Please proceed with caution, this cannot be undone.",
             "delete_team_button": "Delete team"
+        },
+        "modals": {
+            "create_team": {
+                "title": "Create a new team",
+                "description": "Create a new team to collaborate with others.",
+                "name_label": "Team name",
+                "name_placeholder": "My team",
+                "submit": "Create team"
+            },
+            "delete_team": {
+                "title": "Are you sure?",
+                "description": "This action cannot be undone. This will permanently delete the team <0>\"{{name}}\"</0>.",
+                "confirm_label": "Type <0>\"{{name}}\"</0> to confirm",
+                "confirm_placeholder": "Enter team name",
+                "submit": "Delete team"
+            },
+            "cancel_invitation": {
+                "title": "Cancel invitation",
+                "description": "Are you sure you want to cancel the invitation for <0>{{email}}</0>?",
+                "keep": "Keep invitation",
+                "submit": "Cancel invitation"
+            },
+            "invite_member": {
+                "title": "Invite a team member",
+                "description": "Send an invitation to join this team.",
+                "email_label": "Email address",
+                "email_placeholder": "colleague@example.com",
+                "role_label": "Role",
+                "role_placeholder": "Select a role",
+                "submit": "Send invitation"
+            },
+            "leave_team": {
+                "title": "Leave team",
+                "description": "Are you sure you want to leave <0>{{name}}</0>?",
+                "submit": "Leave team"
+            },
+            "remove_member": {
+                "title": "Remove team member",
+                "description": "Are you sure you want to remove <0>{{name}}</0> from this team?",
+                "submit": "Remove member"
+            },
+            "pending_invitations": {
+                "title": "Pending team invitations",
+                "description": "Accept or decline the teams you have been invited to join.",
+                "invited_text": "{{inviter}} invited you to join this team.",
+                "decline": "Decline",
+                "accept": "Accept"
+            }
         }
     }
 }

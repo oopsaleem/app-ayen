@@ -1,5 +1,6 @@
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -21,6 +22,7 @@ type Props = {
 
 export default function LeaveTeamModal({ team, open, onOpenChange }: Props) {
     const [processing, setProcessing] = useState(false);
+    const { t } = useTranslation();
 
     const leaveTeam = () => {
         if (!team) {
@@ -38,16 +40,25 @@ export default function LeaveTeamModal({ team, open, onOpenChange }: Props) {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Leave team</DialogTitle>
+                    <DialogTitle>
+                        {t('teams.modals.leave_team.title')}
+                    </DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to leave{' '}
-                        <strong>{team?.name}</strong>?
+                        <Trans
+                            i18nKey="teams.modals.leave_team.description"
+                            values={{ name: team?.name }}
+                            components={{
+                                0: <strong />,
+                            }}
+                        />
                     </DialogDescription>
                 </DialogHeader>
 
                 <DialogFooter className="gap-2">
                     <DialogClose asChild>
-                        <Button variant="secondary">Cancel</Button>
+                        <Button variant="secondary">
+                            {t('common.cancel')}
+                        </Button>
                     </DialogClose>
 
                     <Button
@@ -56,7 +67,7 @@ export default function LeaveTeamModal({ team, open, onOpenChange }: Props) {
                         disabled={processing}
                         onClick={leaveTeam}
                     >
-                        Leave team
+                        {t('teams.modals.leave_team.submit')}
                     </Button>
                 </DialogFooter>
             </DialogContent>
