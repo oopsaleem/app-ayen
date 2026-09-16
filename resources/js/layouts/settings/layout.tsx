@@ -49,7 +49,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                 description={t('settings.description')}
             />
 
-            <div className="space-y-8">
+            <div className="md:space-y-8">
                 <Tabs
                     value={activeItem ? toUrl(activeItem.href) : undefined}
                     aria-label={t('settings.nav.aria_label')}
