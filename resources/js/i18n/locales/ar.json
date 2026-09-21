@@ -340,5 +340,34 @@
             "display_name": "الاسم المعروض",
             "description": "الوصف"
         }
+    },
+    "restaurants": {
+        "index": {
+            "page_title": "المطاعم",
+            "heading": "المطاعم",
+            "description": "المطاعم التي تديرها",
+            "no_restaurants": "لا توجد مطاعم بعد."
+        },
+        "create": {
+            "page_title": "مطعم جديد",
+            "heading": "مطعم جديد لـ {{company}}",
+            "submit": "إنشاء المطعم"
+        },
+        "edit": {
+            "page_title": "تعديل {{name}}",
+            "heading": "إعدادات المطعم",
+            "submit": "حفظ",
+            "verified_badge": "موثّق",
+            "unverified_badge": "غير موثّق"
+        },
+        "fields": {
+            "name_en": "الاسم (إنجليزي)",
+            "name_ar": "الاسم (عربي)",
+            "description_en": "الوصف (إنجليزي)",
+            "description_ar": "الوصف (عربي)",
+            "address": "العنوان",
+            "lat": "خط العرض",
+            "lng": "خط الطول"
+        }
     }
 }

@@ -340,5 +340,34 @@
             "display_name": "Display name",
             "description": "Description"
         }
+    },
+    "restaurants": {
+        "index": {
+            "page_title": "Restaurants",
+            "heading": "Restaurants",
+            "description": "Restaurants you manage",
+            "no_restaurants": "No restaurants yet."
+        },
+        "create": {
+            "page_title": "New restaurant",
+            "heading": "New restaurant for {{company}}",
+            "submit": "Create restaurant"
+        },
+        "edit": {
+            "page_title": "Edit {{name}}",
+            "heading": "Restaurant settings",
+            "submit": "Save",
+            "verified_badge": "Verified",
+            "unverified_badge": "Unverified"
+        },
+        "fields": {
+            "name_en": "Name (English)",
+            "name_ar": "Name (Arabic)",
+            "description_en": "Description (English)",
+            "description_ar": "Description (Arabic)",
+            "address": "Address",
+            "lat": "Latitude",
+            "lng": "Longitude"
+        }
     }
 }
