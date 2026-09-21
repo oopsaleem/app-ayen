@@ -397,7 +397,17 @@
             "accepted": "Accepted",
             "status": {
                 "pending": "Pending",
-                "confirmed": "Confirmed"
+                "confirmed": "Confirmed",
+                "preparing": "Preparing"
+            },
+            "dish_status": {
+                "pending": "Pending",
+                "preparing": "Preparing",
+                "ready": "Ready"
+            },
+            "dish_actions": {
+                "preparing": "Start preparing",
+                "ready": "Mark ready"
             }
         }
     },

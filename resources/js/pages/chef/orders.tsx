@@ -5,18 +5,25 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
+type DishLine = {
+    id: number;
+    name_en: string;
+    quantity: number;
+    status: 'pending' | 'preparing' | 'ready';
+};
+
 type KitchenLine = {
     id: number;
     kitchen_id: number;
     name_en: string;
     name_ar: string;
     accepted: boolean;
-    dishes: { name_en: string; quantity: number }[];
+    dishes: DishLine[];
 };
 
 type OrderSummary = {
     id: number;
-    status: 'pending' | 'confirmed';
+    status: 'pending' | 'confirmed' | 'preparing';
     delivery_mode: 'delivery' | 'pickup';
     total: string;
     created_at?: string;
@@ -34,6 +41,18 @@ export default function ChefOrders({ orders }: { orders: OrderSummary[] }) {
                 kitchen: kitchen.kitchen_id,
             }),
             {},
+            { preserveScroll: true },
+        );
+    }
+
+    function markDish(
+        dish: DishLine,
+        order: number,
+        status: 'preparing' | 'ready',
+    ) {
+        router.patch(
+            ChefOrderController.updateDish.patch({ order, orderDish: dish.id }),
+            { status },
             { preserveScroll: true },
         );
     }
@@ -114,17 +133,66 @@ export default function ChefOrders({ orders }: { orders: OrderSummary[] }) {
                                             <ul className="space-y-1">
                                                 {kitchen.dishes.map((dish) => (
                                                     <li
-                                                        key={dish.name_en}
-                                                        className="flex justify-between text-sm"
+                                                        key={dish.id}
+                                                        className="flex items-center justify-between gap-2 text-sm"
                                                     >
                                                         <span>
-                                                            {dish.name_en}
+                                                            {dish.name_en} (
+                                                            {dish.quantity})
                                                         </span>
-                                                        <span>
-                                                            {t(
-                                                                'orders.quantity',
-                                                            )}{' '}
-                                                            × {dish.quantity}
+                                                        <span className="flex items-center gap-2">
+                                                            <Badge
+                                                                variant={
+                                                                    dish.status ===
+                                                                    'ready'
+                                                                        ? 'default'
+                                                                        : 'secondary'
+                                                                }
+                                                            >
+                                                                {t(
+                                                                    'chef.orders.dish_status.' +
+                                                                        dish.status,
+                                                                )}
+                                                            </Badge>
+                                                            {dish.status ===
+                                                            'pending' ? (
+                                                                <Button
+                                                                    size="sm"
+                                                                    variant="outline"
+                                                                    disabled={
+                                                                        order.status ===
+                                                                        'pending'
+                                                                    }
+                                                                    onClick={() =>
+                                                                        markDish(
+                                                                            dish,
+                                                                            order.id,
+                                                                            'preparing',
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    {t(
+                                                                        'chef.orders.dish_actions.preparing',
+                                                                    )}
+                                                                </Button>
+                                                            ) : null}
+                                                            {dish.status ===
+                                                            'preparing' ? (
+                                                                <Button
+                                                                    size="sm"
+                                                                    onClick={() =>
+                                                                        markDish(
+                                                                            dish,
+                                                                            order.id,
+                                                                            'ready',
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    {t(
+                                                                        'chef.orders.dish_actions.ready',
+                                                                    )}
+                                                                </Button>
+                                                            ) : null}
                                                         </span>
                                                     </li>
                                                 ))}

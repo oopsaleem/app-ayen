@@ -53,4 +53,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('chef/kitchens', [ChefKitchenController::class, 'index'])->name('chef.kitchens.index');
     Route::get('chef/orders', [ChefOrderController::class, 'index'])->name('chef.orders.index');
     Route::post('chef/orders/{order}/kitchens/{kitchen}/accept', [ChefOrderController::class, 'accept'])->name('chef.orders.accept');
+    Route::patch('chef/orders/{order}/dishes/{orderDish}/status', [ChefOrderController::class, 'updateDish'])->name('chef.orders.dishes.update');
 });

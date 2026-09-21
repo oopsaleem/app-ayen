@@ -397,7 +397,17 @@
             "accepted": "تم القبول",
             "status": {
                 "pending": "قيد الانتظار",
-                "confirmed": "مؤكد"
+                "confirmed": "مؤكد",
+                "preparing": "قيد التحضير"
+            },
+            "dish_status": {
+                "pending": "قيد الانتظار",
+                "preparing": "قيد التحضير",
+                "ready": "جاهز"
+            },
+            "dish_actions": {
+                "preparing": "ابدأ التحضير",
+                "ready": "تمييز كجاهز"
             }
         }
     },

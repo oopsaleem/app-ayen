@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderDishStatus;
 use Database\Factories\OrderDishFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property int $quantity
  * @property string $unit_price
  * @property string $total_price
- * @property string $status
+ * @property OrderDishStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Order $order
@@ -76,6 +77,7 @@ class OrderDish extends Model
     protected function casts(): array
     {
         return [
+            'status' => OrderDishStatus::class,
             'unit_price' => 'decimal:2',
             'total_price' => 'decimal:2',
         ];
