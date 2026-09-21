@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
             'availableLocales' => config('app.available_locales', ['en' => 'English', 'ar' => 'العربية']),
             'auth' => [
                 'user' => $user,
+                'roles' => fn () => $user?->roles() ?? [],
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'currentTeam' => fn () => $user?->currentTeam ? $user->toUserTeam($user->currentTeam) : null,
