@@ -55,18 +55,18 @@ test('a customer can place a delivery order and pricing is computed server-side'
         'delivery_mode' => 'delivery',
         'delivery_address_id' => $address->id,
         'status' => OrderStatus::Pending->value,
-        'subtotal' => '30.00',
-        'vat' => '4.50',
+        'subtotal' => '60.00',
+        'vat' => '9.00',
         'delivery_fee' => '10.00',
-        'total' => '44.50',
+        'total' => '79.00',
     ]);
     $this->assertDatabaseHas('order_dishes', [
         'order_id' => $order = Order::query()->sole()->id,
         'dish_id' => $dish->id,
         'serving_size_id' => $servingSize->id,
         'quantity' => 3,
-        'unit_price' => '10.00',
-        'total_price' => '30.00',
+        'unit_price' => '20.00',
+        'total_price' => '60.00',
     ]);
     $this->assertDatabaseHas('order_dish_option', ['dish_option_id' => $optionA->id, 'unit_price' => '2.00']);
     $this->assertDatabaseHas('order_dish_option', ['dish_option_id' => $optionB->id, 'unit_price' => '3.00']);

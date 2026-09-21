@@ -14,3 +14,10 @@ itself, and computes the order's `subtotal`/`vat`/`delivery_fee`/`total` from
 fee overrides yet; revisit if/when restaurant-specific pricing is needed). Any price-shaped field
 in the request body is ignored, not validated-against — there is nothing for the client to get
 "wrong," because it never supplies a price.
+
+A line's unit price is `Dish.price + (ServingSize.price if one is selected, else 0) +
+sum(DishOption.price)`: the serving size is priced as an add-on (e.g. "Large" costs more on top of
+the base dish), not as a replacement for the dish's own price. This differs from
+`idea/01-domain-model.md`'s `OrderDish.unitPrice` note ("snapshot of the chosen serving size's
+price"), which described the original NestJS system's shape; this rebuild intentionally departs
+from it.

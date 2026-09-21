@@ -145,14 +145,16 @@ class CreateOrder
     }
 
     /**
-     * The unit price for an order line: the serving size's price when one is
-     * selected, otherwise the dish's price, plus every option's price.
+     * The unit price for an order line: the dish's price, plus the selected
+     * serving size's price when one is selected, plus every option's price
+     * (ADR-0007 — serving size is an add-on to the dish's price, not a
+     * replacement for it).
      *
      * @param  OrderLine  $line
      */
     private function unitPrice(array $line): float
     {
-        $price = $line['serving_size']->price ?? $line['dish']->price;
+        $price = (float) $line['dish']->price + (float) ($line['serving_size']->price ?? 0);
 
         foreach ($line['options'] as $option) {
             $price += (float) $option->price;

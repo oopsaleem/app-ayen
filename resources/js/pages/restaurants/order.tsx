@@ -81,7 +81,7 @@ export default function RestaurantOrder({
         const selectedSize = dish.serving_sizes.find(
             (size) => size.id === line?.serving_size_id,
         );
-        const base = Number(selectedSize?.price ?? dish.price);
+        const base = Number(dish.price) + Number(selectedSize?.price ?? 0);
         const extras = line?.option_ids.reduce(
             (sum, id) =>
                 sum +
