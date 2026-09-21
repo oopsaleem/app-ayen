@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { BookOpen, Building2, ChefHat, FolderGit2, LayoutGrid, UtensilsCrossed } from 'lucide-react';
+import { BookOpen, Building2, ChefHat, FolderGit2, LayoutGrid, MapPin, UtensilsCrossed } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -15,6 +15,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as addressesIndex } from '@/routes/addresses';
 import { index as chefKitchensIndex } from '@/routes/chef/kitchens';
 import { index as companiesIndex } from '@/routes/companies';
 import { index as restaurantsIndex } from '@/routes/restaurants';
@@ -45,6 +46,11 @@ export function AppSidebar() {
         ...(roles.includes('chef')
             ? [{ title: t('app.sidebar.my_kitchens'), href: chefKitchensIndex(), icon: ChefHat }]
             : []),
+        {
+            title: t('app.sidebar.addresses'),
+            href: addressesIndex(),
+            icon: MapPin,
+        },
     ];
 
     const footerNavItems: NavItem[] = [

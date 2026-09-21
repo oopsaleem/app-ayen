@@ -18,7 +18,8 @@
             "my_kitchens": "My kitchens",
             "repository": "Repository",
             "documentation": "Documentation",
-            "navigation": "Navigation menu"
+            "navigation": "Navigation menu",
+            "addresses": "Delivery addresses"
         },
         "header": {
             "search": "Search"
@@ -431,6 +432,36 @@
                 "default": "Default",
                 "remove": "Remove"
             }
+        }
+    },
+    "addresses": {
+        "index": {
+            "page_title": "Delivery addresses",
+            "heading": "Delivery addresses",
+            "description": "Addresses you can use when ordering delivery",
+            "new_address": "New address",
+            "no_addresses": "No saved addresses yet.",
+            "default": "Default",
+            "remove": "Remove"
+        },
+        "create": {
+            "page_title": "New address",
+            "heading": "New address",
+            "description": "Add a delivery address for checkout",
+            "submit": "Save address"
+        },
+        "edit": {
+            "page_title": "Edit {{name}}",
+            "heading": "Edit address",
+            "description": "Update this delivery address",
+            "submit": "Save"
+        },
+        "fields": {
+            "caption": "Caption",
+            "address": "Address",
+            "lat": "Latitude",
+            "lng": "Longitude",
+            "is_default": "Set as default"
         }
     }
 }

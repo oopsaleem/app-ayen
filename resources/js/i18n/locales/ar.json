@@ -18,7 +18,8 @@
             "my_kitchens": "مطابخي",
             "repository": "المستودع",
             "documentation": "الوثائق",
-            "navigation": "قائمة التنقل"
+            "navigation": "قائمة التنقل",
+            "addresses": "عناوين التوصيل"
         },
         "header": {
             "search": "بحث"
@@ -431,6 +432,36 @@
                 "default": "افتراضي",
                 "remove": "إزالة"
             }
+        }
+    },
+    "addresses": {
+        "index": {
+            "page_title": "عناوين التوصيل",
+            "heading": "عناوين التوصيل",
+            "description": "العناوين التي يمكنك استخدامها عند طلب التوصيل",
+            "new_address": "عنوان جديد",
+            "no_addresses": "لا توجد عناوين محفوظة بعد.",
+            "default": "افتراضي",
+            "remove": "إزالة"
+        },
+        "create": {
+            "page_title": "عنوان جديد",
+            "heading": "عنوان جديد",
+            "description": "أضف عنوان توصيل للاستخدام عند الطلب",
+            "submit": "حفظ العنوان"
+        },
+        "edit": {
+            "page_title": "تعديل {{name}}",
+            "heading": "تعديل العنوان",
+            "description": "تحديث عنوان التوصيل",
+            "submit": "حفظ"
+        },
+        "fields": {
+            "caption": "الاسم",
+            "address": "العنوان",
+            "lat": "خط العرض",
+            "lng": "خط الطول",
+            "is_default": "تعيين كافتراضي"
         }
     }
 }
