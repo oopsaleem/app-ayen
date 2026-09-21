@@ -323,8 +323,8 @@
             "heading": "الشركات",
             "description": "جميع الشركات على المنصة",
             "new_company": "شركة جديدة",
-            "restaurants_count": "{{count}} مطعم",
-            "restaurants_count_plural": "{{count}} مطاعم",
+            "restaurants_count_one": "مطعم واحد",
+            "restaurants_count_other": "{{count}} مطاعم",
             "no_companies": "لا توجد شركات بعد."
         },
         "create": {
@@ -337,7 +337,8 @@
             "page_title": "تعديل {{name}}",
             "heading": "إعدادات الشركة",
             "description": "تحديث بيانات هذه الشركة",
-            "submit": "حفظ"
+            "submit": "حفظ",
+            "new_restaurant": "مطعم جديد"
         },
         "fields": {
             "display_name": "الاسم المعروض",
@@ -363,7 +364,9 @@
             "verified_badge": "موثّق",
             "unverified_badge": "غير موثّق",
             "verify": "توثيق",
-            "unverify": "إلغاء التوثيق"
+            "unverify": "إلغاء التوثيق",
+            "categories_link": "الأصناف",
+            "dishes_link": "الأطباق"
         },
         "fields": {
             "name_en": "الاسم (إنجليزي)",

@@ -12,7 +12,11 @@ type Company = {
     restaurants_count: number;
 };
 
-export default function CompaniesIndex({ companies }: { companies: Company[] }) {
+export default function CompaniesIndex({
+    companies,
+}: {
+    companies: Company[];
+}) {
     const { t } = useTranslation();
 
     return (
@@ -42,7 +46,9 @@ export default function CompaniesIndex({ companies }: { companies: Company[] }) 
                             className="flex items-center justify-between gap-4 rounded-lg border p-4 hover:bg-accent"
                         >
                             <div>
-                                <div className="font-medium">{company.display_name}</div>
+                                <div className="font-medium">
+                                    {company.display_name}
+                                </div>
                                 {company.description ? (
                                     <div className="text-sm text-muted-foreground">
                                         {company.description}

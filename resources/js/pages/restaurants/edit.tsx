@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { index as categoriesIndex } from '@/routes/categories';
+import { index as dishesIndex } from '@/routes/dishes';
 import { edit as editKitchen } from '@/routes/kitchens';
 import { index } from '@/routes/restaurants';
 
@@ -41,11 +43,18 @@ export default function RestaurantEdit({
 
     return (
         <>
-            <Head title={t('restaurants.edit.page_title', { name: restaurant.name_en })} />
+            <Head
+                title={t('restaurants.edit.page_title', {
+                    name: restaurant.name_en,
+                })}
+            />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                    <Heading variant="small" title={t('restaurants.edit.heading')} />
+                    <Heading
+                        variant="small"
+                        title={t('restaurants.edit.heading')}
+                    />
                     <div className="flex items-center gap-2">
                         <Badge variant={verified ? 'default' : 'secondary'}>
                             {t(
@@ -56,9 +65,18 @@ export default function RestaurantEdit({
                         </Badge>
 
                         {canVerify ? (
-                            <Form {...RestaurantVerificationController.form(restaurant.id)}>
+                            <Form
+                                {...RestaurantVerificationController.form(
+                                    restaurant.id,
+                                )}
+                            >
                                 {({ processing }) => (
-                                    <Button type="submit" variant="outline" size="sm" disabled={processing}>
+                                    <Button
+                                        type="submit"
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={processing}
+                                    >
                                         {t(
                                             verified
                                                 ? 'restaurants.edit.unverify'
@@ -79,13 +97,22 @@ export default function RestaurantEdit({
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name_en">{t('restaurants.fields.name_en')}</Label>
-                                <Input id="name_en" name="name_en" defaultValue={restaurant.name_en} required />
+                                <Label htmlFor="name_en">
+                                    {t('restaurants.fields.name_en')}
+                                </Label>
+                                <Input
+                                    id="name_en"
+                                    name="name_en"
+                                    defaultValue={restaurant.name_en}
+                                    required
+                                />
                                 <InputError message={errors.name_en} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="name_ar">{t('restaurants.fields.name_ar')}</Label>
+                                <Label htmlFor="name_ar">
+                                    {t('restaurants.fields.name_ar')}
+                                </Label>
                                 <Input
                                     id="name_ar"
                                     name="name_ar"
@@ -106,12 +133,16 @@ export default function RestaurantEdit({
                                     defaultValue={address?.address}
                                     required
                                 />
-                                <InputError message={errors['address.address']} />
+                                <InputError
+                                    message={errors['address.address']}
+                                />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="address_lat">{t('restaurants.fields.lat')}</Label>
+                                    <Label htmlFor="address_lat">
+                                        {t('restaurants.fields.lat')}
+                                    </Label>
                                     <Input
                                         id="address_lat"
                                         name="address[lat]"
@@ -120,11 +151,15 @@ export default function RestaurantEdit({
                                         defaultValue={address?.lat}
                                         required
                                     />
-                                    <InputError message={errors['address.lat']} />
+                                    <InputError
+                                        message={errors['address.lat']}
+                                    />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="address_lng">{t('restaurants.fields.lng')}</Label>
+                                    <Label htmlFor="address_lng">
+                                        {t('restaurants.fields.lng')}
+                                    </Label>
                                     <Input
                                         id="address_lng"
                                         name="address[lng]"
@@ -133,7 +168,9 @@ export default function RestaurantEdit({
                                         defaultValue={address?.lng}
                                         required
                                     />
-                                    <InputError message={errors['address.lng']} />
+                                    <InputError
+                                        message={errors['address.lng']}
+                                    />
                                 </div>
                             </div>
 
@@ -145,7 +182,32 @@ export default function RestaurantEdit({
                 </Form>
 
                 <div className="space-y-3 border-t pt-6">
-                    <Heading variant="small" title={t('kitchens.index.heading')} />
+                    <div className="flex items-center justify-between">
+                        <Heading
+                            variant="small"
+                            title={t('kitchens.index.heading')}
+                        />
+                        <div className="flex items-center gap-2">
+                            <Button asChild variant="outline" size="sm">
+                                <Link
+                                    href={categoriesIndex({
+                                        restaurant: restaurant.id,
+                                    })}
+                                >
+                                    {t('restaurants.edit.categories_link')}
+                                </Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm">
+                                <Link
+                                    href={dishesIndex({
+                                        restaurant: restaurant.id,
+                                    })}
+                                >
+                                    {t('restaurants.edit.dishes_link')}
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
 
                     {kitchens.map((kitchen) => (
                         <Link
@@ -154,7 +216,10 @@ export default function RestaurantEdit({
                             className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent"
                         >
                             <span>{kitchen.name_en}</span>
-                            <span dir="rtl" className="text-sm text-muted-foreground">
+                            <span
+                                dir="rtl"
+                                className="text-sm text-muted-foreground"
+                            >
                                 {kitchen.name_ar}
                             </span>
                         </Link>
@@ -170,7 +235,11 @@ export default function RestaurantEdit({
                                     <Label htmlFor="new_kitchen_name_en">
                                         {t('kitchens.fields.name_en')}
                                     </Label>
-                                    <Input id="new_kitchen_name_en" name="name_en" required />
+                                    <Input
+                                        id="new_kitchen_name_en"
+                                        name="name_en"
+                                        required
+                                    />
                                     <InputError message={errors.name_en} />
                                 </div>
 
@@ -178,7 +247,12 @@ export default function RestaurantEdit({
                                     <Label htmlFor="new_kitchen_name_ar">
                                         {t('kitchens.fields.name_ar')}
                                     </Label>
-                                    <Input id="new_kitchen_name_ar" name="name_ar" dir="rtl" required />
+                                    <Input
+                                        id="new_kitchen_name_ar"
+                                        name="name_ar"
+                                        dir="rtl"
+                                        required
+                                    />
                                     <InputError message={errors.name_ar} />
                                 </div>
 

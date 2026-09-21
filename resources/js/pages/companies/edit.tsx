@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import CompanyController from '@/actions/App/Http/Controllers/Companies/CompanyController';
 import Heading from '@/components/heading';
@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { index } from '@/routes/companies';
+import { create as createRestaurant } from '@/routes/restaurants';
 
 type Company = {
     id: number;
@@ -19,14 +20,26 @@ export default function CompanyEdit({ company }: { company: Company }) {
 
     return (
         <>
-            <Head title={t('companies.edit.page_title', { name: company.display_name })} />
+            <Head
+                title={t('companies.edit.page_title', {
+                    name: company.display_name,
+                })}
+            />
 
             <div className="space-y-6">
-                <Heading
-                    variant="small"
-                    title={t('companies.edit.heading')}
-                    description={t('companies.edit.description')}
-                />
+                <div className="flex items-center justify-between">
+                    <Heading
+                        variant="small"
+                        title={t('companies.edit.heading')}
+                        description={t('companies.edit.description')}
+                    />
+
+                    <Button asChild variant="outline">
+                        <Link href={createRestaurant({ company: company.id })}>
+                            {t('companies.edit.new_restaurant')}
+                        </Link>
+                    </Button>
+                </div>
 
                 <Form
                     {...CompanyController.update.form(company.id)}
@@ -57,7 +70,7 @@ export default function CompanyEdit({ company }: { company: Company }) {
                                     name="description"
                                     rows={3}
                                     defaultValue={company.description ?? ''}
-                                    className="border-input flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm outline-none"
+                                    className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm outline-none"
                                 />
                                 <InputError message={errors.description} />
                             </div>

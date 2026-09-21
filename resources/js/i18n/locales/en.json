@@ -323,8 +323,8 @@
             "heading": "Companies",
             "description": "Every company on the platform",
             "new_company": "New company",
-            "restaurants_count": "{{count}} restaurant",
-            "restaurants_count_plural": "{{count}} restaurants",
+            "restaurants_count_one": "{{count}} restaurant",
+            "restaurants_count_other": "{{count}} restaurants",
             "no_companies": "No companies yet."
         },
         "create": {
@@ -337,7 +337,8 @@
             "page_title": "Edit {{name}}",
             "heading": "Company settings",
             "description": "Update this company's details",
-            "submit": "Save"
+            "submit": "Save",
+            "new_restaurant": "New restaurant"
         },
         "fields": {
             "display_name": "Display name",
@@ -363,7 +364,9 @@
             "verified_badge": "Verified",
             "unverified_badge": "Unverified",
             "verify": "Verify",
-            "unverify": "Unverify"
+            "unverify": "Unverify",
+            "categories_link": "Categories",
+            "dishes_link": "Dishes"
         },
         "fields": {
             "name_en": "Name (English)",
