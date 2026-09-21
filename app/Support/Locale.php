@@ -14,8 +14,10 @@ class Locale
     {
         $locales = array_keys(config('app.available_locales', []));
 
-        $secondary = collect($locales)->first(fn (string $locale): bool => $locale !== 'en');
+        $secondary = collect($locales)
+            ->filter(fn ($locale): bool => is_string($locale) && $locale !== 'en')
+            ->first();
 
-        return $secondary ?? 'ar';
+        return is_string($secondary) ? $secondary : 'ar';
     }
 }
