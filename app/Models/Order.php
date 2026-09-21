@@ -6,6 +6,7 @@ use App\Enums\DeliveryMode;
 use App\Enums\OrderStatus;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,8 +29,8 @@ use Illuminate\Support\Carbon;
  * @property-read User $user
  * @property-read Restaurant $restaurant
  * @property-read DeliveryAddress|null $deliveryAddress
- * @property-read OrderDish|null $dishesRelation
- * @property-read OrderKitchen|null $kitchensRelation
+ * @property-read Collection<int, OrderDish> $dishes
+ * @property-read Collection<int, OrderKitchen> $kitchens
  */
 #[Fillable([
     'user_id', 'restaurant_id', 'delivery_mode', 'delivery_address_id',

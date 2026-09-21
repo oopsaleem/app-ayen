@@ -388,19 +388,9 @@
         }
     },
     "kitchens": {
-        "index": {
-            "heading": "Kitchens",
-            "add": "Add kitchen"
-        },
-        "edit": {
-            "page_title": "Edit {{name}}",
-            "heading": "Kitchen settings",
-            "submit": "Save"
-        },
-        "fields": {
-            "name_en": "Name (English)",
-            "name_ar": "Name (Arabic)"
-        }
+        "index": { "heading": "Kitchens", "add": "Add kitchen" },
+        "edit": { "page_title": "Edit {{name}}", "heading": "Kitchen settings", "submit": "Save" },
+        "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)" }
     },
     "menu": {
         "categories": {
@@ -411,21 +401,9 @@
                 "no_categories": "No categories yet.",
                 "top_level": "Top level"
             },
-            "create": {
-                "page_title": "New category",
-                "heading": "New category",
-                "submit": "Create category"
-            },
-            "edit": {
-                "page_title": "Edit {{name}}",
-                "heading": "Category settings",
-                "submit": "Save"
-            },
-            "fields": {
-                "name_en": "Name (English)",
-                "name_ar": "Name (Arabic)",
-                "parent": "Parent category"
-            }
+            "create": { "page_title": "New category", "heading": "New category", "submit": "Create category" },
+            "edit": { "page_title": "Edit {{name}}", "heading": "Category settings", "submit": "Save" },
+            "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)", "parent": "Parent category" }
         },
         "dishes": {
             "index": {
@@ -434,16 +412,8 @@
                 "new_dish": "New dish",
                 "no_dishes": "No dishes yet."
             },
-            "create": {
-                "page_title": "New dish",
-                "heading": "New dish",
-                "submit": "Create dish"
-            },
-            "edit": {
-                "page_title": "Edit {{name}}",
-                "heading": "Dish settings",
-                "submit": "Save"
-            },
+            "create": { "page_title": "New dish", "heading": "New dish", "submit": "Create dish" },
+            "edit": { "page_title": "Edit {{name}}", "heading": "Dish settings", "submit": "Save" },
             "fields": {
                 "name_en": "Name (English)",
                 "name_ar": "Name (Arabic)",

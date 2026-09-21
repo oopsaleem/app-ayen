@@ -77,6 +77,23 @@ export default function RestaurantOrder({
         delivery_address_id: undefined,
     });
 
+    function unitPriceFor(dish: Dish, line?: Line): number {
+        const selectedSize = dish.serving_sizes.find(
+            (size) => size.id === line?.serving_size_id,
+        );
+        const base = Number(selectedSize?.price ?? dish.price);
+        const extras = line?.option_ids.reduce(
+            (sum, id) =>
+                sum +
+                Number(
+                    dish.options.find((option) => option.id === id)?.price ?? 0,
+                ),
+            0,
+        );
+
+        return Number((base + (extras ?? 0)).toFixed(2));
+    }
+
     const lineByDish = (dishId: number) =>
         data.lines.find((line) => line.dish_id === dishId);
 
@@ -176,35 +193,7 @@ export default function RestaurantOrder({
                                                 </div>
                                             ) : null}
                                             <div className="text-sm">
-                                                {dish.price}
-                                                {line?.serving_size_id
-                                                    ? ` + ${
-                                                          dish.serving_sizes.find(
-                                                              (size) =>
-                                                                  size.id ===
-                                                                  line.serving_size_id,
-                                                          )?.price ?? ''
-                                                      }`
-                                                    : ''}
-                                                {line
-                                                    ? line.option_ids
-                                                          .map(
-                                                              (id) =>
-                                                                  dish.options.find(
-                                                                      (
-                                                                          option,
-                                                                      ) =>
-                                                                          option.id ===
-                                                                          id,
-                                                                  )?.price,
-                                                          )
-                                                          .filter(Boolean)
-                                                          .map(
-                                                              (price) =>
-                                                                  ` + ${price}`,
-                                                          )
-                                                          .join('')
-                                                    : ''}
+                                                {unitPriceFor(dish, line)}
                                             </div>
                                         </div>
 
