@@ -1,12 +1,17 @@
 import { createInertiaApp } from '@inertiajs/react';
+import { lazy } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import '@/i18n';
 import { initializeTheme } from '@/hooks/use-appearance';
 import { initializeLocale } from '@/hooks/use-locale';
-import AppLayout from '@/layouts/app-layout';
-import AuthLayout from '@/layouts/auth-layout';
-import SettingsLayout from '@/layouts/settings/layout';
+
+// Lazy-loaded so the welcome page (and any page that opts out of a layout)
+// doesn't have to download authenticated-app chrome (nav, team switcher,
+// settings tabs) it never renders.
+const AppLayout = lazy(() => import('@/layouts/app-layout'));
+const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
+const SettingsLayout = lazy(() => import('@/layouts/settings/layout'));
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

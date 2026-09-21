@@ -28,4 +28,11 @@ export default defineConfig({
             formVariants: true,
         }),
     ],
+    build: {
+        // Inertia's dynamic page resolver makes every page a reachable
+        // "dynamic import" of the entry, so Vite's default modulepreload
+        // would preload every page's chunk on every page load. Disable it
+        // so each page only fetches its own chunk.
+        modulePreload: false,
+    },
 });
