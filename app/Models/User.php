@@ -107,6 +107,38 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
+     * @return HasOne<Rider, $this>
+     */
+    public function rider(): HasOne
+    {
+        return $this->hasOne(Rider::class);
+    }
+
+    /**
+     * Determine whether this user holds the Rider role.
+     */
+    public function isRider(): bool
+    {
+        return $this->rider()->exists();
+    }
+
+    /**
+     * @return HasOne<Waiter, $this>
+     */
+    public function waiter(): HasOne
+    {
+        return $this->hasOne(Waiter::class);
+    }
+
+    /**
+     * Determine whether this user holds the Waiter role.
+     */
+    public function isWaiter(): bool
+    {
+        return $this->waiter()->exists();
+    }
+
+    /**
      * @return HasOne<AuthProvider, $this>
      */
     public function authProvider(): HasOne
@@ -116,7 +148,7 @@ class User extends Authenticatable implements PasskeyUser
 
     /**
      * Get every role this user currently holds, aggregated across the
-     * Admin/Manager/Chef role tables. Roles are additive, not exclusive.
+     * Admin/Manager/Chef/Rider/Waiter role tables. Roles are additive, not exclusive.
      *
      * @return array<int, string>
      */
@@ -126,6 +158,8 @@ class User extends Authenticatable implements PasskeyUser
             'admin' => $this->isAdmin(),
             'manager' => $this->isManager(),
             'chef' => $this->isChef(),
+            'rider' => $this->isRider(),
+            'waiter' => $this->isWaiter(),
         ])->filter()->keys()->values()->all();
     }
 }

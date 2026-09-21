@@ -1,8 +1,11 @@
 # Yemen Oasis (Laravel rebuild)
 
-A multi-tenant restaurant ordering platform. This context covers Phase 1: identity/roles and the
-Company → Restaurant → Kitchen → Menu domain. Ordering, payments, reviews, and SLA tracking are
-future phases and not yet part of this glossary.
+A multi-tenant restaurant ordering platform. This context covers Phase 1 (identity/roles and the
+Company → Restaurant → Kitchen → Menu domain) and Phase 3 (order creation, pricing, and status
+lifecycle — see [ADR-0007](docs/adr/0007-order-pricing-server-authoritative.md) through
+[ADR-0012](docs/adr/0012-rider-and-waiter-roles.md)). Payment/Stripe integration, SLA/threshold
+alerting, and restaurant-verification gating remain future phases and are not yet part of this
+glossary.
 
 ## Language
 
@@ -55,10 +58,45 @@ other role row *is* being a Customer.
 
 **Role**:
 A capability a User holds, represented by the presence of a row in a role-specific table
-(Admin/Manager/Chef), not by a single field on User. A User may hold more than one Role at once
-(e.g. Admin and Manager simultaneously).
+(Admin/Manager/Chef/Rider/Waiter), not by a single field on User. A User may hold more than one
+Role at once (e.g. Admin and Manager simultaneously).
 _Avoid_: User type, account type — these imply exclusivity, which Role explicitly does not have.
 
 **Verification**:
 An Admin's record of whether a Restaurant has been approved. Tracked per Restaurant; in Phase 1 it
-does not gate anything (an unverified Restaurant is still fully browsable).
+does not gate anything (an unverified Restaurant is still fully browsable), and this remains
+unenforced in Phase 3 too — an unverified Restaurant's menu is still orderable.
+
+**Order**:
+A single food order (pickup or delivery) placed by a Customer against exactly one Restaurant
+(ADR-0009) — never a reservation/table booking. Has one or more OrderDishes, a status
+(see Status below), and, for delivery orders, a DeliveryAddress. Pricing (`subtotal`/`vat`/
+`delivery_fee`/`total`) is computed server-side at creation from current Dish/ServingSize/
+DishOption prices, never trusted from the client (ADR-0007).
+_Avoid_: Reservation, Booking — this app has no seating/table concept.
+
+**OrderDish**:
+One line item on an Order: a Dish (with optional ServingSize and DishOptions selected) plus
+quantity, at the price computed at order-creation time. Carries its own `status`
+(`pending`/`preparing`/`ready`), set manually by a Chef of the Dish's Kitchen — this is separate
+from the Order's own status (see ADR-0010).
+
+**OrderKitchen**:
+A join row (per Order, per distinct Kitchen the order touches) recording that a Chef of that
+Kitchen has accepted the order's dishes belonging to it. Any one Chef of the Kitchen accepting
+sets it — first to act wins, not unanimous. Drives the Order's `PENDING → CONFIRMED` transition
+once every OrderKitchen row for the Order is accepted (ADR-0010).
+
+**DeliveryAddress**:
+A Customer's saved delivery address (caption, address, lat/lng, default flag) — distinct from a
+Restaurant's own Address. An Order in delivery mode references one via `delivery_address_id`.
+
+**Rider**:
+A role held by a User, scoped to one Restaurant. Performs the delivery handoff
+(`AWAITING_DELIVERY → OUT_FOR_DELIVERY → CLOSED`) on any of that Restaurant's delivery orders —
+open-pool, not assigned per-order (ADR-0012).
+
+**Waiter**:
+A role held by a User, scoped to one Restaurant. Performs the pickup handoff
+(`AWAITING_PICKUP → CLOSED`) on any of that Restaurant's pickup orders — open-pool, same as Rider
+(ADR-0012).
