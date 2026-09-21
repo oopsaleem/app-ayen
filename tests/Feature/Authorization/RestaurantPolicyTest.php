@@ -47,3 +47,29 @@ test('only an admin can verify a restaurant', function () {
     expect($admin->can('verify', $restaurant))->toBeTrue()
         ->and($manager->can('verify', $restaurant))->toBeFalse();
 });
+
+test('admins and the owning companys manager can create restaurants', function () {
+    $company = Company::factory()->create();
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+    $manager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $manager->id, 'company_id' => $company->id]);
+    $otherManager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $otherManager->id]);
+
+    expect($admin->can('create', [Restaurant::class, $company]))->toBeTrue()
+        ->and($manager->can('create', [Restaurant::class, $company]))->toBeTrue()
+        ->and($otherManager->can('create', [Restaurant::class, $company]))->toBeFalse();
+});
+
+test('admins and the owning companys manager can delete restaurants', function () {
+    $company = Company::factory()->create();
+    $restaurant = Restaurant::factory()->create(['company_id' => $company->id]);
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+    $otherManager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $otherManager->id]);
+
+    expect($admin->can('delete', $restaurant))->toBeTrue()
+        ->and($otherManager->can('delete', $restaurant))->toBeFalse();
+});

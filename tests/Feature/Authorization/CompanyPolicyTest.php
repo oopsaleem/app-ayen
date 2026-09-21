@@ -43,3 +43,24 @@ test('an unassigned manager cannot view or update any company', function () {
     expect($user->can('view', $company))->toBeFalse()
         ->and($user->can('update', $company))->toBeFalse();
 });
+
+test('only admins can create companies', function () {
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+    $manager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $manager->id]);
+
+    expect($admin->can('create', Company::class))->toBeTrue()
+        ->and($manager->can('create', Company::class))->toBeFalse();
+});
+
+test('only admins can delete companies', function () {
+    $company = Company::factory()->create();
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+    $manager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $manager->id, 'company_id' => $company->id]);
+
+    expect($admin->can('delete', $company))->toBeTrue()
+        ->and($manager->can('delete', $company))->toBeFalse();
+});
