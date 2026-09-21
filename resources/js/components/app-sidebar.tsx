@@ -5,6 +5,7 @@ import {
     Building2,
     ChefHat,
     ClipboardList,
+    ConciergeBell,
     FolderGit2,
     LayoutGrid,
     MapPin,
@@ -31,6 +32,7 @@ import { index as chefOrdersIndex } from '@/routes/chef/orders';
 import { index as companiesIndex } from '@/routes/companies';
 import { index as restaurantsIndex } from '@/routes/restaurants';
 import { index as riderOrdersIndex } from '@/routes/rider/orders';
+import { index as waiterOrdersIndex } from '@/routes/waiter/orders';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
@@ -87,6 +89,15 @@ export function AppSidebar() {
                       title: t('app.sidebar.deliveries'),
                       href: riderOrdersIndex(),
                       icon: Bike,
+                  },
+              ]
+            : []),
+        ...(roles.includes('waiter')
+            ? [
+                  {
+                      title: t('app.sidebar.pickups'),
+                      href: waiterOrdersIndex(),
+                      icon: ConciergeBell,
                   },
               ]
             : []),

@@ -11,6 +11,7 @@ use App\Http\Controllers\Menu\ServingSizeController;
 use App\Http\Controllers\Restaurants\RestaurantController;
 use App\Http\Controllers\Restaurants\RestaurantVerificationController;
 use App\Http\Controllers\Rider\RiderOrderController;
+use App\Http\Controllers\Waiter\WaiterOrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -59,4 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('rider/orders', [RiderOrderController::class, 'index'])->name('rider.orders.index');
     Route::post('rider/orders/{order}/pickup', [RiderOrderController::class, 'pickup'])->name('rider.orders.pickup');
     Route::post('rider/orders/{order}/deliver', [RiderOrderController::class, 'deliver'])->name('rider.orders.deliver');
+
+    Route::get('waiter/orders', [WaiterOrderController::class, 'index'])->name('waiter.orders.index');
+    Route::post('waiter/orders/{order}/hand-off', [WaiterOrderController::class, 'handOff'])->name('waiter.orders.handOff');
 });
