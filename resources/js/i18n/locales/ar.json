@@ -388,9 +388,19 @@
         }
     },
     "kitchens": {
-        "index": { "heading": "المطابخ", "add": "إضافة مطبخ" },
-        "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات المطبخ", "submit": "حفظ" },
-        "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)" }
+        "index": {
+            "heading": "المطابخ",
+            "add": "إضافة مطبخ"
+        },
+        "edit": {
+            "page_title": "تعديل {{name}}",
+            "heading": "إعدادات المطبخ",
+            "submit": "حفظ"
+        },
+        "fields": {
+            "name_en": "الاسم (إنجليزي)",
+            "name_ar": "الاسم (عربي)"
+        }
     },
     "menu": {
         "categories": {
@@ -401,9 +411,21 @@
                 "no_categories": "لا توجد أصناف بعد.",
                 "top_level": "المستوى الأعلى"
             },
-            "create": { "page_title": "صنف جديد", "heading": "صنف جديد", "submit": "إنشاء الصنف" },
-            "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات الصنف", "submit": "حفظ" },
-            "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)", "parent": "الصنف الأصل" }
+            "create": {
+                "page_title": "صنف جديد",
+                "heading": "صنف جديد",
+                "submit": "إنشاء الصنف"
+            },
+            "edit": {
+                "page_title": "تعديل {{name}}",
+                "heading": "إعدادات الصنف",
+                "submit": "حفظ"
+            },
+            "fields": {
+                "name_en": "الاسم (إنجليزي)",
+                "name_ar": "الاسم (عربي)",
+                "parent": "الصنف الأصل"
+            }
         },
         "dishes": {
             "index": {
@@ -412,8 +434,16 @@
                 "new_dish": "طبق جديد",
                 "no_dishes": "لا توجد أطباق بعد."
             },
-            "create": { "page_title": "طبق جديد", "heading": "طبق جديد", "submit": "إنشاء الطبق" },
-            "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات الطبق", "submit": "حفظ" },
+            "create": {
+                "page_title": "طبق جديد",
+                "heading": "طبق جديد",
+                "submit": "إنشاء الطبق"
+            },
+            "edit": {
+                "page_title": "تعديل {{name}}",
+                "heading": "إعدادات الطبق",
+                "submit": "حفظ"
+            },
             "fields": {
                 "name_en": "الاسم (إنجليزي)",
                 "name_ar": "الاسم (عربي)",
@@ -463,5 +493,25 @@
             "lng": "خط الطول",
             "is_default": "تعيين كافتراضي"
         }
+    },
+    "orders": {
+        "page_title": "إتمام الطلب",
+        "heading": "إتمام الطلب",
+        "delivery_mode": {
+            "label": "طريقة التسليم",
+            "delivery": "توصيل",
+            "pickup": "استلام من الفرع"
+        },
+        "address": {
+            "label": "عنوان التوصيل",
+            "empty": "لا توجد عناوين توصيل محفوظة بعد"
+        },
+        "quantity": "الكمية",
+        "in_order": "في الطلب",
+        "options": "الخيارات",
+        "serving_size": "حجم الحصة",
+        "lines_error": "لا يمكن أن يحتوي الطلب على أطباق من أكثر من مطعم واحد.",
+        "submit": "إتمام الطلب",
+        "no_dishes": "لا توجد أطباق متاحة في هذا المطعم بعد."
     }
 }

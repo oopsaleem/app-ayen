@@ -3,6 +3,7 @@
 use App\Http\Controllers\Addresses\DeliveryAddressController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Middleware\EnsureTeamMembership;
 use Illuminate\Routing\Middleware\ThrottleRequests;
@@ -24,6 +25,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('invitations/{invitation}/accept', [TeamInvitationController::class, 'accept'])->name('invitations.accept');
     Route::delete('invitations/{invitation}', [TeamInvitationController::class, 'decline'])->name('invitations.decline');
 });
+
+Route::middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('restaurants/{restaurant}/order', [OrderController::class, 'create'])->name('restaurants.order');
+    });
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
