@@ -89,4 +89,20 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->manager()->exists();
     }
+
+    /**
+     * @return HasOne<Chef, $this>
+     */
+    public function chef(): HasOne
+    {
+        return $this->hasOne(Chef::class);
+    }
+
+    /**
+     * Determine whether this user holds the Chef role.
+     */
+    public function isChef(): bool
+    {
+        return $this->chef()->exists();
+    }
 }
