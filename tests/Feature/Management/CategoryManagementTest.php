@@ -60,3 +60,19 @@ test('a manager cannot create a category under another restaurants parent', func
         'parent_id' => $otherRestaurantParent->id,
     ])->assertInvalid(['parent_id']);
 });
+
+test('a manager cannot move a category under its own descendant', function () {
+    $restaurant = Restaurant::factory()->create();
+    $parent = Category::factory()->create(['restaurant_id' => $restaurant->id]);
+    $child = Category::factory()->create(['restaurant_id' => $restaurant->id, 'parent_id' => $parent->id]);
+    $manager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $manager->id, 'company_id' => $restaurant->company_id]);
+
+    $this->actingAs($manager)->patch(route('categories.update', $parent), [
+        'name_en' => $parent->name_en,
+        'name_ar' => $parent->name_ar,
+        'parent_id' => $child->id,
+    ])->assertInvalid(['parent_id']);
+
+    expect($parent->refresh()->parent_id)->toBeNull();
+});
