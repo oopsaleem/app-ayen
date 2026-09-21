@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Companies\CompanyController;
+use App\Http\Controllers\Kitchens\KitchenController;
 use App\Http\Controllers\Restaurants\RestaurantController;
 use App\Http\Controllers\Restaurants\RestaurantVerificationController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
     Route::patch('restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('restaurants.update');
     Route::post('restaurants/{restaurant}/verify', RestaurantVerificationController::class)->name('restaurants.verify');
+
+    Route::post('restaurants/{restaurant}/kitchens', [KitchenController::class, 'store'])->name('kitchens.store');
+    Route::get('kitchens/{kitchen}/edit', [KitchenController::class, 'edit'])->name('kitchens.edit');
+    Route::patch('kitchens/{kitchen}', [KitchenController::class, 'update'])->name('kitchens.update');
 });
