@@ -1,9 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import DishController from '@/actions/App/Http/Controllers/Menu/DishController';
+import DishOptionController from '@/actions/App/Http/Controllers/Menu/DishOptionController';
+import ServingSizeController from '@/actions/App/Http/Controllers/Menu/ServingSizeController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -25,14 +28,21 @@ type Dish = {
 
 type Option = { id: number; name_en: string };
 
+type DishOption = { id: number; name_en: string; name_ar: string; price: number };
+type ServingSize = { id: number; name_en: string; name_ar: string; price: number; is_default: boolean };
+
 export default function DishEdit({
     dish,
     kitchens,
     categories,
+    options,
+    servingSizes,
 }: {
     dish: Dish;
     kitchens: Option[];
     categories: Option[];
+    options: DishOption[];
+    servingSizes: ServingSize[];
 }) {
     const { t } = useTranslation();
 
@@ -122,6 +132,106 @@ export default function DishEdit({
                         </>
                     )}
                 </Form>
+
+                <div className="space-y-3 border-t pt-6">
+                    <Heading variant="small" title={t('menu.dishes.options.heading')} />
+
+                    {options.map((option) => (
+                        <div key={option.id} className="flex items-center gap-2 rounded-lg border p-3">
+                            <span className="flex-1">{option.name_en} — {option.price}</span>
+                            <Form {...DishOptionController.destroy.form(option.id)}>
+                                {({ processing }) => (
+                                    <Button type="submit" variant="ghost" size="sm" disabled={processing}>
+                                        {t('menu.dishes.options.remove')}
+                                    </Button>
+                                )}
+                            </Form>
+                        </div>
+                    ))}
+
+                    <Form {...DishOptionController.store.form(dish.id)} className="flex items-end gap-2">
+                        {({ processing, errors }) => (
+                            <>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="option_name_en">{t('menu.dishes.fields.name_en')}</Label>
+                                    <Input id="option_name_en" name="name_en" required />
+                                    <InputError message={errors.name_en} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="option_name_ar">{t('menu.dishes.fields.name_ar')}</Label>
+                                    <Input id="option_name_ar" name="name_ar" dir="rtl" required />
+                                    <InputError message={errors.name_ar} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="option_price">{t('menu.dishes.fields.price')}</Label>
+                                    <Input id="option_price" name="price" type="number" step="0.01" min="0" required />
+                                    <InputError message={errors.price} />
+                                </div>
+                                <Button type="submit" disabled={processing}>
+                                    {t('menu.dishes.options.add')}
+                                </Button>
+                            </>
+                        )}
+                    </Form>
+                </div>
+
+                <div className="space-y-3 border-t pt-6">
+                    <Heading variant="small" title={t('menu.dishes.serving_sizes.heading')} />
+
+                    {servingSizes.map((servingSize) => (
+                        <div key={servingSize.id} className="flex items-center gap-2 rounded-lg border p-3">
+                            <span className="flex-1">
+                                {servingSize.name_en} — {servingSize.price}
+                                {servingSize.is_default ? ` (${t('menu.dishes.serving_sizes.default')})` : ''}
+                            </span>
+                            <Form {...ServingSizeController.destroy.form(servingSize.id)}>
+                                {({ processing }) => (
+                                    <Button type="submit" variant="ghost" size="sm" disabled={processing}>
+                                        {t('menu.dishes.serving_sizes.remove')}
+                                    </Button>
+                                )}
+                            </Form>
+                        </div>
+                    ))}
+
+                    <Form {...ServingSizeController.store.form(dish.id)} className="flex items-end gap-2">
+                        {({ processing, errors }) => (
+                            <>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="serving_size_name_en">{t('menu.dishes.fields.name_en')}</Label>
+                                    <Input id="serving_size_name_en" name="name_en" required />
+                                    <InputError message={errors.name_en} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="serving_size_name_ar">{t('menu.dishes.fields.name_ar')}</Label>
+                                    <Input id="serving_size_name_ar" name="name_ar" dir="rtl" required />
+                                    <InputError message={errors.name_ar} />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="serving_size_price">{t('menu.dishes.fields.price')}</Label>
+                                    <Input
+                                        id="serving_size_price"
+                                        name="price"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        required
+                                    />
+                                    <InputError message={errors.price} />
+                                </div>
+                                <div className="flex items-center gap-2 pb-2">
+                                    <Checkbox id="serving_size_is_default" name="is_default" />
+                                    <Label htmlFor="serving_size_is_default">
+                                        {t('menu.dishes.serving_sizes.default')}
+                                    </Label>
+                                </div>
+                                <Button type="submit" disabled={processing}>
+                                    {t('menu.dishes.serving_sizes.add')}
+                                </Button>
+                            </>
+                        )}
+                    </Form>
+                </div>
             </div>
         </>
     );

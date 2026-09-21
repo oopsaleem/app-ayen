@@ -405,6 +405,17 @@
                 "price": "Price",
                 "kitchen": "Kitchen",
                 "category": "Category"
+            },
+            "options": {
+                "heading": "Options",
+                "add": "Add option",
+                "remove": "Remove"
+            },
+            "serving_sizes": {
+                "heading": "Serving sizes",
+                "add": "Add serving size",
+                "default": "Default",
+                "remove": "Remove"
             }
         }
     }
