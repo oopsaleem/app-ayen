@@ -119,7 +119,8 @@ class Category extends Model
             }
 
             $visited[] = $ancestorId;
-            $ancestorId = static::whereKey($ancestorId)->value('parent_id');
+            $nextAncestorId = static::whereKey($ancestorId)->value('parent_id');
+            $ancestorId = $nextAncestorId !== null ? (int) $nextAncestorId : null;
         }
     }
 
@@ -132,7 +133,7 @@ class Category extends Model
     {
         $parentRestaurantId = static::whereKey($this->parent_id)->value('restaurant_id');
 
-        if ($parentRestaurantId !== $this->restaurant_id) {
+        if ((int) $parentRestaurantId !== $this->restaurant_id) {
             throw new InvalidArgumentException('A category cannot be parented under a category from a different restaurant.');
         }
     }
@@ -180,6 +181,8 @@ class Category extends Model
     {
         return [
             'is_active' => 'boolean',
+            'restaurant_id' => 'integer',
+            'parent_id' => 'integer',
         ];
     }
 }

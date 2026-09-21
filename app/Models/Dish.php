@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use InvalidArgumentException;
 
 /**
  * @property int $id
@@ -40,6 +41,32 @@ class Dish extends Model
     use HasFactory;
 
     use HasLocalizedFields;
+
+    /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(function (Dish $dish): void {
+            $dish->guardAgainstCrossRestaurantAssignment();
+        });
+    }
+
+    /**
+     * Reject a category/kitchen pairing that spans two different
+     * restaurants, since a dish must belong to exactly one restaurant.
+     */
+    protected function guardAgainstCrossRestaurantAssignment(): void
+    {
+        $categoryRestaurantId = Category::whereKey($this->category_id)->value('restaurant_id');
+        $kitchenRestaurantId = Kitchen::whereKey($this->kitchen_id)->value('restaurant_id');
+
+        if ((int) $categoryRestaurantId !== (int) $kitchenRestaurantId) {
+            throw new InvalidArgumentException('A dish\'s category and kitchen must belong to the same restaurant.');
+        }
+    }
 
     /**
      * @return BelongsTo<Category, $this>

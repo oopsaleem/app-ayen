@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Dish;
 use App\Models\Kitchen;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +18,11 @@ class DishFactory extends Factory
      */
     public function definition(): array
     {
+        $restaurant = Restaurant::factory()->create();
+
         return [
-            'category_id' => Category::factory(),
-            'kitchen_id' => Kitchen::factory(),
+            'category_id' => Category::factory()->for($restaurant, 'restaurant'),
+            'kitchen_id' => Kitchen::factory()->for($restaurant, 'restaurant'),
             'name_en' => fake()->words(3, true),
             'name_ar' => 'طبق '.fake()->word(),
             'description_en' => fake()->sentence(),

@@ -2,6 +2,7 @@
 
 use App\Models\Chef;
 use App\Models\Kitchen;
+use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -43,4 +44,26 @@ test('deleting a kitchen removes its chef assignments', function () {
     $kitchen->delete();
 
     expect(DB::table('chef_kitchen')->count())->toBe(0);
+});
+
+test('a chef can be assigned to multiple kitchens within the same restaurant', function () {
+    $restaurant = Restaurant::factory()->create();
+    $chef = Chef::factory()->create();
+    $kitchenOne = Kitchen::factory()->create(['restaurant_id' => $restaurant->id]);
+    $kitchenTwo = Kitchen::factory()->create(['restaurant_id' => $restaurant->id]);
+
+    $chef->kitchens()->attach([$kitchenOne->id, $kitchenTwo->id]);
+
+    expect($chef->fresh()->kitchens)->toHaveCount(2);
+});
+
+test('a chef cannot be assigned to kitchens in different restaurants', function () {
+    $chef = Chef::factory()->create();
+    $kitchenOne = Kitchen::factory()->create();
+    $kitchenTwo = Kitchen::factory()->create();
+
+    $chef->kitchens()->attach($kitchenOne->id);
+
+    expect(fn () => $chef->kitchens()->attach($kitchenTwo->id))
+        ->toThrow(InvalidArgumentException::class, 'A chef cannot be assigned to kitchens in different restaurants.');
 });

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
+use InvalidArgumentException;
 
 /**
  * @property int $chef_id
@@ -33,6 +34,39 @@ class ChefKitchen extends Pivot
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (ChefKitchen $pivot): void {
+            $pivot->guardAgainstCrossRestaurantAssignment();
+        });
+    }
+
+    /**
+     * Reject an assignment that would give a chef kitchens in two
+     * different restaurants — a chef is scoped to a single restaurant.
+     */
+    protected function guardAgainstCrossRestaurantAssignment(): void
+    {
+        $newRestaurantId = Kitchen::whereKey($this->kitchen_id)->value('restaurant_id');
+
+        $existingKitchenId = static::where('chef_id', $this->chef_id)->value('kitchen_id');
+
+        if ($existingKitchenId === null) {
+            return;
+        }
+
+        $existingRestaurantId = Kitchen::whereKey($existingKitchenId)->value('restaurant_id');
+
+        if ((int) $existingRestaurantId !== (int) $newRestaurantId) {
+            throw new InvalidArgumentException('A chef cannot be assigned to kitchens in different restaurants.');
+        }
+    }
 
     /**
      * @return BelongsTo<Chef, $this>

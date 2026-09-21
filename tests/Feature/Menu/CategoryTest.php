@@ -43,6 +43,12 @@ test('a category cannot be made its own parent', function () {
     $category->update(['parent_id' => $category->id]);
 })->throws(InvalidArgumentException::class);
 
+test('a category cannot be made its own parent via a string id', function () {
+    $category = Category::factory()->create();
+
+    $category->update(['parent_id' => (string) $category->id]);
+})->throws(InvalidArgumentException::class);
+
 test('a category cannot be reparented under its own descendant', function () {
     $restaurant = Restaurant::factory()->create();
     $top = Category::factory()->create(['restaurant_id' => $restaurant->id, 'parent_id' => null]);
