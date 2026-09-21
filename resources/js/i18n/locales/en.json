@@ -371,5 +371,10 @@
             "lat": "Latitude",
             "lng": "Longitude"
         }
+    },
+    "kitchens": {
+        "index": { "heading": "Kitchens", "add": "Add kitchen" },
+        "edit": { "page_title": "Edit {{name}}", "heading": "Kitchen settings", "submit": "Save" },
+        "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)" }
     }
 }

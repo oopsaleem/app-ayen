@@ -75,11 +75,12 @@ class RestaurantController extends Controller
     {
         Gate::authorize('view', $restaurant);
 
-        $restaurant->load('address', 'verification');
+        $restaurant->load('address', 'verification', 'kitchens');
 
         return Inertia::render('restaurants/edit', [
             'restaurant' => $restaurant->only(['id', 'company_id', 'name_en', 'name_ar', 'description_en', 'description_ar', 'images']),
             'address' => $restaurant->address?->only(['address', 'lat', 'lng']),
+            'kitchens' => $restaurant->kitchens->map->only(['id', 'name_en', 'name_ar']),
             'verified' => (bool) $restaurant->verification?->verified,
             'canVerify' => Gate::allows('verify', $restaurant),
         ]);

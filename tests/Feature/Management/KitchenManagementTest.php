@@ -47,3 +47,15 @@ test('an admin can edit and update a kitchen', function () {
 
     expect($kitchen->fresh()->name_en)->toBe('New');
 });
+
+test('the restaurant edit page lists its kitchens', function () {
+    $restaurant = Restaurant::factory()->create();
+    Kitchen::factory()->create(['restaurant_id' => $restaurant->id, 'name_en' => 'Grill']);
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+
+    $this->actingAs($admin)->get(route('restaurants.edit', $restaurant))
+        ->assertInertia(fn ($page) => $page
+            ->component('restaurants/edit')
+            ->where('kitchens.0.name_en', 'Grill'));
+});

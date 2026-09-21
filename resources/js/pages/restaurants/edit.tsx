@@ -1,5 +1,6 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
+import KitchenController from '@/actions/App/Http/Controllers/Kitchens/KitchenController';
 import RestaurantController from '@/actions/App/Http/Controllers/Restaurants/RestaurantController';
 import RestaurantVerificationController from '@/actions/App/Http/Controllers/Restaurants/RestaurantVerificationController';
 import Heading from '@/components/heading';
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { edit as editKitchen } from '@/routes/kitchens';
 import { index } from '@/routes/restaurants';
 
 type Restaurant = {
@@ -20,16 +22,20 @@ type Restaurant = {
 
 type Address = { address: string; lat: number; lng: number } | undefined;
 
+type Kitchen = { id: number; name_en: string; name_ar: string };
+
 export default function RestaurantEdit({
     restaurant,
     address,
     verified,
     canVerify,
+    kitchens,
 }: {
     restaurant: Restaurant;
     address: Address;
     verified: boolean;
     canVerify: boolean;
+    kitchens: Kitchen[];
 }) {
     const { t } = useTranslation();
 
@@ -137,6 +143,52 @@ export default function RestaurantEdit({
                         </>
                     )}
                 </Form>
+
+                <div className="space-y-3 border-t pt-6">
+                    <Heading variant="small" title={t('kitchens.index.heading')} />
+
+                    {kitchens.map((kitchen) => (
+                        <Link
+                            key={kitchen.id}
+                            href={editKitchen(kitchen.id)}
+                            className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent"
+                        >
+                            <span>{kitchen.name_en}</span>
+                            <span dir="rtl" className="text-sm text-muted-foreground">
+                                {kitchen.name_ar}
+                            </span>
+                        </Link>
+                    ))}
+
+                    <Form
+                        {...KitchenController.store.form(restaurant.id)}
+                        className="flex items-end gap-2"
+                    >
+                        {({ processing, errors }) => (
+                            <>
+                                <div className="grid flex-1 gap-2">
+                                    <Label htmlFor="new_kitchen_name_en">
+                                        {t('kitchens.fields.name_en')}
+                                    </Label>
+                                    <Input id="new_kitchen_name_en" name="name_en" required />
+                                    <InputError message={errors.name_en} />
+                                </div>
+
+                                <div className="grid flex-1 gap-2">
+                                    <Label htmlFor="new_kitchen_name_ar">
+                                        {t('kitchens.fields.name_ar')}
+                                    </Label>
+                                    <Input id="new_kitchen_name_ar" name="name_ar" dir="rtl" required />
+                                    <InputError message={errors.name_ar} />
+                                </div>
+
+                                <Button type="submit" disabled={processing}>
+                                    {t('kitchens.index.add')}
+                                </Button>
+                            </>
+                        )}
+                    </Form>
+                </div>
             </div>
         </>
     );
