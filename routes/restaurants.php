@@ -4,6 +4,8 @@ use App\Http\Controllers\Companies\CompanyController;
 use App\Http\Controllers\Kitchens\KitchenController;
 use App\Http\Controllers\Menu\CategoryController;
 use App\Http\Controllers\Menu\DishController;
+use App\Http\Controllers\Menu\DishOptionController;
+use App\Http\Controllers\Menu\ServingSizeController;
 use App\Http\Controllers\Restaurants\RestaurantController;
 use App\Http\Controllers\Restaurants\RestaurantVerificationController;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +39,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('restaurants/{restaurant}/dishes', [DishController::class, 'store'])->name('dishes.store');
     Route::get('dishes/{dish}/edit', [DishController::class, 'edit'])->name('dishes.edit');
     Route::patch('dishes/{dish}', [DishController::class, 'update'])->name('dishes.update');
+
+    Route::post('dishes/{dish}/options', [DishOptionController::class, 'store'])->name('dish-options.store');
+    Route::patch('dish-options/{dishOption}', [DishOptionController::class, 'update'])->name('dish-options.update');
+    Route::delete('dish-options/{dishOption}', [DishOptionController::class, 'destroy'])->name('dish-options.destroy');
+
+    Route::post('dishes/{dish}/serving-sizes', [ServingSizeController::class, 'store'])->name('serving-sizes.store');
+    Route::patch('serving-sizes/{servingSize}', [ServingSizeController::class, 'update'])->name('serving-sizes.update');
+    Route::delete('serving-sizes/{servingSize}', [ServingSizeController::class, 'destroy'])->name('serving-sizes.destroy');
 });

@@ -71,6 +71,8 @@ class DishController extends Controller
             'dish' => $dish->only(['id', 'kitchen_id', 'category_id', 'name_en', 'name_ar', 'price']),
             'kitchens' => $restaurant->kitchens()->get(['id', 'name_en']),
             'categories' => $restaurant->categories()->get(['id', 'name_en']),
+            'options' => $dish->options()->get(['id', 'name_en', 'name_ar', 'price']),
+            'servingSizes' => $dish->servingSizes()->get(['id', 'name_en', 'name_ar', 'price', 'is_default']),
         ]);
     }
 
