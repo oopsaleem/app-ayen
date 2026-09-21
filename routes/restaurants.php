@@ -3,6 +3,7 @@
 use App\Http\Controllers\Companies\CompanyController;
 use App\Http\Controllers\Kitchens\KitchenController;
 use App\Http\Controllers\Menu\CategoryController;
+use App\Http\Controllers\Menu\DishController;
 use App\Http\Controllers\Restaurants\RestaurantController;
 use App\Http\Controllers\Restaurants\RestaurantVerificationController;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('restaurants/{restaurant}/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+
+    Route::get('restaurants/{restaurant}/dishes', [DishController::class, 'index'])->name('dishes.index');
+    Route::get('restaurants/{restaurant}/dishes/create', [DishController::class, 'create'])->name('dishes.create');
+    Route::post('restaurants/{restaurant}/dishes', [DishController::class, 'store'])->name('dishes.store');
+    Route::get('dishes/{dish}/edit', [DishController::class, 'edit'])->name('dishes.edit');
+    Route::patch('dishes/{dish}', [DishController::class, 'update'])->name('dishes.update');
 });
