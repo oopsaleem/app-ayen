@@ -376,5 +376,19 @@
         "index": { "heading": "المطابخ", "add": "إضافة مطبخ" },
         "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات المطبخ", "submit": "حفظ" },
         "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)" }
+    },
+    "menu": {
+        "categories": {
+            "index": {
+                "page_title": "الأصناف",
+                "heading": "أصناف {{restaurant}}",
+                "new_category": "صنف جديد",
+                "no_categories": "لا توجد أصناف بعد.",
+                "top_level": "المستوى الأعلى"
+            },
+            "create": { "page_title": "صنف جديد", "heading": "صنف جديد", "submit": "إنشاء الصنف" },
+            "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات الصنف", "submit": "حفظ" },
+            "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)", "parent": "الصنف الأصل" }
+        }
     }
 }

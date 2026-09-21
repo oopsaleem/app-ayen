@@ -376,5 +376,19 @@
         "index": { "heading": "Kitchens", "add": "Add kitchen" },
         "edit": { "page_title": "Edit {{name}}", "heading": "Kitchen settings", "submit": "Save" },
         "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)" }
+    },
+    "menu": {
+        "categories": {
+            "index": {
+                "page_title": "Categories",
+                "heading": "Categories for {{restaurant}}",
+                "new_category": "New category",
+                "no_categories": "No categories yet.",
+                "top_level": "Top level"
+            },
+            "create": { "page_title": "New category", "heading": "New category", "submit": "Create category" },
+            "edit": { "page_title": "Edit {{name}}", "heading": "Category settings", "submit": "Save" },
+            "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)", "parent": "Parent category" }
+        }
     }
 }
