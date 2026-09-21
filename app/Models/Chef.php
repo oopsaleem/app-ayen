@@ -42,6 +42,6 @@ class Chef extends Model
         return $this->belongsToMany(Kitchen::class, 'chef_kitchen')
             ->using(ChefKitchen::class)
             ->withPivot(['assigned_at', 'assigned_by'])
-            ->withTimestamps(false);
+            ->withTimestamps(false, false);
     }
 }
