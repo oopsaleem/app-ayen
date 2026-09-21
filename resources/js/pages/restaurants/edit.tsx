@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import RestaurantController from '@/actions/App/Http/Controllers/Restaurants/RestaurantController';
+import RestaurantVerificationController from '@/actions/App/Http/Controllers/Restaurants/RestaurantVerificationController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +24,7 @@ export default function RestaurantEdit({
     restaurant,
     address,
     verified,
+    canVerify,
 }: {
     restaurant: Restaurant;
     address: Address;
@@ -38,13 +40,29 @@ export default function RestaurantEdit({
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <Heading variant="small" title={t('restaurants.edit.heading')} />
-                    <Badge variant={verified ? 'default' : 'secondary'}>
-                        {t(
-                            verified
-                                ? 'restaurants.edit.verified_badge'
-                                : 'restaurants.edit.unverified_badge',
-                        )}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                        <Badge variant={verified ? 'default' : 'secondary'}>
+                            {t(
+                                verified
+                                    ? 'restaurants.edit.verified_badge'
+                                    : 'restaurants.edit.unverified_badge',
+                            )}
+                        </Badge>
+
+                        {canVerify ? (
+                            <Form {...RestaurantVerificationController.form(restaurant.id)}>
+                                {({ processing }) => (
+                                    <Button type="submit" variant="outline" size="sm" disabled={processing}>
+                                        {t(
+                                            verified
+                                                ? 'restaurants.edit.unverify'
+                                                : 'restaurants.edit.verify',
+                                        )}
+                                    </Button>
+                                )}
+                            </Form>
+                        ) : null}
+                    </div>
                 </div>
 
                 <Form

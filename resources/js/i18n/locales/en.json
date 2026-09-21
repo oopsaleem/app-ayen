@@ -358,7 +358,9 @@
             "heading": "Restaurant settings",
             "submit": "Save",
             "verified_badge": "Verified",
-            "unverified_badge": "Unverified"
+            "unverified_badge": "Unverified",
+            "verify": "Verify",
+            "unverify": "Unverify"
         },
         "fields": {
             "name_en": "Name (English)",

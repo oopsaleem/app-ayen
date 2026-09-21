@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Companies\CompanyController;
 use App\Http\Controllers\Restaurants\RestaurantController;
+use App\Http\Controllers\Restaurants\RestaurantVerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -16,4 +17,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('restaurants', [RestaurantController::class, 'index'])->name('restaurants.index');
     Route::get('restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
     Route::patch('restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('restaurants.update');
+    Route::post('restaurants/{restaurant}/verify', RestaurantVerificationController::class)->name('restaurants.verify');
 });

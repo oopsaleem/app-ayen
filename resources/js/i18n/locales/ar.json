@@ -358,7 +358,9 @@
             "heading": "إعدادات المطعم",
             "submit": "حفظ",
             "verified_badge": "موثّق",
-            "unverified_badge": "غير موثّق"
+            "unverified_badge": "غير موثّق",
+            "verify": "توثيق",
+            "unverify": "إلغاء التوثيق"
         },
         "fields": {
             "name_en": "الاسم (إنجليزي)",
