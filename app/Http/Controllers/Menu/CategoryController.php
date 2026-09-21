@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index(Restaurant $restaurant): Response
     {
-        Gate::authorize('view', $restaurant);
+        Gate::authorize('manage', $restaurant);
 
         return Inertia::render('menu/categories/index', [
             'restaurant' => $restaurant->only(['id', 'name_en']),

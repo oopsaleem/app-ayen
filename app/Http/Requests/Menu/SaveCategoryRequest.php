@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Menu;
 
 use App\Models\Category;
+use App\Models\Restaurant;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,7 +15,14 @@ class SaveCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $restaurant = $this->route('restaurant') ?? $this->route('category')?->restaurant;
+        $routeRestaurant = $this->route('restaurant');
+        $routeCategory = $this->route('category');
+
+        $restaurant = match (true) {
+            $routeRestaurant instanceof Restaurant => $routeRestaurant,
+            $routeCategory instanceof Category => $routeCategory->restaurant,
+            default => null,
+        };
 
         return [
             'name_en' => ['required', 'string', 'max:255'],

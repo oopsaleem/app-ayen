@@ -18,7 +18,7 @@ class DishController extends Controller
      */
     public function index(Restaurant $restaurant): Response
     {
-        Gate::authorize('view', $restaurant);
+        Gate::authorize('manage', $restaurant);
 
         return Inertia::render('menu/dishes/index', [
             'restaurant' => $restaurant->only(['id', 'name_en']),
@@ -35,7 +35,7 @@ class DishController extends Controller
      */
     public function create(Restaurant $restaurant): Response
     {
-        Gate::authorize('view', $restaurant);
+        Gate::authorize('manage', $restaurant);
 
         return Inertia::render('menu/dishes/create', [
             'restaurant' => $restaurant->only(['id', 'name_en']),

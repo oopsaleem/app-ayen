@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Menu;
 
+use App\Models\Dish;
+use App\Models\Restaurant;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +14,14 @@ class SaveDishRequest extends FormRequest
      */
     public function rules(): array
     {
-        $restaurant = $this->route('restaurant') ?? $this->route('dish')?->kitchen->restaurant;
+        $routeRestaurant = $this->route('restaurant');
+        $routeDish = $this->route('dish');
+
+        $restaurant = match (true) {
+            $routeRestaurant instanceof Restaurant => $routeRestaurant,
+            $routeDish instanceof Dish => $routeDish->kitchen->restaurant,
+            default => null,
+        };
 
         return [
             'name_en' => ['required', 'string', 'max:255'],

@@ -73,7 +73,7 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant): Response
     {
-        Gate::authorize('view', $restaurant);
+        Gate::authorize('manage', $restaurant);
 
         $restaurant->load('address', 'verification', 'kitchens');
 

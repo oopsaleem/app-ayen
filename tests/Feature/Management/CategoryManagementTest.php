@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Chef;
 use App\Models\Manager;
 use App\Models\Restaurant;
 use App\Models\User;
@@ -14,6 +15,25 @@ test('the category index lists a restaurants categories', function () {
 
     $this->actingAs($admin)->get(route('categories.index', $restaurant))
         ->assertInertia(fn ($page) => $page->component('menu/categories/index')->has('categories', 2));
+});
+
+test('a manager from another company cannot view a restaurants categories', function () {
+    $restaurant = Restaurant::factory()->create();
+    Category::factory()->count(2)->create(['restaurant_id' => $restaurant->id]);
+    $otherManager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $otherManager->id]);
+
+    $this->actingAs($otherManager)->get(route('categories.index', $restaurant))
+        ->assertForbidden();
+});
+
+test('a chef cannot view a restaurants categories', function () {
+    $restaurant = Restaurant::factory()->create();
+    $chef = User::factory()->create();
+    Chef::factory()->create(['user_id' => $chef->id]);
+
+    $this->actingAs($chef)->get(route('categories.index', $restaurant))
+        ->assertForbidden();
 });
 
 test('a manager can create a top level category', function () {

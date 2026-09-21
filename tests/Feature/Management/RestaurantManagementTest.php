@@ -62,6 +62,15 @@ test('a manager from a different company cannot create a restaurant under this c
     ])->assertForbidden();
 });
 
+test('a manager from another company cannot view a restaurants edit page', function () {
+    $restaurant = Restaurant::factory()->create();
+    $otherManager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $otherManager->id]);
+
+    $this->actingAs($otherManager)->get(route('restaurants.edit', $restaurant))
+        ->assertForbidden();
+});
+
 test('updating a restaurant also updates its address', function () {
     $restaurant = Restaurant::factory()
         ->has(RestaurantAddress::factory(), 'address')

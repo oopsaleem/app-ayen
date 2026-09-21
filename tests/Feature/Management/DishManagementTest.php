@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Chef;
 use App\Models\Dish;
 use App\Models\Kitchen;
 use App\Models\Manager;
@@ -18,6 +19,24 @@ test('the dish index lists a restaurants dishes', function () {
 
     $this->actingAs($admin)->get(route('dishes.index', $restaurant))
         ->assertInertia(fn ($page) => $page->component('menu/dishes/index')->has('dishes', 2));
+});
+
+test('a manager from another company cannot view a restaurants dishes', function () {
+    $restaurant = Restaurant::factory()->create();
+    $otherManager = User::factory()->create();
+    Manager::factory()->create(['user_id' => $otherManager->id]);
+
+    $this->actingAs($otherManager)->get(route('dishes.index', $restaurant))
+        ->assertForbidden();
+});
+
+test('a chef cannot view the dish creation form', function () {
+    $restaurant = Restaurant::factory()->create();
+    $chef = User::factory()->create();
+    Chef::factory()->create(['user_id' => $chef->id]);
+
+    $this->actingAs($chef)->get(route('dishes.create', $restaurant))
+        ->assertForbidden();
 });
 
 test('a manager can create a dish in their restaurants kitchen', function () {

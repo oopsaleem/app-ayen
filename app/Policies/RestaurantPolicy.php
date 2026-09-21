@@ -20,6 +20,14 @@ class RestaurantPolicy
     }
 
     /**
+     * Determine whether the user can manage the restaurant's menu (categories, dishes, kitchens).
+     */
+    public function manage(User $user, Restaurant $restaurant): bool
+    {
+        return $user->isAdmin() || $user->manager?->company_id === $restaurant->company_id;
+    }
+
+    /**
      * Determine whether the user can create a restaurant under the given company.
      */
     public function create(User $user, Company $company): bool
