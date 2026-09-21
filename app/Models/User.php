@@ -73,4 +73,20 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->admin()->exists();
     }
+
+    /**
+     * @return HasOne<Manager, $this>
+     */
+    public function manager(): HasOne
+    {
+        return $this->hasOne(Manager::class);
+    }
+
+    /**
+     * Determine whether this user holds the Manager role.
+     */
+    public function isManager(): bool
+    {
+        return $this->manager()->exists();
+    }
 }
