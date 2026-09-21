@@ -105,4 +105,27 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->chef()->exists();
     }
+
+    /**
+     * @return HasOne<AuthProvider, $this>
+     */
+    public function authProvider(): HasOne
+    {
+        return $this->hasOne(AuthProvider::class);
+    }
+
+    /**
+     * Get every role this user currently holds, aggregated across the
+     * Admin/Manager/Chef role tables. Roles are additive, not exclusive.
+     *
+     * @return array<int, string>
+     */
+    public function roles(): array
+    {
+        return collect([
+            'admin' => $this->isAdmin(),
+            'manager' => $this->isManager(),
+            'chef' => $this->isChef(),
+        ])->filter()->keys()->values()->all();
+    }
 }
