@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Chef\ChefKitchenController;
+use App\Http\Controllers\Chef\ChefOrderController;
 use App\Http\Controllers\Companies\CompanyController;
 use App\Http\Controllers\Kitchens\KitchenController;
 use App\Http\Controllers\Menu\CategoryController;
@@ -50,4 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('serving-sizes/{servingSize}', [ServingSizeController::class, 'destroy'])->name('serving-sizes.destroy');
 
     Route::get('chef/kitchens', [ChefKitchenController::class, 'index'])->name('chef.kitchens.index');
+    Route::get('chef/orders', [ChefOrderController::class, 'index'])->name('chef.orders.index');
+    Route::post('chef/orders/{order}/kitchens/{kitchen}/accept', [ChefOrderController::class, 'accept'])->name('chef.orders.accept');
 });

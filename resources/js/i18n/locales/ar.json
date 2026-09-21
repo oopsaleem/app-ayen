@@ -19,7 +19,8 @@
             "repository": "المستودع",
             "documentation": "الوثائق",
             "navigation": "قائمة التنقل",
-            "addresses": "عناوين التوصيل"
+            "addresses": "عناوين التوصيل",
+            "my_orders": "طلباتي"
         },
         "header": {
             "search": "بحث"
@@ -385,6 +386,19 @@
             "heading": "مطابخي",
             "no_kitchens": "لم يتم تعيينك لأي مطبخ بعد.",
             "no_dishes": "لا توجد أطباق في هذا المطبخ بعد."
+        },
+        "orders": {
+            "page_title": "طلبات المطابخ",
+            "heading": "طلبات المطابخ",
+            "no_orders": "لا توجد طلبات لعرضها لمطابخك بعد.",
+            "kitchen": "المطبخ",
+            "dishes": "الأطباق",
+            "accept": "قبول",
+            "accepted": "تم القبول",
+            "status": {
+                "pending": "قيد الانتظار",
+                "confirmed": "مؤكد"
+            }
         }
     },
     "kitchens": {

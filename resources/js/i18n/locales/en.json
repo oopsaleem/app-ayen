@@ -19,7 +19,8 @@
             "repository": "Repository",
             "documentation": "Documentation",
             "navigation": "Navigation menu",
-            "addresses": "Delivery addresses"
+            "addresses": "Delivery addresses",
+            "my_orders": "My orders"
         },
         "header": {
             "search": "Search"
@@ -385,6 +386,19 @@
             "heading": "My kitchens",
             "no_kitchens": "You haven't been assigned to any kitchens yet.",
             "no_dishes": "No dishes in this kitchen yet."
+        },
+        "orders": {
+            "page_title": "Kitchen orders",
+            "heading": "Kitchen orders",
+            "no_orders": "No orders to show for your kitchens yet.",
+            "kitchen": "Kitchen",
+            "dishes": "Dishes",
+            "accept": "Accept",
+            "accepted": "Accepted",
+            "status": {
+                "pending": "Pending",
+                "confirmed": "Confirmed"
+            }
         }
     },
     "kitchens": {

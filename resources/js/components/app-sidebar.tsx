@@ -1,5 +1,14 @@
 import { usePage } from '@inertiajs/react';
-import { BookOpen, Building2, ChefHat, FolderGit2, LayoutGrid, MapPin, UtensilsCrossed } from 'lucide-react';
+import {
+    BookOpen,
+    Building2,
+    ChefHat,
+    ClipboardList,
+    FolderGit2,
+    LayoutGrid,
+    MapPin,
+    UtensilsCrossed,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -17,6 +26,7 @@ import {
 import { dashboard } from '@/routes';
 import { index as addressesIndex } from '@/routes/addresses';
 import { index as chefKitchensIndex } from '@/routes/chef/kitchens';
+import { index as chefOrdersIndex } from '@/routes/chef/orders';
 import { index as companiesIndex } from '@/routes/companies';
 import { index as restaurantsIndex } from '@/routes/restaurants';
 import type { NavItem } from '@/types';
@@ -44,7 +54,10 @@ export function AppSidebar() {
             ? [{ title: t('app.sidebar.restaurants'), href: restaurantsIndex(), icon: UtensilsCrossed }]
             : []),
         ...(roles.includes('chef')
-            ? [{ title: t('app.sidebar.my_kitchens'), href: chefKitchensIndex(), icon: ChefHat }]
+            ? [
+                  { title: t('app.sidebar.my_kitchens'), href: chefKitchensIndex(), icon: ChefHat },
+                  { title: t('app.sidebar.my_orders'), href: chefOrdersIndex(), icon: ClipboardList },
+              ]
             : []),
         {
             title: t('app.sidebar.addresses'),
