@@ -313,5 +313,32 @@
                 "accept": "Accept"
             }
         }
+    },
+    "companies": {
+        "index": {
+            "page_title": "Companies",
+            "heading": "Companies",
+            "description": "Every company on the platform",
+            "new_company": "New company",
+            "restaurants_count": "{{count}} restaurant",
+            "restaurants_count_plural": "{{count}} restaurants",
+            "no_companies": "No companies yet."
+        },
+        "create": {
+            "page_title": "New company",
+            "heading": "New company",
+            "description": "Add a company to the platform",
+            "submit": "Create company"
+        },
+        "edit": {
+            "page_title": "Edit {{name}}",
+            "heading": "Company settings",
+            "description": "Update this company's details",
+            "submit": "Save"
+        },
+        "fields": {
+            "display_name": "Display name",
+            "description": "Description"
+        }
     }
 }

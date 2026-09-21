@@ -313,5 +313,32 @@
                 "accept": "قبول"
             }
         }
+    },
+    "companies": {
+        "index": {
+            "page_title": "الشركات",
+            "heading": "الشركات",
+            "description": "جميع الشركات على المنصة",
+            "new_company": "شركة جديدة",
+            "restaurants_count": "{{count}} مطعم",
+            "restaurants_count_plural": "{{count}} مطاعم",
+            "no_companies": "لا توجد شركات بعد."
+        },
+        "create": {
+            "page_title": "شركة جديدة",
+            "heading": "شركة جديدة",
+            "description": "أضف شركة إلى المنصة",
+            "submit": "إنشاء الشركة"
+        },
+        "edit": {
+            "page_title": "تعديل {{name}}",
+            "heading": "إعدادات الشركة",
+            "description": "تحديث بيانات هذه الشركة",
+            "submit": "حفظ"
+        },
+        "fields": {
+            "display_name": "الاسم المعروض",
+            "description": "الوصف"
+        }
     }
 }

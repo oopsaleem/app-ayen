@@ -8,43 +8,28 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { index } from '@/routes/companies';
 
-type Company = {
-    id: number;
-    display_name: string;
-    description: string | null;
-};
-
-export default function CompanyEdit({ company }: { company: Company }) {
+export default function CompanyCreate() {
     const { t } = useTranslation();
 
     return (
         <>
-            <Head title={t('companies.edit.page_title', { name: company.display_name })} />
+            <Head title={t('companies.create.page_title')} />
 
             <div className="space-y-6">
                 <Heading
                     variant="small"
-                    title={t('companies.edit.heading')}
-                    description={t('companies.edit.description')}
+                    title={t('companies.create.heading')}
+                    description={t('companies.create.description')}
                 />
 
-                <Form
-                    {...CompanyController.update.form(company.id)}
-                    options={{ preserveScroll: true }}
-                    className="max-w-xl space-y-6"
-                >
+                <Form {...CompanyController.store.form()} className="max-w-xl space-y-6">
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="display_name">
                                     {t('companies.fields.display_name')}
                                 </Label>
-                                <Input
-                                    id="display_name"
-                                    name="display_name"
-                                    defaultValue={company.display_name}
-                                    required
-                                />
+                                <Input id="display_name" name="display_name" required />
                                 <InputError message={errors.display_name} />
                             </div>
 
@@ -56,14 +41,13 @@ export default function CompanyEdit({ company }: { company: Company }) {
                                     id="description"
                                     name="description"
                                     rows={3}
-                                    defaultValue={company.description ?? ''}
                                     className="border-input flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm outline-none"
                                 />
                                 <InputError message={errors.description} />
                             </div>
 
                             <Button type="submit" disabled={processing}>
-                                {t('companies.edit.submit')}
+                                {t('companies.create.submit')}
                             </Button>
                         </>
                     )}
@@ -73,9 +57,9 @@ export default function CompanyEdit({ company }: { company: Company }) {
     );
 }
 
-CompanyEdit.layout = {
+CompanyCreate.layout = {
     breadcrumbs: [
         { title: 'companies.index.page_title', href: index() },
-        { title: 'companies.edit.page_title', href: index() },
+        { title: 'companies.create.page_title', href: index() },
     ],
 };
