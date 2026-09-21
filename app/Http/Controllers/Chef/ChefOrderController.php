@@ -7,6 +7,7 @@ use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Chef;
 use App\Models\Order;
+use App\Models\OrderDish;
 use App\Models\OrderKitchen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -102,20 +103,25 @@ class ChefOrderController extends Controller
     private function presentOrder(Order $order, Collection $kitchenIds): array
     {
         $kitchens = $order->kitchens
-            ->filter(fn ($orderKitchen) => $kitchenIds->contains($orderKitchen->kitchen_id))
-            ->map(fn ($orderKitchen) => [
-                'id' => $orderKitchen->id,
-                'kitchen_id' => $orderKitchen->kitchen_id,
-                'name_en' => $orderKitchen->kitchen->name_en,
-                'name_ar' => $orderKitchen->kitchen->name_ar,
-                'accepted' => $orderKitchen->accepted_at !== null,
-                'dishes' => $order->dishes
+            ->filter(fn (OrderKitchen $orderKitchen) => $kitchenIds->contains($orderKitchen->kitchen_id))
+            ->map(function (OrderKitchen $orderKitchen) use ($order): array {
+                /** @var array<int, array{name_en: string, quantity: int}> $dishes */
+                $dishes = $order->dishes
                     ->where('dish.kitchen_id', $orderKitchen->kitchen_id)
-                    ->map(fn ($orderDish) => [
+                    ->map(fn (OrderDish $orderDish): array => [
                         'name_en' => $orderDish->dish->name_en,
                         'quantity' => $orderDish->quantity,
-                    ])->values(),
-            ])->values();
+                    ])->values()->all();
+
+                return [
+                    'id' => $orderKitchen->id,
+                    'kitchen_id' => $orderKitchen->kitchen_id,
+                    'name_en' => $orderKitchen->kitchen->name_en,
+                    'name_ar' => $orderKitchen->kitchen->name_ar,
+                    'accepted' => $orderKitchen->accepted_at !== null,
+                    'dishes' => $dishes,
+                ];
+            })->values();
 
         return [
             'id' => $order->id,

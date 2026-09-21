@@ -116,11 +116,9 @@ class Order extends Model
         }
 
         $previous = $this->status;
-        $enteredPreviousAt = $this->statusHistory()->latest('id')->first()?->created_at ?? $this->created_at;
+        $enteredPreviousAt = $this->statusHistory()->latest('id')->first()->created_at;
 
-        $duration = $enteredPreviousAt === null
-            ? null
-            : (int) abs(round(now()->diffInSeconds($enteredPreviousAt)));
+        $duration = (int) abs(round(now()->diffInSeconds($enteredPreviousAt)));
 
         $this->forceFill(['status' => $next])->save();
 
