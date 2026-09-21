@@ -389,6 +389,23 @@
             "create": { "page_title": "صنف جديد", "heading": "صنف جديد", "submit": "إنشاء الصنف" },
             "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات الصنف", "submit": "حفظ" },
             "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)", "parent": "الصنف الأصل" }
+        },
+        "dishes": {
+            "index": {
+                "page_title": "الأطباق",
+                "heading": "أطباق {{restaurant}}",
+                "new_dish": "طبق جديد",
+                "no_dishes": "لا توجد أطباق بعد."
+            },
+            "create": { "page_title": "طبق جديد", "heading": "طبق جديد", "submit": "إنشاء الطبق" },
+            "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات الطبق", "submit": "حفظ" },
+            "fields": {
+                "name_en": "الاسم (إنجليزي)",
+                "name_ar": "الاسم (عربي)",
+                "price": "السعر",
+                "kitchen": "المطبخ",
+                "category": "الصنف"
+            }
         }
     }
 }
