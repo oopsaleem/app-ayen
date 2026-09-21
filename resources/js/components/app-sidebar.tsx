@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import {
+    Bike,
     BookOpen,
     Building2,
     ChefHat,
@@ -29,6 +30,7 @@ import { index as chefKitchensIndex } from '@/routes/chef/kitchens';
 import { index as chefOrdersIndex } from '@/routes/chef/orders';
 import { index as companiesIndex } from '@/routes/companies';
 import { index as restaurantsIndex } from '@/routes/restaurants';
+import { index as riderOrdersIndex } from '@/routes/rider/orders';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
@@ -48,15 +50,44 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
         ...(roles.includes('admin')
-            ? [{ title: t('app.sidebar.companies'), href: companiesIndex(), icon: Building2 }]
+            ? [
+                  {
+                      title: t('app.sidebar.companies'),
+                      href: companiesIndex(),
+                      icon: Building2,
+                  },
+              ]
             : []),
         ...(roles.includes('admin') || roles.includes('manager')
-            ? [{ title: t('app.sidebar.restaurants'), href: restaurantsIndex(), icon: UtensilsCrossed }]
+            ? [
+                  {
+                      title: t('app.sidebar.restaurants'),
+                      href: restaurantsIndex(),
+                      icon: UtensilsCrossed,
+                  },
+              ]
             : []),
         ...(roles.includes('chef')
             ? [
-                  { title: t('app.sidebar.my_kitchens'), href: chefKitchensIndex(), icon: ChefHat },
-                  { title: t('app.sidebar.my_orders'), href: chefOrdersIndex(), icon: ClipboardList },
+                  {
+                      title: t('app.sidebar.my_kitchens'),
+                      href: chefKitchensIndex(),
+                      icon: ChefHat,
+                  },
+                  {
+                      title: t('app.sidebar.my_orders'),
+                      href: chefOrdersIndex(),
+                      icon: ClipboardList,
+                  },
+              ]
+            : []),
+        ...(roles.includes('rider')
+            ? [
+                  {
+                      title: t('app.sidebar.deliveries'),
+                      href: riderOrdersIndex(),
+                      icon: Bike,
+                  },
               ]
             : []),
         {

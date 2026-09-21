@@ -20,7 +20,8 @@
             "documentation": "Documentation",
             "navigation": "Navigation menu",
             "addresses": "Delivery addresses",
-            "my_orders": "My orders"
+            "my_orders": "My orders",
+            "deliveries": "Deliveries"
         },
         "header": {
             "search": "Search"
@@ -408,6 +409,30 @@
             "dish_actions": {
                 "preparing": "Start preparing",
                 "ready": "Mark ready"
+            }
+        }
+    },
+    "rider": {
+        "orders": {
+            "page_title": "Deliveries",
+            "heading": "Deliveries",
+            "no_orders": "No delivery orders ready right now.",
+            "pickup": "Pick up",
+            "delivered": "Mark delivered",
+            "status": {
+                "awaiting_delivery": "Awaiting delivery",
+                "out_for_delivery": "Out for delivery"
+            }
+        }
+    },
+    "waiter": {
+        "orders": {
+            "page_title": "Pickups",
+            "heading": "Pickups",
+            "no_orders": "No pickup orders ready right now.",
+            "hand_off": "Hand off",
+            "status": {
+                "awaiting_pickup": "Awaiting pickup"
             }
         }
     },

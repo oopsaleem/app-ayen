@@ -20,7 +20,8 @@
             "documentation": "الوثائق",
             "navigation": "قائمة التنقل",
             "addresses": "عناوين التوصيل",
-            "my_orders": "طلباتي"
+            "my_orders": "طلباتي",
+            "deliveries": "التوصيلات"
         },
         "header": {
             "search": "بحث"
@@ -408,6 +409,30 @@
             "dish_actions": {
                 "preparing": "ابدأ التحضير",
                 "ready": "تمييز كجاهز"
+            }
+        }
+    },
+    "rider": {
+        "orders": {
+            "page_title": "التوصيلات",
+            "heading": "التوصيلات",
+            "no_orders": "لا توجد طلبات توصيل جاهزة الآن.",
+            "pickup": "استلام",
+            "delivered": "تم التوصيل",
+            "status": {
+                "awaiting_delivery": "بانتظار التوصيل",
+                "out_for_delivery": "قيد التوصيل"
+            }
+        }
+    },
+    "waiter": {
+        "orders": {
+            "page_title": "الاستلام من الفرع",
+            "heading": "الاستلام من الفرع",
+            "no_orders": "لا توجد طلبات جاهزة للاستلام الآن.",
+            "hand_off": "تسليم الطلب",
+            "status": {
+                "awaiting_pickup": "بانتظار الاستلام"
             }
         }
     },

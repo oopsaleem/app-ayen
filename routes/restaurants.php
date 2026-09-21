@@ -10,6 +10,7 @@ use App\Http\Controllers\Menu\DishOptionController;
 use App\Http\Controllers\Menu\ServingSizeController;
 use App\Http\Controllers\Restaurants\RestaurantController;
 use App\Http\Controllers\Restaurants\RestaurantVerificationController;
+use App\Http\Controllers\Rider\RiderOrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -54,4 +55,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('chef/orders', [ChefOrderController::class, 'index'])->name('chef.orders.index');
     Route::post('chef/orders/{order}/kitchens/{kitchen}/accept', [ChefOrderController::class, 'accept'])->name('chef.orders.accept');
     Route::patch('chef/orders/{order}/dishes/{orderDish}/status', [ChefOrderController::class, 'updateDish'])->name('chef.orders.dishes.update');
+
+    Route::get('rider/orders', [RiderOrderController::class, 'index'])->name('rider.orders.index');
+    Route::post('rider/orders/{order}/pickup', [RiderOrderController::class, 'pickup'])->name('rider.orders.pickup');
+    Route::post('rider/orders/{order}/deliver', [RiderOrderController::class, 'deliver'])->name('rider.orders.deliver');
 });
