@@ -57,6 +57,13 @@ class Category extends Model
 
             if ($category->parent_id) {
                 $category->guardAgainstCycle();
+                $category->guardAgainstCrossRestaurantParent();
+            }
+        });
+
+        static::saved(function (Category $category): void {
+            if ($category->wasChanged('parent_id')) {
+                $category->recomputeDescendantLevels();
             }
         });
     }
@@ -113,6 +120,56 @@ class Category extends Model
 
             $visited[] = $ancestorId;
             $ancestorId = static::whereKey($ancestorId)->value('parent_id');
+        }
+    }
+
+    /**
+     * Reject a parent that belongs to a different restaurant, since
+     * categories are scoped per restaurant and cannot be nested
+     * across restaurants.
+     */
+    protected function guardAgainstCrossRestaurantParent(): void
+    {
+        $parentRestaurantId = static::whereKey($this->parent_id)->value('restaurant_id');
+
+        if ($parentRestaurantId !== $this->restaurant_id) {
+            throw new InvalidArgumentException('A category cannot be parented under a category from a different restaurant.');
+        }
+    }
+
+    /**
+     * Recompute the level of every descendant after the saved node's
+     * parent_id changed, walking the subtree breadth-first so each
+     * descendant's level is its parent's level plus one. Uses
+     * query-builder bulk updates, which do not fire Eloquent events.
+     */
+    protected function recomputeDescendantLevels(): void
+    {
+        $currentLevel = $this->level;
+        $frontier = [$this->id];
+        $visited = [$this->id => true];
+
+        while ($frontier !== []) {
+            $children = static::whereIn('parent_id', $frontier)
+                ->get(['id', 'parent_id', 'level']);
+
+            $nextFrontier = [];
+
+            foreach ($children as $child) {
+                if (isset($visited[$child->id])) {
+                    continue;
+                }
+
+                $visited[$child->id] = true;
+                $nextFrontier[] = $child->id;
+
+                if ($child->level !== $currentLevel + 1) {
+                    static::whereKey($child->id)->update(['level' => $currentLevel + 1]);
+                }
+            }
+
+            $currentLevel++;
+            $frontier = $nextFrontier;
         }
     }
 
