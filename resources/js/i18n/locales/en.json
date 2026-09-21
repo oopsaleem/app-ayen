@@ -372,6 +372,14 @@
             "lng": "Longitude"
         }
     },
+    "chef": {
+        "kitchens": {
+            "page_title": "My kitchens",
+            "heading": "My kitchens",
+            "no_kitchens": "You haven't been assigned to any kitchens yet.",
+            "no_dishes": "No dishes in this kitchen yet."
+        }
+    },
     "kitchens": {
         "index": { "heading": "Kitchens", "add": "Add kitchen" },
         "edit": { "page_title": "Edit {{name}}", "heading": "Kitchen settings", "submit": "Save" },

@@ -372,6 +372,14 @@
             "lng": "خط الطول"
         }
     },
+    "chef": {
+        "kitchens": {
+            "page_title": "مطابخي",
+            "heading": "مطابخي",
+            "no_kitchens": "لم يتم تعيينك لأي مطبخ بعد.",
+            "no_dishes": "لا توجد أطباق في هذا المطبخ بعد."
+        }
+    },
     "kitchens": {
         "index": { "heading": "المطابخ", "add": "إضافة مطبخ" },
         "edit": { "page_title": "تعديل {{name}}", "heading": "إعدادات المطبخ", "submit": "حفظ" },
