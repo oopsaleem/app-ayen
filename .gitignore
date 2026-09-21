@@ -33,3 +33,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Lighthouse / profiling reports
+*.report.html
