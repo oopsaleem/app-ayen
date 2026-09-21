@@ -13,6 +13,9 @@
     "app": {
         "sidebar": {
             "dashboard": "Dashboard",
+            "companies": "Companies",
+            "restaurants": "Restaurants",
+            "my_kitchens": "My kitchens",
             "repository": "Repository",
             "documentation": "Documentation",
             "navigation": "Navigation menu"

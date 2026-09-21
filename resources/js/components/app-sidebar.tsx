@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { BookOpen, Building2, ChefHat, FolderGit2, LayoutGrid, UtensilsCrossed } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -15,6 +15,9 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as chefKitchensIndex } from '@/routes/chef/kitchens';
+import { index as companiesIndex } from '@/routes/companies';
+import { index as restaurantsIndex } from '@/routes/restaurants';
 import type { NavItem } from '@/types';
 
 export function AppSidebar() {
@@ -25,12 +28,23 @@ export function AppSidebar() {
         ? dashboard(page.props.currentTeam.slug)
         : '/';
 
+    const roles = page.props.auth.roles;
+
     const mainNavItems: NavItem[] = [
         {
             title: t('app.sidebar.dashboard'),
             href: dashboardUrl,
             icon: LayoutGrid,
         },
+        ...(roles.includes('admin')
+            ? [{ title: t('app.sidebar.companies'), href: companiesIndex(), icon: Building2 }]
+            : []),
+        ...(roles.includes('admin') || roles.includes('manager')
+            ? [{ title: t('app.sidebar.restaurants'), href: restaurantsIndex(), icon: UtensilsCrossed }]
+            : []),
+        ...(roles.includes('chef')
+            ? [{ title: t('app.sidebar.my_kitchens'), href: chefKitchensIndex(), icon: ChefHat }]
+            : []),
     ];
 
     const footerNavItems: NavItem[] = [

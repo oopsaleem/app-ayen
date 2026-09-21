@@ -13,6 +13,9 @@
     "app": {
         "sidebar": {
             "dashboard": "لوحة التحكم",
+            "companies": "الشركات",
+            "restaurants": "المطاعم",
+            "my_kitchens": "مطابخي",
             "repository": "المستودع",
             "documentation": "الوثائق",
             "navigation": "قائمة التنقل"
