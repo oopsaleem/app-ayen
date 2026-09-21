@@ -12,7 +12,6 @@ use App\Models\Order;
 use App\Models\OrderDish;
 use App\Models\OrderKitchen;
 use DomainException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -78,7 +77,7 @@ class ChefOrderController extends Controller
     /**
      * Mark one of the order's dishes preparing or ready (ADR-0010).
      */
-    public function updateDish(Request $request, UpdateOrderDishStatus $updateOrderDishStatus): JsonResponse
+    public function updateDish(Request $request, UpdateOrderDishStatus $updateOrderDishStatus): RedirectResponse
     {
         $data = $request->validate([
             'status' => ['required', Rule::enum(OrderDishStatus::class)],
@@ -97,15 +96,12 @@ class ChefOrderController extends Controller
         );
 
         try {
-            $orderDish = $updateOrderDishStatus->handle($orderDish, OrderDishStatus::from($data['status']));
+            $updateOrderDishStatus->handle($orderDish, OrderDishStatus::from($data['status']));
         } catch (DomainException|LogicException $e) {
             abort(422, $e->getMessage());
         }
 
-        return response()->json([
-            'dish_status' => $orderDish->status->value,
-            'order_status' => $orderDish->order->status->value,
-        ]);
+        return back();
     }
 
     /**

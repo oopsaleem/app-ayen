@@ -87,7 +87,7 @@ test('marking a dish preparing while the order is still pending is rejected', fu
     $line = prepOrderDishLine($order, $kitchen);
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => 'preparing',
         ])
         ->assertStatus(422);
@@ -109,10 +109,10 @@ test('marking the first dish preparing auto-advances the confirmed order to prep
 
     $this->travelTo($order->created_at->copy()->addSeconds(30));
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => 'preparing',
         ])
-        ->assertOk();
+        ->assertRedirect();
     $this->travelBack();
 
     $order->refresh();
@@ -134,10 +134,10 @@ test('the order reaches awaiting delivery only once all dishes are ready', funct
     $lineB = prepOrderDishLine($order, $kitchen);
 
     $mark = fn (OrderDish $line, string $status) => $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => $status,
         ])
-        ->assertOk();
+        ->assertRedirect();
 
     $mark($lineA, 'preparing');
     expect($order->fresh()->status)->toBe(OrderStatus::Preparing);
@@ -168,10 +168,10 @@ test('awaiting pickup is chosen for pickup orders when all dishes are ready', fu
 
     foreach (['preparing', 'ready'] as $status) {
         $this->actingAs($chef)
-            ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+            ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
                 'status' => $status,
             ])
-            ->assertOk();
+            ->assertRedirect();
     }
 
     $order->refresh();
@@ -187,7 +187,7 @@ test('a chef of a kitchen that does not own the dish is forbidden', function () 
     $line = prepOrderDishLine($order, $otherKitchen);
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => 'preparing',
         ])
         ->assertForbidden();
@@ -204,7 +204,7 @@ test('a dish cannot skip preparing and jump straight to ready', function () {
     $line = prepOrderDishLine($order, $kitchen);
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => 'ready',
         ])
         ->assertStatus(422);
@@ -222,14 +222,14 @@ test('an already ready dish cannot be marked again', function () {
 
     foreach (['preparing', 'ready'] as $status) {
         $this->actingAs($chef)
-            ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+            ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
                 'status' => $status,
             ])
-            ->assertOk();
+            ->assertRedirect();
     }
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $line->id]), [
             'status' => 'ready',
         ])
         ->assertStatus(422);
@@ -247,16 +247,16 @@ test('kitchens may still mark their dishes preparing once the order is preparing
     $lineB = prepOrderDishLine($order, $kitchen);
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $lineA->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $lineA->id]), [
             'status' => 'preparing',
         ])
-        ->assertOk();
+        ->assertRedirect();
 
     $this->actingAs($chef)
-        ->patchJson(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $lineB->id]), [
+        ->patch(route('chef.orders.dishes.update', ['order' => $order->id, 'orderDish' => $lineB->id]), [
             'status' => 'preparing',
         ])
-        ->assertOk();
+        ->assertRedirect();
 
     expect($lineB->fresh()->status)->toBe(OrderDishStatus::Preparing)
         ->and($order->statusHistory()->where('status', 'preparing')->count())->toBe(1);
