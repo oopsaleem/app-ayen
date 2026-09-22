@@ -66,3 +66,9 @@ test('updating a restaurant without changing its name keeps the existing slug', 
 
     expect($restaurant->fresh()->slug)->toBe('pizza-palace');
 });
+
+test('a restaurant name that slugifies to an empty string falls back to a default slug', function () {
+    $restaurant = Restaurant::factory()->create(['name_en' => '###']);
+
+    expect($restaurant->slug)->toBe('restaurant');
+});

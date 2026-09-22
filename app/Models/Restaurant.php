@@ -65,7 +65,7 @@ class Restaurant extends Model
      */
     protected static function generateUniqueSlug(string $name, ?int $excludeId = null): string
     {
-        $defaultSlug = Str::slug($name);
+        $defaultSlug = Str::slug($name) ?: 'restaurant';
 
         $query = static::query()
             ->where(function ($query) use ($defaultSlug) {

@@ -89,15 +89,17 @@ export default function RestaurantEdit({
                             </Form>
                         ) : null}
 
-                        <Button asChild variant="outline" size="sm">
-                            <a
-                                href={storefrontShow.url(restaurant.slug)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {t('restaurants.edit.public_link')}
-                            </a>
-                        </Button>
+                        {verified ? (
+                            <Button asChild variant="outline" size="sm">
+                                <a
+                                    href={storefrontShow.url(restaurant.slug)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {t('restaurants.edit.public_link')}
+                                </a>
+                            </Button>
+                        ) : null}
                     </div>
                 </div>
 

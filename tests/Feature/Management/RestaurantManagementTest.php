@@ -5,6 +5,7 @@ use App\Models\Company;
 use App\Models\Manager;
 use App\Models\Restaurant;
 use App\Models\RestaurantAddress;
+use App\Models\RestaurantVerification;
 use App\Models\User;
 
 test('admins see every restaurant on the index', function () {
@@ -94,4 +95,24 @@ test('the restaurant edit page exposes the public menu slug', function () {
 
     $this->actingAs($admin)->get(route('restaurants.edit', $restaurant))
         ->assertInertia(fn ($page) => $page->where('restaurant.slug', 'pizza-palace'));
+});
+
+test('the restaurant edit page reports an unverified restaurant as not verified', function () {
+    $restaurant = Restaurant::factory()->create();
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+
+    $this->actingAs($admin)->get(route('restaurants.edit', $restaurant))
+        ->assertInertia(fn ($page) => $page->where('verified', false));
+});
+
+test('the restaurant edit page reports a verified restaurant as verified', function () {
+    $restaurant = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+
+    $this->actingAs($admin)->get(route('restaurants.edit', $restaurant))
+        ->assertInertia(fn ($page) => $page->where('verified', true));
 });

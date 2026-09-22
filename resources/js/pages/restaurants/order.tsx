@@ -66,10 +66,7 @@ export default function RestaurantOrder({
     const hasShownRemovedToast = useRef(false);
 
     useEffect(() => {
-        if (
-            restoredCart.removedCount > 0 &&
-            !hasShownRemovedToast.current
-        ) {
+        if (restoredCart.removedCount > 0 && !hasShownRemovedToast.current) {
             hasShownRemovedToast.current = true;
             toast.info(t('orders.cart_restored_removed_items'));
         }

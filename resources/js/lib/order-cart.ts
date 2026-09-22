@@ -28,10 +28,7 @@ export type Line = {
     option_ids: number[];
 };
 
-export function lineFor(
-    lines: Record<number, Line>,
-    dishId: number,
-): Line {
+export function lineFor(lines: Record<number, Line>, dishId: number): Line {
     return lines[dishId] ?? { quantity: 0, option_ids: [] };
 }
 
@@ -43,9 +40,7 @@ export function unitPriceFor(dish: Dish, line: Line): number {
     const extras = line.option_ids.reduce(
         (sum, id) =>
             sum +
-            Number(
-                dish.options.find((option) => option.id === id)?.price ?? 0,
-            ),
+            Number(dish.options.find((option) => option.id === id)?.price ?? 0),
         0,
     );
 
@@ -104,9 +99,7 @@ export function readStoredCart(
 
         const servingSizeValid =
             line.serving_size_id === undefined ||
-            dish.serving_sizes.some(
-                (size) => size.id === line.serving_size_id,
-            );
+            dish.serving_sizes.some((size) => size.id === line.serving_size_id);
         const optionIds = line.option_ids.filter((id) =>
             dish.options.some((option) => option.id === id),
         );

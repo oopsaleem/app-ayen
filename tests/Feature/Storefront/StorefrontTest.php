@@ -46,6 +46,23 @@ test('unavailable dishes are excluded from the public menu', function () {
         ->assertInertia(fn ($page) => $page->has('dishes', 1));
 });
 
+test('a restaurants public menu never includes another restaurants dishes', function () {
+    $restaurantA = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    $dishA = storefrontDishFor($restaurantA);
+
+    $restaurantB = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    storefrontDishFor($restaurantB);
+
+    $this->get("/r/{$restaurantA->slug}")
+        ->assertInertia(fn ($page) => $page
+            ->has('dishes', 1)
+            ->where('dishes.0.id', $dishA->id));
+});
+
 test('a restaurant explicitly marked unverified has no public menu', function () {
     $restaurant = Restaurant::factory()
         ->has(RestaurantVerification::factory()->state(['verified' => false]), 'verification')
