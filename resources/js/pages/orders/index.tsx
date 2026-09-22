@@ -4,6 +4,7 @@ import OrderController from '@/actions/App/Http/Controllers/Orders/OrderControll
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { show as ordersShow } from '@/routes/orders';
 
 type OrderSummary = {
     id: number;
@@ -81,6 +82,19 @@ export default function OrdersIndex({ orders }: { orders: OrderSummary[] }) {
                                     <span className="text-sm text-muted-foreground">
                                         {order.total}
                                     </span>
+                                    <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        onClick={() =>
+                                            router.get(
+                                                ordersShow({
+                                                    order: order.id,
+                                                }),
+                                            )
+                                        }
+                                    >
+                                        {t('orders.index.view')}
+                                    </Button>
                                     {order.can_cancel ? (
                                         <Button
                                             size="sm"

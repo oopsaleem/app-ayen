@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\StoreOrderRequest;
 use App\Models\Dish;
 use App\Models\Order;
+use App\Models\OrderDish;
+use App\Models\OrderStatusHistory;
 use App\Models\Restaurant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,6 +27,8 @@ class OrderController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('viewAny', Order::class);
+
         $user = $request->user();
 
         $orders = Order::query()
@@ -69,6 +73,54 @@ class OrderController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Order placed.')]);
 
         return to_route('restaurants.order', $order->restaurant);
+    }
+
+    /**
+     * Render the order detail page: the dish lines and the full status
+     * history timeline for a user permitted to view the order.
+     */
+    public function show(Request $request, Order $order): Response
+    {
+        Gate::authorize('view', $order);
+
+        $order->load(['restaurant:id,name_en', 'dishes.dish:id,name_en,kitchen_id']);
+
+        return Inertia::render('orders/show', [
+            'order' => [
+                'id' => $order->id,
+                'status' => $order->status->value,
+                'delivery_mode' => $order->delivery_mode->value,
+                'total' => $order->total,
+                'created_at' => $order->created_at?->toISOString(),
+                'restaurant' => ['name_en' => $order->restaurant->name_en],
+                'can_cancel' => $request->user()->can('cancel', $order),
+                'dishes' => $order->dishes->map(
+                    /**
+                     * @return array<string, mixed>
+                     */
+                    fn (OrderDish $dish): array => [
+                        'id' => $dish->id,
+                        'name_en' => $dish->dish->name_en,
+                        'quantity' => $dish->quantity,
+                        'total_price' => $dish->total_price,
+                    ],
+                ),
+                'status_history' => $order->statusHistory()
+                    ->oldest('id')
+                    ->get()
+                    ->map(
+                        /**
+                         * @return array<string, mixed>
+                         */
+                        fn (OrderStatusHistory $row): array => [
+                            'status' => $row->status->value,
+                            'previous_status' => $row->previous_status?->value,
+                            'duration_in_previous_status' => $row->duration_in_previous_status,
+                            'created_at' => $row->created_at?->toISOString(),
+                        ],
+                    ),
+            ],
+        ]);
     }
 
     /**

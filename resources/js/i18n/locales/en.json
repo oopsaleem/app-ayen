@@ -563,6 +563,7 @@
             "heading": "Orders",
             "no_orders": "No orders to show.",
             "cancel": "Cancel",
+            "view": "View",
             "status": {
                 "pending": "Pending",
                 "confirmed": "Confirmed",
@@ -573,6 +574,13 @@
                 "closed": "Closed",
                 "cancelled": "Cancelled"
             }
+        },
+        "show": {
+            "page_title": "Order detail",
+            "heading": "Order detail",
+            "dishes": "Dishes",
+            "timeline": "Status timeline",
+            "duration_label": "{{previous}} · {{seconds}}s"
         }
     }
 }

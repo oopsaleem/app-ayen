@@ -563,6 +563,7 @@
             "heading": "الطلبات",
             "no_orders": "لا توجد طلبات لعرضها.",
             "cancel": "إلغاء",
+            "view": "عرض",
             "status": {
                 "pending": "قيد الانتظار",
                 "confirmed": "مؤكد",
@@ -573,6 +574,13 @@
                 "closed": "مكتمل",
                 "cancelled": "ملغى"
             }
+        },
+        "show": {
+            "page_title": "تفاصيل الطلب",
+            "heading": "تفاصيل الطلب",
+            "dishes": "الأطباق",
+            "timeline": "مسار الحالة",
+            "duration_label": "{{previous}} · {{seconds}} ثانية"
         }
     }
 }

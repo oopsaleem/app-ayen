@@ -8,6 +8,14 @@ enum DeliveryMode: string
     case Pickup = 'pickup';
 
     /**
+     * Whether this mode is home delivery.
+     */
+    public function isDelivery(): bool
+    {
+        return $this === self::Delivery;
+    }
+
+    /**
      * The order status the order takes once every dish is ready.
      */
     public function toOrderStatus(): OrderStatus
