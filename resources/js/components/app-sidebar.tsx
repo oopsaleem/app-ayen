@@ -9,6 +9,7 @@ import {
     FolderGit2,
     LayoutGrid,
     MapPin,
+    Receipt,
     UtensilsCrossed,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +31,7 @@ import { index as addressesIndex } from '@/routes/addresses';
 import { index as chefKitchensIndex } from '@/routes/chef/kitchens';
 import { index as chefOrdersIndex } from '@/routes/chef/orders';
 import { index as companiesIndex } from '@/routes/companies';
+import { index as ordersIndex } from '@/routes/orders';
 import { index as restaurantsIndex } from '@/routes/restaurants';
 import { index as riderOrdersIndex } from '@/routes/rider/orders';
 import { index as waiterOrdersIndex } from '@/routes/waiter/orders';
@@ -101,6 +103,11 @@ export function AppSidebar() {
                   },
               ]
             : []),
+        {
+            title: t('app.sidebar.orders'),
+            href: ordersIndex(),
+            icon: Receipt,
+        },
         {
             title: t('app.sidebar.addresses'),
             href: addressesIndex(),

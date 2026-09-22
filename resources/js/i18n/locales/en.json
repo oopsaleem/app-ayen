@@ -22,7 +22,8 @@
             "addresses": "Delivery addresses",
             "my_orders": "My orders",
             "deliveries": "Deliveries",
-            "pickups": "Pickups"
+            "pickups": "Pickups",
+            "orders": "Orders"
         },
         "header": {
             "search": "Search"
@@ -556,6 +557,22 @@
         "serving_size": "Serving size",
         "lines_error": "An order may only contain dishes from one restaurant.",
         "submit": "Place order",
-        "no_dishes": "This restaurant has no available dishes yet."
+        "no_dishes": "This restaurant has no available dishes yet.",
+        "index": {
+            "page_title": "Orders",
+            "heading": "Orders",
+            "no_orders": "No orders to show.",
+            "cancel": "Cancel",
+            "status": {
+                "pending": "Pending",
+                "confirmed": "Confirmed",
+                "preparing": "Preparing",
+                "awaiting_delivery": "Awaiting delivery",
+                "awaiting_pickup": "Awaiting pickup",
+                "out_for_delivery": "Out for delivery",
+                "closed": "Closed",
+                "cancelled": "Cancelled"
+            }
+        }
     }
 }

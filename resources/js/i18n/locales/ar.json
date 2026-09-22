@@ -22,7 +22,8 @@
             "addresses": "عناوين التوصيل",
             "my_orders": "طلباتي",
             "deliveries": "التوصيلات",
-            "pickups": "الاستلام من الفرع"
+            "pickups": "الاستلام من الفرع",
+            "orders": "الطلبات"
         },
         "header": {
             "search": "بحث"
@@ -556,6 +557,22 @@
         "serving_size": "حجم الحصة",
         "lines_error": "لا يمكن أن يحتوي الطلب على أطباق من أكثر من مطعم واحد.",
         "submit": "إتمام الطلب",
-        "no_dishes": "لا توجد أطباق متاحة في هذا المطعم بعد."
+        "no_dishes": "لا توجد أطباق متاحة في هذا المطعم بعد.",
+        "index": {
+            "page_title": "الطلبات",
+            "heading": "الطلبات",
+            "no_orders": "لا توجد طلبات لعرضها.",
+            "cancel": "إلغاء",
+            "status": {
+                "pending": "قيد الانتظار",
+                "confirmed": "مؤكد",
+                "preparing": "قيد التحضير",
+                "awaiting_delivery": "بانتظار التوصيل",
+                "awaiting_pickup": "بانتظار الاستلام",
+                "out_for_delivery": "قيد التوصيل",
+                "closed": "مكتمل",
+                "cancelled": "ملغى"
+            }
+        }
     }
 }
