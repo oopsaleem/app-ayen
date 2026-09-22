@@ -1,5 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import OrderController from '@/actions/App/Http/Controllers/Orders/OrderController';
@@ -63,8 +63,14 @@ export default function RestaurantOrder({
         string | undefined
     >();
 
+    const hasShownRemovedToast = useRef(false);
+
     useEffect(() => {
-        if (restoredCart.removedCount > 0) {
+        if (
+            restoredCart.removedCount > 0 &&
+            !hasShownRemovedToast.current
+        ) {
+            hasShownRemovedToast.current = true;
             toast.info(t('orders.cart_restored_removed_items'));
         }
     }, [restoredCart.removedCount, t]);
