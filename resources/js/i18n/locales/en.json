@@ -628,5 +628,10 @@
             "timeline": "Status timeline",
             "duration_label": "{{previous}} · {{seconds}}s"
         }
+    },
+    "storefront": {
+        "page_title": "{{restaurant}} — Menu",
+        "no_dishes": "This restaurant has no available dishes yet.",
+        "checkout": "Checkout"
     }
 }

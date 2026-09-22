@@ -628,5 +628,10 @@
             "timeline": "مسار الحالة",
             "duration_label": "{{previous}} · {{seconds}} ثانية"
         }
+    },
+    "storefront": {
+        "page_title": "{{restaurant}} — القائمة",
+        "no_dishes": "لا توجد أطباق متاحة في هذا المطعم بعد.",
+        "checkout": "إتمام الطلب"
     }
 }
