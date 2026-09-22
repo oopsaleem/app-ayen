@@ -13,6 +13,7 @@ import { index as categoriesIndex } from '@/routes/categories';
 import { index as dishesIndex } from '@/routes/dishes';
 import { edit as editKitchen } from '@/routes/kitchens';
 import { index } from '@/routes/restaurants';
+import { show as storefrontShow } from '@/routes/storefront';
 
 type Restaurant = {
     id: number;
@@ -20,6 +21,7 @@ type Restaurant = {
     name_ar: string;
     description_en: string | null;
     description_ar: string | null;
+    slug: string;
 };
 
 type Address = { address: string; lat: number; lng: number } | undefined;
@@ -86,6 +88,16 @@ export default function RestaurantEdit({
                                 )}
                             </Form>
                         ) : null}
+
+                        <Button asChild variant="outline" size="sm">
+                            <a
+                                href={storefrontShow.url(restaurant.slug)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {t('restaurants.edit.public_link')}
+                            </a>
+                        </Button>
                     </div>
                 </div>
 

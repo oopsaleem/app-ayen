@@ -86,3 +86,12 @@ test('updating a restaurant also updates its address', function () {
 
     $this->assertDatabaseHas('restaurant_addresses', ['restaurant_id' => $restaurant->id, 'address' => 'New address']);
 });
+
+test('the restaurant edit page exposes the public menu slug', function () {
+    $restaurant = Restaurant::factory()->create(['name_en' => 'Pizza Palace']);
+    $admin = User::factory()->create();
+    Admin::factory()->create(['user_id' => $admin->id]);
+
+    $this->actingAs($admin)->get(route('restaurants.edit', $restaurant))
+        ->assertInertia(fn ($page) => $page->where('restaurant.slug', 'pizza-palace'));
+});

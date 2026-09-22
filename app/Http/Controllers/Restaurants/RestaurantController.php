@@ -78,7 +78,7 @@ class RestaurantController extends Controller
         $restaurant->load('address', 'verification', 'kitchens');
 
         return Inertia::render('restaurants/edit', [
-            'restaurant' => $restaurant->only(['id', 'company_id', 'name_en', 'name_ar', 'description_en', 'description_ar', 'images']),
+            'restaurant' => $restaurant->only(['id', 'company_id', 'name_en', 'name_ar', 'description_en', 'description_ar', 'images', 'slug']),
             'address' => $restaurant->address?->only(['address', 'lat', 'lng']),
             'kitchens' => $restaurant->kitchens->map->only(['id', 'name_en', 'name_ar']),
             'verified' => (bool) $restaurant->verification?->verified,
