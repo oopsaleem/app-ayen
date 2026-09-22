@@ -8,14 +8,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { index } from '@/routes/restaurants';
 
-type Kitchen = { id: number; restaurant_id: number; name_en: string; name_ar: string };
+type Kitchen = {
+    id: number;
+    restaurant_id: number;
+    name_en: string;
+    name_ar: string;
+};
 
 export default function KitchenEdit({ kitchen }: { kitchen: Kitchen }) {
     const { t } = useTranslation();
 
     return (
         <>
-            <Head title={t('kitchens.edit.page_title', { name: kitchen.name_en })} />
+            <Head
+                title={t('kitchens.edit.page_title', { name: kitchen.name_en })}
+            />
 
             <div className="space-y-6">
                 <Heading variant="small" title={t('kitchens.edit.heading')} />
@@ -28,13 +35,22 @@ export default function KitchenEdit({ kitchen }: { kitchen: Kitchen }) {
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name_en">{t('kitchens.fields.name_en')}</Label>
-                                <Input id="name_en" name="name_en" defaultValue={kitchen.name_en} required />
+                                <Label htmlFor="name_en">
+                                    {t('kitchens.fields.name_en')}
+                                </Label>
+                                <Input
+                                    id="name_en"
+                                    name="name_en"
+                                    defaultValue={kitchen.name_en}
+                                    required
+                                />
                                 <InputError message={errors.name_en} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="name_ar">{t('kitchens.fields.name_ar')}</Label>
+                                <Label htmlFor="name_ar">
+                                    {t('kitchens.fields.name_ar')}
+                                </Label>
                                 <Input
                                     id="name_ar"
                                     name="name_ar"

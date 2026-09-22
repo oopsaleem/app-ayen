@@ -64,7 +64,7 @@ export function TeamSwitcher({ inHeader = false }: TeamSwitcherProps) {
                             : 'w-full justify-start px-2 has-[>svg]:px-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                     }
                 >
-                    <div className="flex aspect-square size-8 group-data-[collapsible=icon]:size-5 rtl:-mr-0.5 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground group-data-[collapsible=icon]:size-5 rtl:-mr-0.5">
                         <AppLogoIcon className="fill-current text-white dark:text-black" />
                     </div>
                     {/* <Users
@@ -77,8 +77,8 @@ export function TeamSwitcher({ inHeader = false }: TeamSwitcherProps) {
                     <div
                         className={
                             inHeader
-                                ? 'grid flex-1 text-left rtl:text-right text-sm leading-tight'
-                                : 'grid flex-1 text-left rtl:text-right text-sm leading-tight group-data-[collapsible=icon]:hidden'
+                                ? 'grid flex-1 text-left text-sm leading-tight rtl:text-right'
+                                : 'grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden rtl:text-right'
                         }
                     >
                         <span

@@ -16,7 +16,13 @@ type Dish = {
 
 type Restaurant = { id: number; name_en: string };
 
-export default function DishesIndex({ restaurant, dishes }: { restaurant: Restaurant; dishes: Dish[] }) {
+export default function DishesIndex({
+    restaurant,
+    dishes,
+}: {
+    restaurant: Restaurant;
+    dishes: Dish[];
+}) {
     const { t } = useTranslation();
 
     return (
@@ -27,7 +33,9 @@ export default function DishesIndex({ restaurant, dishes }: { restaurant: Restau
                 <div className="flex items-center justify-between">
                     <Heading
                         variant="small"
-                        title={t('menu.dishes.index.heading', { restaurant: restaurant.name_en })}
+                        title={t('menu.dishes.index.heading', {
+                            restaurant: restaurant.name_en,
+                        })}
                     />
 
                     <Button asChild>
@@ -45,9 +53,12 @@ export default function DishesIndex({ restaurant, dishes }: { restaurant: Restau
                             className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent"
                         >
                             <div>
-                                <div className="font-medium">{dish.name_en}</div>
+                                <div className="font-medium">
+                                    {dish.name_en}
+                                </div>
                                 <div className="text-sm text-muted-foreground">
-                                    {dish.kitchen.name_en} · {dish.category.name_en}
+                                    {dish.kitchen.name_en} ·{' '}
+                                    {dish.category.name_en}
                                 </div>
                             </div>
                             <span>{dish.price}</span>

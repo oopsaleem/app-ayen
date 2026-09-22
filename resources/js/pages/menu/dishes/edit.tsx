@@ -28,8 +28,19 @@ type Dish = {
 
 type Option = { id: number; name_en: string };
 
-type DishOption = { id: number; name_en: string; name_ar: string; price: number };
-type ServingSize = { id: number; name_en: string; name_ar: string; price: number; is_default: boolean };
+type DishOption = {
+    id: number;
+    name_en: string;
+    name_ar: string;
+    price: number;
+};
+type ServingSize = {
+    id: number;
+    name_en: string;
+    name_ar: string;
+    price: number;
+    is_default: boolean;
+};
 
 export default function DishEdit({
     dish,
@@ -48,10 +59,15 @@ export default function DishEdit({
 
     return (
         <>
-            <Head title={t('menu.dishes.edit.page_title', { name: dish.name_en })} />
+            <Head
+                title={t('menu.dishes.edit.page_title', { name: dish.name_en })}
+            />
 
             <div className="space-y-6">
-                <Heading variant="small" title={t('menu.dishes.edit.heading')} />
+                <Heading
+                    variant="small"
+                    title={t('menu.dishes.edit.heading')}
+                />
 
                 <Form
                     {...DishController.update.form(dish.id)}
@@ -61,13 +77,22 @@ export default function DishEdit({
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name_en">{t('menu.dishes.fields.name_en')}</Label>
-                                <Input id="name_en" name="name_en" defaultValue={dish.name_en} required />
+                                <Label htmlFor="name_en">
+                                    {t('menu.dishes.fields.name_en')}
+                                </Label>
+                                <Input
+                                    id="name_en"
+                                    name="name_en"
+                                    defaultValue={dish.name_en}
+                                    required
+                                />
                                 <InputError message={errors.name_en} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="name_ar">{t('menu.dishes.fields.name_ar')}</Label>
+                                <Label htmlFor="name_ar">
+                                    {t('menu.dishes.fields.name_ar')}
+                                </Label>
                                 <Input
                                     id="name_ar"
                                     name="name_ar"
@@ -79,7 +104,9 @@ export default function DishEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="price">{t('menu.dishes.fields.price')}</Label>
+                                <Label htmlFor="price">
+                                    {t('menu.dishes.fields.price')}
+                                </Label>
                                 <Input
                                     id="price"
                                     name="price"
@@ -93,14 +120,23 @@ export default function DishEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="kitchen_id">{t('menu.dishes.fields.kitchen')}</Label>
-                                <Select name="kitchen_id" defaultValue={String(dish.kitchen_id)} required>
+                                <Label htmlFor="kitchen_id">
+                                    {t('menu.dishes.fields.kitchen')}
+                                </Label>
+                                <Select
+                                    name="kitchen_id"
+                                    defaultValue={String(dish.kitchen_id)}
+                                    required
+                                >
                                     <SelectTrigger id="kitchen_id">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {kitchens.map((kitchen) => (
-                                            <SelectItem key={kitchen.id} value={String(kitchen.id)}>
+                                            <SelectItem
+                                                key={kitchen.id}
+                                                value={String(kitchen.id)}
+                                            >
                                                 {kitchen.name_en}
                                             </SelectItem>
                                         ))}
@@ -110,14 +146,23 @@ export default function DishEdit({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category_id">{t('menu.dishes.fields.category')}</Label>
-                                <Select name="category_id" defaultValue={String(dish.category_id)} required>
+                                <Label htmlFor="category_id">
+                                    {t('menu.dishes.fields.category')}
+                                </Label>
+                                <Select
+                                    name="category_id"
+                                    defaultValue={String(dish.category_id)}
+                                    required
+                                >
                                     <SelectTrigger id="category_id">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {categories.map((category) => (
-                                            <SelectItem key={category.id} value={String(category.id)}>
+                                            <SelectItem
+                                                key={category.id}
+                                                value={String(category.id)}
+                                            >
                                                 {category.name_en}
                                             </SelectItem>
                                         ))}
@@ -134,14 +179,31 @@ export default function DishEdit({
                 </Form>
 
                 <div className="space-y-3 border-t pt-6">
-                    <Heading variant="small" title={t('menu.dishes.options.heading')} />
+                    <Heading
+                        variant="small"
+                        title={t('menu.dishes.options.heading')}
+                    />
 
                     {options.map((option) => (
-                        <div key={option.id} className="flex items-center gap-2 rounded-lg border p-3">
-                            <span className="flex-1">{option.name_en} — {option.price}</span>
-                            <Form {...DishOptionController.destroy.form(option.id)}>
+                        <div
+                            key={option.id}
+                            className="flex items-center gap-2 rounded-lg border p-3"
+                        >
+                            <span className="flex-1">
+                                {option.name_en} — {option.price}
+                            </span>
+                            <Form
+                                {...DishOptionController.destroy.form(
+                                    option.id,
+                                )}
+                            >
                                 {({ processing }) => (
-                                    <Button type="submit" variant="ghost" size="sm" disabled={processing}>
+                                    <Button
+                                        type="submit"
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled={processing}
+                                    >
                                         {t('menu.dishes.options.remove')}
                                     </Button>
                                 )}
@@ -149,22 +211,47 @@ export default function DishEdit({
                         </div>
                     ))}
 
-                    <Form {...DishOptionController.store.form(dish.id)} className="flex items-end gap-2">
+                    <Form
+                        {...DishOptionController.store.form(dish.id)}
+                        className="flex items-end gap-2"
+                    >
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="option_name_en">{t('menu.dishes.fields.name_en')}</Label>
-                                    <Input id="option_name_en" name="name_en" required />
+                                    <Label htmlFor="option_name_en">
+                                        {t('menu.dishes.fields.name_en')}
+                                    </Label>
+                                    <Input
+                                        id="option_name_en"
+                                        name="name_en"
+                                        required
+                                    />
                                     <InputError message={errors.name_en} />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="option_name_ar">{t('menu.dishes.fields.name_ar')}</Label>
-                                    <Input id="option_name_ar" name="name_ar" dir="rtl" required />
+                                    <Label htmlFor="option_name_ar">
+                                        {t('menu.dishes.fields.name_ar')}
+                                    </Label>
+                                    <Input
+                                        id="option_name_ar"
+                                        name="name_ar"
+                                        dir="rtl"
+                                        required
+                                    />
                                     <InputError message={errors.name_ar} />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="option_price">{t('menu.dishes.fields.price')}</Label>
-                                    <Input id="option_price" name="price" type="number" step="0.01" min="0" required />
+                                    <Label htmlFor="option_price">
+                                        {t('menu.dishes.fields.price')}
+                                    </Label>
+                                    <Input
+                                        id="option_price"
+                                        name="price"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        required
+                                    />
                                     <InputError message={errors.price} />
                                 </div>
                                 <Button type="submit" disabled={processing}>
@@ -176,17 +263,34 @@ export default function DishEdit({
                 </div>
 
                 <div className="space-y-3 border-t pt-6">
-                    <Heading variant="small" title={t('menu.dishes.serving_sizes.heading')} />
+                    <Heading
+                        variant="small"
+                        title={t('menu.dishes.serving_sizes.heading')}
+                    />
 
                     {servingSizes.map((servingSize) => (
-                        <div key={servingSize.id} className="flex items-center gap-2 rounded-lg border p-3">
+                        <div
+                            key={servingSize.id}
+                            className="flex items-center gap-2 rounded-lg border p-3"
+                        >
                             <span className="flex-1">
                                 {servingSize.name_en} — {servingSize.price}
-                                {servingSize.is_default ? ` (${t('menu.dishes.serving_sizes.default')})` : ''}
+                                {servingSize.is_default
+                                    ? ` (${t('menu.dishes.serving_sizes.default')})`
+                                    : ''}
                             </span>
-                            <Form {...ServingSizeController.destroy.form(servingSize.id)}>
+                            <Form
+                                {...ServingSizeController.destroy.form(
+                                    servingSize.id,
+                                )}
+                            >
                                 {({ processing }) => (
-                                    <Button type="submit" variant="ghost" size="sm" disabled={processing}>
+                                    <Button
+                                        type="submit"
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled={processing}
+                                    >
                                         {t('menu.dishes.serving_sizes.remove')}
                                     </Button>
                                 )}
@@ -194,21 +298,39 @@ export default function DishEdit({
                         </div>
                     ))}
 
-                    <Form {...ServingSizeController.store.form(dish.id)} className="flex items-end gap-2">
+                    <Form
+                        {...ServingSizeController.store.form(dish.id)}
+                        className="flex items-end gap-2"
+                    >
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="serving_size_name_en">{t('menu.dishes.fields.name_en')}</Label>
-                                    <Input id="serving_size_name_en" name="name_en" required />
+                                    <Label htmlFor="serving_size_name_en">
+                                        {t('menu.dishes.fields.name_en')}
+                                    </Label>
+                                    <Input
+                                        id="serving_size_name_en"
+                                        name="name_en"
+                                        required
+                                    />
                                     <InputError message={errors.name_en} />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="serving_size_name_ar">{t('menu.dishes.fields.name_ar')}</Label>
-                                    <Input id="serving_size_name_ar" name="name_ar" dir="rtl" required />
+                                    <Label htmlFor="serving_size_name_ar">
+                                        {t('menu.dishes.fields.name_ar')}
+                                    </Label>
+                                    <Input
+                                        id="serving_size_name_ar"
+                                        name="name_ar"
+                                        dir="rtl"
+                                        required
+                                    />
                                     <InputError message={errors.name_ar} />
                                 </div>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="serving_size_price">{t('menu.dishes.fields.price')}</Label>
+                                    <Label htmlFor="serving_size_price">
+                                        {t('menu.dishes.fields.price')}
+                                    </Label>
                                     <Input
                                         id="serving_size_price"
                                         name="price"
@@ -220,7 +342,10 @@ export default function DishEdit({
                                     <InputError message={errors.price} />
                                 </div>
                                 <div className="flex items-center gap-2 pb-2">
-                                    <Checkbox id="serving_size_is_default" name="is_default" />
+                                    <Checkbox
+                                        id="serving_size_is_default"
+                                        name="is_default"
+                                    />
                                     <Label htmlFor="serving_size_is_default">
                                         {t('menu.dishes.serving_sizes.default')}
                                     </Label>

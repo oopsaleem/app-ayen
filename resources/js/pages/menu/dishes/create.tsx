@@ -33,38 +33,67 @@ export default function DishCreate({
             <Head title={t('menu.dishes.create.page_title')} />
 
             <div className="space-y-6">
-                <Heading variant="small" title={t('menu.dishes.create.heading')} />
+                <Heading
+                    variant="small"
+                    title={t('menu.dishes.create.heading')}
+                />
 
-                <Form {...DishController.store.form(restaurant.id)} className="max-w-xl space-y-6">
+                <Form
+                    {...DishController.store.form(restaurant.id)}
+                    className="max-w-xl space-y-6"
+                >
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="name_en">{t('menu.dishes.fields.name_en')}</Label>
+                                <Label htmlFor="name_en">
+                                    {t('menu.dishes.fields.name_en')}
+                                </Label>
                                 <Input id="name_en" name="name_en" required />
                                 <InputError message={errors.name_en} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="name_ar">{t('menu.dishes.fields.name_ar')}</Label>
-                                <Input id="name_ar" name="name_ar" dir="rtl" required />
+                                <Label htmlFor="name_ar">
+                                    {t('menu.dishes.fields.name_ar')}
+                                </Label>
+                                <Input
+                                    id="name_ar"
+                                    name="name_ar"
+                                    dir="rtl"
+                                    required
+                                />
                                 <InputError message={errors.name_ar} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="price">{t('menu.dishes.fields.price')}</Label>
-                                <Input id="price" name="price" type="number" step="0.01" min="0" required />
+                                <Label htmlFor="price">
+                                    {t('menu.dishes.fields.price')}
+                                </Label>
+                                <Input
+                                    id="price"
+                                    name="price"
+                                    type="number"
+                                    step="0.01"
+                                    min="0"
+                                    required
+                                />
                                 <InputError message={errors.price} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="kitchen_id">{t('menu.dishes.fields.kitchen')}</Label>
+                                <Label htmlFor="kitchen_id">
+                                    {t('menu.dishes.fields.kitchen')}
+                                </Label>
                                 <Select name="kitchen_id" required>
                                     <SelectTrigger id="kitchen_id">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {kitchens.map((kitchen) => (
-                                            <SelectItem key={kitchen.id} value={String(kitchen.id)}>
+                                            <SelectItem
+                                                key={kitchen.id}
+                                                value={String(kitchen.id)}
+                                            >
                                                 {kitchen.name_en}
                                             </SelectItem>
                                         ))}
@@ -74,14 +103,19 @@ export default function DishCreate({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="category_id">{t('menu.dishes.fields.category')}</Label>
+                                <Label htmlFor="category_id">
+                                    {t('menu.dishes.fields.category')}
+                                </Label>
                                 <Select name="category_id" required>
                                     <SelectTrigger id="category_id">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {categories.map((category) => (
-                                            <SelectItem key={category.id} value={String(category.id)}>
+                                            <SelectItem
+                                                key={category.id}
+                                                value={String(category.id)}
+                                            >
                                                 {category.name_en}
                                             </SelectItem>
                                         ))}

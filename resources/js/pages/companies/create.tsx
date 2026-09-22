@@ -22,14 +22,21 @@ export default function CompanyCreate() {
                     description={t('companies.create.description')}
                 />
 
-                <Form {...CompanyController.store.form()} className="max-w-xl space-y-6">
+                <Form
+                    {...CompanyController.store.form()}
+                    className="max-w-xl space-y-6"
+                >
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="display_name">
                                     {t('companies.fields.display_name')}
                                 </Label>
-                                <Input id="display_name" name="display_name" required />
+                                <Input
+                                    id="display_name"
+                                    name="display_name"
+                                    required
+                                />
                                 <InputError message={errors.display_name} />
                             </div>
 
@@ -41,7 +48,7 @@ export default function CompanyCreate() {
                                     id="description"
                                     name="description"
                                     rows={3}
-                                    className="border-input flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm outline-none"
+                                    className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm outline-none"
                                 />
                                 <InputError message={errors.description} />
                             </div>

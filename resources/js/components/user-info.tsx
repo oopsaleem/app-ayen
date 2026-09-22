@@ -24,7 +24,7 @@ export function UserInfo({
                     {getInitials(user.name)}
                 </AvatarFallback>
             </Avatar>
-            <div className="grid flex-1 text-left rtl:text-right text-sm leading-tight">
+            <div className="grid flex-1 text-left text-sm leading-tight rtl:text-right">
                 <span className="truncate font-medium">{user.name}</span>
                 {team ? (
                     <span className="truncate text-xs text-muted-foreground">

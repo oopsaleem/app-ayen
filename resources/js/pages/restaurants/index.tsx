@@ -10,7 +10,11 @@ type Restaurant = {
     name_ar: string;
 };
 
-export default function RestaurantsIndex({ restaurants }: { restaurants: Restaurant[] }) {
+export default function RestaurantsIndex({
+    restaurants,
+}: {
+    restaurants: Restaurant[];
+}) {
     const { t } = useTranslation();
 
     return (
@@ -31,8 +35,13 @@ export default function RestaurantsIndex({ restaurants }: { restaurants: Restaur
                             href={edit(restaurant.id)}
                             className="flex items-center justify-between gap-4 rounded-lg border p-4 hover:bg-accent"
                         >
-                            <span className="font-medium">{restaurant.name_en}</span>
-                            <span dir="rtl" className="text-sm text-muted-foreground">
+                            <span className="font-medium">
+                                {restaurant.name_en}
+                            </span>
+                            <span
+                                dir="rtl"
+                                className="text-sm text-muted-foreground"
+                            >
                                 {restaurant.name_ar}
                             </span>
                         </Link>

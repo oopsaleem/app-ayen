@@ -22,8 +22,13 @@ export default function ChefKitchens({ kitchens }: { kitchens: Kitchen[] }) {
                 ) : (
                     <div className="space-y-6">
                         {kitchens.map((kitchen) => (
-                            <div key={kitchen.id} className="space-y-2 rounded-lg border p-4">
-                                <div className="font-medium">{kitchen.name_en}</div>
+                            <div
+                                key={kitchen.id}
+                                className="space-y-2 rounded-lg border p-4"
+                            >
+                                <div className="font-medium">
+                                    {kitchen.name_en}
+                                </div>
 
                                 {kitchen.dishes.length === 0 ? (
                                     <p className="text-sm text-muted-foreground">
@@ -32,7 +37,10 @@ export default function ChefKitchens({ kitchens }: { kitchens: Kitchen[] }) {
                                 ) : (
                                     <ul className="space-y-1">
                                         {kitchen.dishes.map((dish) => (
-                                            <li key={dish.id} className="flex justify-between text-sm">
+                                            <li
+                                                key={dish.id}
+                                                className="flex justify-between text-sm"
+                                            >
                                                 <span>{dish.name_en}</span>
                                                 <span>{dish.price}</span>
                                             </li>

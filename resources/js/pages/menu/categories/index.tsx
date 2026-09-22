@@ -32,7 +32,9 @@ export default function CategoriesIndex({
                 <div className="flex items-center justify-between">
                     <Heading
                         variant="small"
-                        title={t('menu.categories.index.heading', { restaurant: restaurant.name_en })}
+                        title={t('menu.categories.index.heading', {
+                            restaurant: restaurant.name_en,
+                        })}
                     />
 
                     <Button asChild>
@@ -48,10 +50,15 @@ export default function CategoriesIndex({
                             key={category.id}
                             href={edit(category.id)}
                             className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent"
-                            style={{ marginInlineStart: `${category.level * 1.5}rem` }}
+                            style={{
+                                marginInlineStart: `${category.level * 1.5}rem`,
+                            }}
                         >
                             <span>{category.name_en}</span>
-                            <span dir="rtl" className="text-sm text-muted-foreground">
+                            <span
+                                dir="rtl"
+                                className="text-sm text-muted-foreground"
+                            >
                                 {category.name_ar}
                             </span>
                         </Link>

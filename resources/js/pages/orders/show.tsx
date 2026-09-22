@@ -129,7 +129,8 @@ export default function OrderShow({ order }: { order: OrderDetail }) {
                                         {row.previous_status !== null &&
                                         row.duration_in_previous_status !== null
                                             ? t('orders.show.duration_label', {
-                                                  seconds: row.duration_in_previous_status,
+                                                  seconds:
+                                                      row.duration_in_previous_status,
                                                   previous: t(
                                                       'orders.index.status.' +
                                                           row.previous_status,
