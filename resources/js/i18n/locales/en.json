@@ -603,6 +603,7 @@
         "lines_error": "An order may only contain dishes from one restaurant.",
         "submit": "Place order",
         "no_dishes": "This restaurant has no available dishes yet.",
+        "cart_restored_removed_items": "Some items were removed from your cart because they're no longer available.",
         "index": {
             "page_title": "Orders",
             "heading": "Orders",

@@ -1,12 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import OrderController from '@/actions/App/Http/Controllers/Orders/OrderController';
+import { DishSelectorCard } from '@/components/dish-selector-card';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -15,31 +15,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { lineFor, readStoredCart } from '@/lib/order-cart';
+import type { Dish, Line } from '@/lib/order-cart';
 import { index as addressesIndex } from '@/routes/addresses';
-
-type ServingSize = {
-    id: number;
-    name_en: string;
-    name_ar: string;
-    price: string;
-};
-
-type DishOption = {
-    id: number;
-    name_en: string;
-    name_ar: string;
-    price: string;
-};
-
-type Dish = {
-    id: number;
-    name_en: string;
-    name_ar: string;
-    description_en?: string | null;
-    price: string;
-    serving_sizes: ServingSize[];
-    options: DishOption[];
-};
 
 type Restaurant = { id: number; name_en: string };
 
@@ -48,12 +26,6 @@ type Address = {
     caption: string;
     address: string;
     is_default: boolean;
-};
-
-type Line = {
-    quantity: number;
-    serving_size_id?: number;
-    option_ids: number[];
 };
 
 /**
@@ -78,7 +50,12 @@ export default function RestaurantOrder({
 }) {
     const { t } = useTranslation();
 
-    const [lines, setLines] = useState<Record<number, Line>>({});
+    const [restoredCart] = useState(() =>
+        readStoredCart(restaurant.id, dishes),
+    );
+    const [lines, setLines] = useState<Record<number, Line>>(
+        () => restoredCart.lines,
+    );
     const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>(
         'delivery',
     );
@@ -86,29 +63,14 @@ export default function RestaurantOrder({
         string | undefined
     >();
 
-    function lineFor(dishId: number): Line {
-        return lines[dishId] ?? { quantity: 0, option_ids: [] };
-    }
+    useEffect(() => {
+        if (restoredCart.removedCount > 0) {
+            toast.info(t('orders.cart_restored_removed_items'));
+        }
+    }, [restoredCart.removedCount, t]);
 
     function setLine(dishId: number, line: Line) {
         setLines((current) => ({ ...current, [dishId]: line }));
-    }
-
-    function unitPriceFor(dish: Dish, line: Line): number {
-        const selectedSize = dish.serving_sizes.find(
-            (size) => size.id === line.serving_size_id,
-        );
-        const base = Number(dish.price) + Number(selectedSize?.price ?? 0);
-        const extras = line.option_ids.reduce(
-            (sum, id) =>
-                sum +
-                Number(
-                    dish.options.find((option) => option.id === id)?.price ?? 0,
-                ),
-            0,
-        );
-
-        return Number((base + extras).toFixed(2));
     }
 
     function transform(data: Record<string, unknown>) {
@@ -154,193 +116,21 @@ export default function RestaurantOrder({
                     >
                         {({ processing, errors }) => (
                             <>
-                                {dishes.map((dish) => {
-                                    const line = lineFor(dish.id);
-
-                                    return (
-                                        <div
-                                            key={dish.id}
-                                            className="rounded-lg border p-4"
-                                        >
-                                            <div className="flex items-center justify-between gap-4">
-                                                <div>
-                                                    <div className="font-medium">
-                                                        {dish.name_en}
-                                                    </div>
-                                                    {dish.description_en ? (
-                                                        <div className="text-sm text-muted-foreground">
-                                                            {
-                                                                dish.description_en
-                                                            }
-                                                        </div>
-                                                    ) : null}
-                                                    <div className="text-sm">
-                                                        {unitPriceFor(
-                                                            dish,
-                                                            line,
-                                                        )}
-                                                    </div>
-                                                </div>
-
-                                                <div className="w-24">
-                                                    <Label
-                                                        htmlFor={`quantity-${dish.id}`}
-                                                    >
-                                                        {t('orders.quantity')}
-                                                    </Label>
-                                                    <Input
-                                                        id={`quantity-${dish.id}`}
-                                                        name={`lines[${dish.id}][quantity]`}
-                                                        type="number"
-                                                        min={0}
-                                                        max={99}
-                                                        value={line.quantity}
-                                                        onChange={(e) =>
-                                                            setLine(dish.id, {
-                                                                ...line,
-                                                                quantity:
-                                                                    Number(
-                                                                        e.target
-                                                                            .value,
-                                                                    ),
-                                                            })
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            {dish.serving_sizes.length > 0 ? (
-                                                <div className="mt-3">
-                                                    <Label>
-                                                        {t(
-                                                            'orders.serving_size',
-                                                        )}
-                                                    </Label>
-                                                    <Select
-                                                        name={`lines[${dish.id}][serving_size_id]`}
-                                                        value={
-                                                            line.serving_size_id?.toString() ??
-                                                            ''
-                                                        }
-                                                        onValueChange={(
-                                                            value,
-                                                        ) =>
-                                                            setLine(dish.id, {
-                                                                ...line,
-                                                                serving_size_id:
-                                                                    value
-                                                                        ? Number(
-                                                                              value,
-                                                                          )
-                                                                        : undefined,
-                                                            })
-                                                        }
-                                                    >
-                                                        <SelectTrigger className="mt-1 w-full">
-                                                            <SelectValue
-                                                                placeholder={t(
-                                                                    'orders.serving_size',
-                                                                )}
-                                                            />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {dish.serving_sizes.map(
-                                                                (size) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            size.id
-                                                                        }
-                                                                        value={String(
-                                                                            size.id,
-                                                                        )}
-                                                                    >
-                                                                        {
-                                                                            size.name_en
-                                                                        }{' '}
-                                                                        (
-                                                                        {
-                                                                            size.price
-                                                                        }
-                                                                        )
-                                                                    </SelectItem>
-                                                                ),
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            ) : null}
-
-                                            {dish.options.length > 0 ? (
-                                                <div className="mt-3">
-                                                    <Label>
-                                                        {t('orders.options')}
-                                                    </Label>
-                                                    <div className="mt-2 grid gap-2">
-                                                        {dish.options.map(
-                                                            (option) => (
-                                                                <label
-                                                                    key={
-                                                                        option.id
-                                                                    }
-                                                                    className="flex items-center gap-2 text-sm"
-                                                                >
-                                                                    <Checkbox
-                                                                        name={`lines[${dish.id}][option_ids][]`}
-                                                                        value={String(
-                                                                            option.id,
-                                                                        )}
-                                                                        checked={line.option_ids.includes(
-                                                                            option.id,
-                                                                        )}
-                                                                        onCheckedChange={(
-                                                                            checked,
-                                                                        ) =>
-                                                                            setLine(
-                                                                                dish.id,
-                                                                                {
-                                                                                    ...line,
-                                                                                    option_ids:
-                                                                                        checked ===
-                                                                                        true
-                                                                                            ? [
-                                                                                                  ...line.option_ids,
-                                                                                                  option.id,
-                                                                                              ]
-                                                                                            : line.option_ids.filter(
-                                                                                                  (
-                                                                                                      id,
-                                                                                                  ) =>
-                                                                                                      id !==
-                                                                                                      option.id,
-                                                                                              ),
-                                                                                },
-                                                                            )
-                                                                        }
-                                                                    />
-                                                                    {
-                                                                        option.name_en
-                                                                    }{' '}
-                                                                    (
-                                                                    {
-                                                                        option.price
-                                                                    }
-                                                                    )
-                                                                </label>
-                                                            ),
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ) : null}
-
-                                            {line.quantity > 0 ? (
-                                                <p className="mt-2 text-xs text-muted-foreground">
-                                                    {t('orders.in_order')} ×{' '}
-                                                    {line.quantity}
-                                                </p>
-                                            ) : null}
-                                        </div>
-                                    );
-                                })}
+                                {dishes.map((dish) => (
+                                    <DishSelectorCard
+                                        key={dish.id}
+                                        dish={dish}
+                                        line={lineFor(lines, dish.id)}
+                                        onChange={(line) =>
+                                            setLine(dish.id, line)
+                                        }
+                                        fieldName={(suffix) =>
+                                            suffix === 'option_ids'
+                                                ? `lines[${dish.id}][option_ids][]`
+                                                : `lines[${dish.id}][${suffix}]`
+                                        }
+                                    />
+                                ))}
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="delivery_mode">
