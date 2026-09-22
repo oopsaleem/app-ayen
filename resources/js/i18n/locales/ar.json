@@ -439,13 +439,19 @@
         }
     },
     "kitchens": {
-        "index": { "heading": "المطابخ", "add": "إضافة مطبخ" },
+        "index": {
+            "heading": "المطابخ",
+            "add": "إضافة مطبخ"
+        },
         "edit": {
             "page_title": "تعديل {{name}}",
             "heading": "إعدادات المطبخ",
             "submit": "حفظ"
         },
-        "fields": { "name_en": "الاسم (إنجليزي)", "name_ar": "الاسم (عربي)" }
+        "fields": {
+            "name_en": "الاسم (إنجليزي)",
+            "name_ar": "الاسم (عربي)"
+        }
     },
     "menu": {
         "categories": {
@@ -537,6 +543,45 @@
             "lat": "خط العرض",
             "lng": "خط الطول",
             "is_default": "تعيين كافتراضي"
+        },
+        "card": {
+            "copy_address": "نسخ العنوان",
+            "copied": "تم النسخ",
+            "edit": "تعديل",
+            "delete": "حذف",
+            "delete_confirm": {
+                "title": "حذف هذا العنوان؟",
+                "description": "سيتم إزالة العنوان نهائيًا من عناوينك المحفوظة.",
+                "cancel": "إلغاء",
+                "confirm": "حذف"
+            }
+        },
+        "dialog": {
+            "add_new_address": "إضافة عنوان جديد",
+            "edit_address": "تعديل العنوان",
+            "cancel": "إلغاء",
+            "save": "حفظ"
+        },
+        "form": {
+            "delivery_radius": "نوصل داخل نطاق {{distance}} كم من مطبخنا.",
+            "placeholders": {
+                "caption": "مثال: المنزل، العمل",
+                "address": "ابحث عن عنوان أو انقر على الخريطة"
+            },
+            "errors": {
+                "address_required": "العنوان مطلوب.",
+                "address_not_found": "لم يتم العثور على العنوان. جرّب النقر على الخريطة.",
+                "out_of_range": "هذا الموقع خارج نطاق التوصيل {{distance}} كم.",
+                "geolocation_denied": "تعذّر تحديد موقعك. يرجى السماح بالوصول إلى الموقع أو النقر على الخريطة."
+            }
+        },
+        "toast": {
+            "create_success": "تم حفظ العنوان.",
+            "create_error": "تعذّر حفظ العنوان.",
+            "update_success": "تم تحديث العنوان.",
+            "update_error": "تعذّر تحديث العنوان.",
+            "delete_success": "تم حذف العنوان.",
+            "delete_error": "تعذّر حذف العنوان."
         }
     },
     "orders": {

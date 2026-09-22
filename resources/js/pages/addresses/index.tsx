@@ -1,11 +1,15 @@
-import { Form, Head, Link } from '@inertiajs/react';
-import { MapPin, Plus } from 'lucide-react';
+import { Head, router } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import DeliveryAddressController from '@/actions/App/Http/Controllers/Addresses/DeliveryAddressController';
+import DeliveryAddressCard from '@/components/delivery-addresses/delivery-address-card';
+import DeliveryAddressDialog from '@/components/delivery-addresses/delivery-address-dialog';
 import Heading from '@/components/heading';
-import { Badge } from '@/components/ui/badge';
+import type { AddressFormData } from '@/components/shared-address-form';
 import { Button } from '@/components/ui/button';
-import { create, edit, index } from '@/routes/addresses';
+import { index } from '@/routes/addresses';
 import type { DeliveryAddress as DeliveryAddressType } from '@/types';
 
 export default function AddressesIndex({
@@ -14,6 +18,80 @@ export default function AddressesIndex({
     addresses: DeliveryAddressType[];
 }) {
     const { t } = useTranslation();
+    const [editingAddress, setEditingAddress] =
+        useState<DeliveryAddressType | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const handleEdit = (address: DeliveryAddressType) => {
+        setEditingAddress(address);
+        setIsDialogOpen(true);
+    };
+
+    const handleDelete = (id: number) => {
+        router.delete(DeliveryAddressController.destroy.url(id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success(t('addresses.toast.delete_success'));
+            },
+            onError: () => {
+                toast.error(t('addresses.toast.delete_error'));
+            },
+        });
+    };
+
+    const handleSubmit = (data: AddressFormData) => {
+        if (data.id) {
+            router.patch(
+                DeliveryAddressController.update.url(data.id),
+                {
+                    caption: data.caption ?? '',
+                    address: data.address,
+                    lat: data.lat,
+                    lng: data.lng,
+                    is_default: data.is_default,
+                },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setIsDialogOpen(false);
+                        setEditingAddress(null);
+                        toast.success(t('addresses.toast.update_success'));
+                    },
+                    onError: (errors) => {
+                        toast.error(
+                            Object.values(errors)[0] ??
+                                t('addresses.toast.update_error'),
+                        );
+                    },
+                },
+            );
+        } else {
+            router.post(
+                DeliveryAddressController.store.url(),
+                {
+                    caption: data.caption ?? '',
+                    address: data.address,
+                    lat: data.lat,
+                    lng: data.lng,
+                    is_default: data.is_default,
+                },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setIsDialogOpen(false);
+                        setEditingAddress(null);
+                        toast.success(t('addresses.toast.create_success'));
+                    },
+                    onError: (errors) => {
+                        toast.error(
+                            Object.values(errors)[0] ??
+                                t('addresses.toast.create_error'),
+                        );
+                    },
+                },
+            );
+        }
+    };
 
     return (
         <>
@@ -27,61 +105,41 @@ export default function AddressesIndex({
                         description={t('addresses.index.description')}
                     />
 
-                    <Button asChild>
-                        <Link href={create()}>
-                            <Plus /> {t('addresses.index.new_address')}
-                        </Link>
+                    <Button
+                        variant="secondary"
+                        onClick={() => {
+                            setEditingAddress(null);
+                            setIsDialogOpen(true);
+                        }}
+                    >
+                        <Plus /> {t('addresses.index.new_address')}
                     </Button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {addresses.map((address) => (
-                        <div
+                        <DeliveryAddressCard
                             key={address.id}
-                            className="flex items-center justify-between gap-4 rounded-lg border p-4"
-                        >
-                            <Link
-                                href={edit(address.id)}
-                                className="flex items-start gap-3 hover:underline"
-                            >
-                                <MapPin className="mt-1 size-4 text-muted-foreground" />
-                                <span>
-                                    <span className="flex items-center gap-2 font-medium">
-                                        {address.caption}
-                                        {address.is_default ? (
-                                            <Badge variant="secondary">
-                                                {t('addresses.index.default')}
-                                            </Badge>
-                                        ) : null}
-                                    </span>
-                                    <span className="text-sm text-muted-foreground">
-                                        {address.address}
-                                    </span>
-                                </span>
-                            </Link>
-
-                            <Form {...DeliveryAddressController.destroy.form(address.id)}>
-                                {({ processing }) => (
-                                    <Button
-                                        type="submit"
-                                        variant="ghost"
-                                        size="sm"
-                                        disabled={processing}
-                                    >
-                                        {t('addresses.index.remove')}
-                                    </Button>
-                                )}
-                            </Form>
-                        </div>
+                            address={address}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                        />
                     ))}
-
-                    {addresses.length === 0 ? (
-                        <p className="py-8 text-center text-muted-foreground">
-                            {t('addresses.index.no_addresses')}
-                        </p>
-                    ) : null}
                 </div>
+
+                {addresses.length === 0 ? (
+                    <p className="py-8 text-center text-muted-foreground">
+                        {t('addresses.index.no_addresses')}
+                    </p>
+                ) : null}
             </div>
+
+            <DeliveryAddressDialog
+                open={isDialogOpen}
+                onOpenChange={setIsDialogOpen}
+                address={editingAddress}
+                onSubmit={handleSubmit}
+            />
         </>
     );
 }

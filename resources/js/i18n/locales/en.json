@@ -439,13 +439,19 @@
         }
     },
     "kitchens": {
-        "index": { "heading": "Kitchens", "add": "Add kitchen" },
+        "index": {
+            "heading": "Kitchens",
+            "add": "Add kitchen"
+        },
         "edit": {
             "page_title": "Edit {{name}}",
             "heading": "Kitchen settings",
             "submit": "Save"
         },
-        "fields": { "name_en": "Name (English)", "name_ar": "Name (Arabic)" }
+        "fields": {
+            "name_en": "Name (English)",
+            "name_ar": "Name (Arabic)"
+        }
     },
     "menu": {
         "categories": {
@@ -537,6 +543,45 @@
             "lat": "Latitude",
             "lng": "Longitude",
             "is_default": "Set as default"
+        },
+        "card": {
+            "copy_address": "Copy address",
+            "copied": "Copied",
+            "edit": "Edit",
+            "delete": "Delete",
+            "delete_confirm": {
+                "title": "Delete this address?",
+                "description": "This will permanently remove the address from your saved addresses.",
+                "cancel": "Cancel",
+                "confirm": "Delete"
+            }
+        },
+        "dialog": {
+            "add_new_address": "Add new address",
+            "edit_address": "Edit address",
+            "cancel": "Cancel",
+            "save": "Save"
+        },
+        "form": {
+            "delivery_radius": "We deliver within {{distance}} km of our kitchen.",
+            "placeholders": {
+                "caption": "e.g. Home, Work",
+                "address": "Search for an address or click on the map"
+            },
+            "errors": {
+                "address_required": "Address is required.",
+                "address_not_found": "Address not found. Try clicking on the map.",
+                "out_of_range": "This location is outside our {{distance}} km delivery radius.",
+                "geolocation_denied": "Unable to get your location. Please allow location access or click on the map."
+            }
+        },
+        "toast": {
+            "create_success": "Address saved.",
+            "create_error": "Could not save the address.",
+            "update_success": "Address updated.",
+            "update_error": "Could not update the address.",
+            "delete_success": "Address deleted.",
+            "delete_error": "Could not delete the address."
         }
     },
     "orders": {

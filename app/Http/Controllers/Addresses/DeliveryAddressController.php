@@ -30,16 +30,6 @@ class DeliveryAddressController extends Controller
     }
 
     /**
-     * Show the form for creating a new delivery address.
-     */
-    public function create(): Response
-    {
-        Gate::authorize('create', DeliveryAddress::class);
-
-        return Inertia::render('addresses/create');
-    }
-
-    /**
      * Store a newly created delivery address for the authenticated user.
      */
     public function store(SaveDeliveryAddressRequest $request): RedirectResponse
@@ -57,18 +47,6 @@ class DeliveryAddressController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Address saved.')]);
 
         return to_route('addresses.index');
-    }
-
-    /**
-     * Show the form for editing a delivery address.
-     */
-    public function edit(DeliveryAddress $address): Response
-    {
-        Gate::authorize('update', $address);
-
-        return Inertia::render('addresses/edit', [
-            'deliveryAddress' => $address->only(['id', 'caption', 'address', 'lat', 'lng', 'is_default']),
-        ]);
     }
 
     /**

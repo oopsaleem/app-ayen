@@ -70,11 +70,6 @@ test('a customer can update their own address', function () {
     $user = User::factory()->create();
     $address = DeliveryAddress::factory()->create(['user_id' => $user->id, 'caption' => 'Home']);
 
-    $this->actingAs($user)->get(route('addresses.edit', $address))
-        ->assertInertia(fn ($page) => $page
-            ->component('addresses/edit')
-            ->where('deliveryAddress.caption', 'Home'));
-
     $response = $this->actingAs($user)->patch(route('addresses.update', $address), [
         'caption' => 'Work',
         'address' => $address->address,
@@ -122,7 +117,6 @@ test('another customer cannot view edit or delete someone elses address', functi
     $address = DeliveryAddress::factory()->create(['user_id' => $owner->id, 'caption' => 'Home']);
     $intruder = User::factory()->create();
 
-    $this->actingAs($intruder)->get(route('addresses.edit', $address))->assertForbidden();
     $this->actingAs($intruder)->patch(route('addresses.update', $address), [
         'caption' => 'Hacked',
         'address' => 'Nowhere',
