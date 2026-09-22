@@ -638,5 +638,17 @@
         "placeholder": "Search for an address or click on the map",
         "address_not_found": "Address not found. Try clicking on the map.",
         "geolocation_denied": "Unable to get your location. Please allow location access or click on the map."
+    },
+    "setup": {
+        "admin": {
+            "page_title": "Admin Setup",
+            "title": "Create the administrator account",
+            "description": "This platform has no administrator yet. Create the first Admin account to get started.",
+            "name": "Name",
+            "email_address": "Email address",
+            "password": "Password",
+            "confirm_password": "Confirm password",
+            "create_admin": "Create admin account"
+        }
     }
 }

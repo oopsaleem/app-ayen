@@ -4,12 +4,19 @@ use App\Http\Controllers\Addresses\DeliveryAddressController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Orders\OrderController;
+use App\Http\Controllers\Setup\AdminSetupController;
 use App\Http\Controllers\Teams\TeamInvitationController;
+use App\Http\Middleware\EnsureAdminSetupAccessible;
 use App\Http\Middleware\EnsureTeamMembership;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
+
+Route::middleware(EnsureAdminSetupAccessible::class)->group(function () {
+    Route::get('setup/admin', [AdminSetupController::class, 'create'])->name('setup.admin.create');
+    Route::post('setup/admin', [AdminSetupController::class, 'store'])->name('setup.admin.store');
+});
 
 Route::post('/locale', [LocaleController::class, 'update'])
     ->middleware(ThrottleRequests::class.':10,1')
