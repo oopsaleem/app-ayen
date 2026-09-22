@@ -5,6 +5,7 @@ import RestaurantController from '@/actions/App/Http/Controllers/Restaurants/Res
 import RestaurantVerificationController from '@/actions/App/Http/Controllers/Restaurants/RestaurantVerificationController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import LocationPicker from '@/components/location-picker';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -137,56 +138,12 @@ export default function RestaurantEdit({
                                 <InputError message={errors.name_ar} />
                             </div>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="address_address">
-                                    {t('restaurants.fields.address')}
-                                </Label>
-                                <Input
-                                    id="address_address"
-                                    name="address[address]"
-                                    defaultValue={address?.address}
-                                    required
-                                />
-                                <InputError
-                                    message={errors['address.address']}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="address_lat">
-                                        {t('restaurants.fields.lat')}
-                                    </Label>
-                                    <Input
-                                        id="address_lat"
-                                        name="address[lat]"
-                                        type="number"
-                                        step="any"
-                                        defaultValue={address?.lat}
-                                        required
-                                    />
-                                    <InputError
-                                        message={errors['address.lat']}
-                                    />
-                                </div>
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="address_lng">
-                                        {t('restaurants.fields.lng')}
-                                    </Label>
-                                    <Input
-                                        id="address_lng"
-                                        name="address[lng]"
-                                        type="number"
-                                        step="any"
-                                        defaultValue={address?.lng}
-                                        required
-                                    />
-                                    <InputError
-                                        message={errors['address.lng']}
-                                    />
-                                </div>
-                            </div>
+                            <LocationPicker
+                                name="address"
+                                label={t('restaurants.fields.address')}
+                                defaultValue={address}
+                                errors={errors}
+                            />
 
                             <Button type="submit" disabled={processing}>
                                 {t('restaurants.edit.submit')}

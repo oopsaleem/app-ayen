@@ -16,6 +16,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAppearance } from '@/hooks/use-appearance';
+import { getAddressFromCoords, getCoordsFromAddress } from '@/lib/geocoding';
+import type { GeocodedLocation as Location } from '@/lib/geocoding';
 
 const CENTRAL_LOCATION = {
     lat: 15.3547,
@@ -23,12 +25,6 @@ const CENTRAL_LOCATION = {
 };
 
 const MAX_DELIVERY_RADIUS_KM = 5;
-
-interface Location {
-    lat: number;
-    lng: number;
-    address?: string;
-}
 
 export interface AddressFormData {
     id?: number;
@@ -395,41 +391,6 @@ function isWithinDeliveryRadius(location: Location): boolean {
     const distance = calculateDistance(CENTRAL_LOCATION, location);
 
     return distance <= MAX_DELIVERY_RADIUS_KM;
-}
-
-async function getAddressFromCoords(lat: number, lng: number): Promise<string> {
-    try {
-        const response = await fetch(
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`,
-        );
-        const data = await response.json();
-
-        return data.features[0].place_name;
-    } catch (error) {
-        console.error('Error getting address:', error);
-
-        return '';
-    }
-}
-
-async function getCoordsFromAddress(address: string): Promise<Location | null> {
-    try {
-        const response = await fetch(
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`,
-        );
-        const data = await response.json();
-        const [lng, lat] = data.features[0].center;
-
-        return {
-            lat,
-            lng,
-            address: data.features[0].place_name,
-        };
-    } catch (error) {
-        console.error('Error getting coordinates:', error);
-
-        return null;
-    }
 }
 
 function createDeliveryRadiusGeoJSON(): FeatureCollection {
