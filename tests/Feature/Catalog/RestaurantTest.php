@@ -51,12 +51,12 @@ test('a restaurant slug uses the next available suffix on collision', function (
     expect($restaurant->slug)->toBe('pizza-palace-2');
 });
 
-test('renaming a restaurant regenerates its slug', function () {
+test('renaming a restaurant does not change its slug, so shared links keep working', function () {
     $restaurant = Restaurant::factory()->create(['name_en' => 'Pizza Palace']);
 
     $restaurant->update(['name_en' => 'Pasta Place']);
 
-    expect($restaurant->fresh()->slug)->toBe('pasta-place');
+    expect($restaurant->fresh()->slug)->toBe('pizza-palace');
 });
 
 test('updating a restaurant without changing its name keeps the existing slug', function () {

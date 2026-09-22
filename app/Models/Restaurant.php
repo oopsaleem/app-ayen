@@ -51,33 +51,24 @@ class Restaurant extends Model
                 $restaurant->slug = static::generateUniqueSlug($restaurant->name_en);
             }
         });
-
-        static::updating(function (Restaurant $restaurant): void {
-            if ($restaurant->isDirty('name_en')) {
-                $restaurant->slug = static::generateUniqueSlug($restaurant->name_en, $restaurant->id);
-            }
-        });
     }
 
     /**
      * Generate a unique slug for the restaurant, matching the suffixing
-     * scheme Team uses for its own slugs.
+     * scheme Team uses for its own slugs. Only ever called at creation: the
+     * slug is frozen after first assignment so a shared public link never
+     * breaks when a restaurant is later renamed.
      */
-    protected static function generateUniqueSlug(string $name, ?int $excludeId = null): string
+    protected static function generateUniqueSlug(string $name): string
     {
         $defaultSlug = Str::slug($name) ?: 'restaurant';
 
-        $query = static::query()
+        $existingSlugs = static::query()
             ->where(function ($query) use ($defaultSlug) {
                 $query->where('slug', $defaultSlug)
                     ->orWhere('slug', 'like', $defaultSlug.'-%');
-            });
-
-        if ($excludeId) {
-            $query->where('id', '!=', $excludeId);
-        }
-
-        $existingSlugs = $query->pluck('slug');
+            })
+            ->pluck('slug');
 
         $maxSuffix = $existingSlugs
             ->map(function (string $slug) use ($defaultSlug): ?int {
