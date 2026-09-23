@@ -36,7 +36,16 @@ export function LanguageSwitcher({ className }: { className?: string }) {
 
         updateLocale(next);
 
-        router.post(saveLocale(), { locale: next }, { preserveScroll: true });
+        router.post(
+            saveLocale(),
+            { locale: next },
+            {
+                preserveScroll: true,
+                // Keep the shared `locale` prop in step with the store so
+                // AppDirectionProvider doesn't revert the switch mid-request.
+                optimistic: () => ({ locale: next }),
+            },
+        );
     };
 
     return (

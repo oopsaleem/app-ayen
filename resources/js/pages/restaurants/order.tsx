@@ -1,11 +1,13 @@
-import { Form, Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import OrderController from '@/actions/App/Http/Controllers/Orders/OrderController';
-import { DishSelectorCard } from '@/components/dish-selector-card';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { CartDrawer } from '@/components/menu/cart-drawer';
+import { CategorySections } from '@/components/menu/category-section';
+import { Hero } from '@/components/menu/hero';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -15,11 +17,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { lineFor, readStoredCart } from '@/lib/order-cart';
-import type { Dish, Line } from '@/lib/order-cart';
+import { useOrderCart } from '@/hooks/use-order-cart';
+import { readStoredCart } from '@/lib/order-cart';
+import type { Category } from '@/lib/order-cart';
 import { index as addressesIndex } from '@/routes/addresses';
 
-type Restaurant = { id: number; name_en: string };
+type Restaurant = {
+    id: number;
+    name_en: string;
+    description_en?: string | null;
+    image_urls: string[];
+};
 
 type Address = {
     id: number;
@@ -28,40 +36,29 @@ type Address = {
     is_default: boolean;
 };
 
-/**
- * Raw shape submitted by the native form fields (see the `lines[dishId][...]`
- * naming below), before `transform` drops zero-quantity entries and reshapes
- * it into the flat `lines` array the server expects.
- */
-type RawLine = {
-    quantity?: string;
-    serving_size_id?: string;
-    option_ids?: string[];
-};
-
 export default function RestaurantOrder({
     restaurant,
-    dishes,
+    categories,
     addresses,
 }: {
     restaurant: Restaurant;
-    dishes: Dish[];
+    categories: Category[];
     addresses: Address[];
 }) {
     const { t } = useTranslation();
 
     const [restoredCart] = useState(() =>
-        readStoredCart(restaurant.id, dishes),
+        readStoredCart(restaurant.id, categories),
     );
-    const [lines, setLines] = useState<Record<number, Line>>(
-        () => restoredCart.lines,
-    );
+    const cart = useOrderCart(restoredCart.items);
     const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'pickup'>(
         'delivery',
     );
     const [deliveryAddressId, setDeliveryAddressId] = useState<
         string | undefined
     >();
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const hasShownRemovedToast = useRef(false);
 
@@ -72,28 +69,27 @@ export default function RestaurantOrder({
         }
     }, [restoredCart.removedCount, t]);
 
-    function setLine(dishId: number, line: Line) {
-        setLines((current) => ({ ...current, [dishId]: line }));
-    }
-
-    function transform(data: Record<string, unknown>) {
-        const rawLines = (data.lines ?? {}) as Record<string, RawLine>;
-
-        return {
-            ...data,
-            lines: Object.entries(rawLines)
-                .filter(([, line]) => Number(line.quantity ?? 0) > 0)
-                .map(([dishId, line]) => ({
-                    dish_id: Number(dishId),
-                    serving_size_id: line.serving_size_id
-                        ? Number(line.serving_size_id)
-                        : undefined,
-                    option_ids: (line.option_ids ?? []).map(Number),
-                    quantity: Number(line.quantity),
+    function submit() {
+        router.post(
+            OrderController.store.url(),
+            {
+                delivery_mode: deliveryMode,
+                delivery_address_id:
+                    deliveryMode === 'pickup' ? undefined : deliveryAddressId,
+                lines: cart.items.map((item) => ({
+                    dish_id: item.dish.id,
+                    serving_size_id: item.serving_size_id,
+                    option_ids: item.option_ids,
+                    quantity: item.quantity,
                 })),
-            delivery_address_id:
-                deliveryMode === 'pickup' ? undefined : deliveryAddressId,
-        };
+            },
+            {
+                onStart: () => setProcessing(true),
+                onFinish: () => setProcessing(false),
+                onError: (formErrors) =>
+                    setErrors(formErrors as Record<string, string>),
+            },
+        );
     }
 
     return (
@@ -107,150 +103,120 @@ export default function RestaurantOrder({
                     description={restaurant.name_en}
                 />
 
-                {dishes.length === 0 ? (
+                <Hero restaurant={restaurant} />
+
+                {categories.length === 0 ? (
                     <p className="py-8 text-center text-muted-foreground">
                         {t('orders.no_dishes')}
                     </p>
                 ) : (
-                    <Form
-                        {...OrderController.store.form()}
-                        transform={transform}
-                        className="max-w-2xl space-y-4"
-                    >
-                        {({ processing, errors }) => (
-                            <>
-                                {dishes.map((dish) => (
-                                    <DishSelectorCard
-                                        key={dish.id}
-                                        dish={dish}
-                                        line={lineFor(lines, dish.id)}
-                                        onChange={(line) =>
-                                            setLine(dish.id, line)
-                                        }
-                                        fieldName={(suffix) =>
-                                            suffix === 'option_ids'
-                                                ? `lines[${dish.id}][option_ids][]`
-                                                : `lines[${dish.id}][${suffix}]`
-                                        }
-                                    />
-                                ))}
-
-                                <div className="grid gap-2">
-                                    <Label htmlFor="delivery_mode">
-                                        {t('orders.delivery_mode.label')}
-                                    </Label>
-                                    <Select
-                                        name="delivery_mode"
-                                        value={deliveryMode}
-                                        onValueChange={(value) => {
-                                            setDeliveryMode(
-                                                value as 'delivery' | 'pickup',
-                                            );
-
-                                            if (value === 'pickup') {
-                                                setDeliveryAddressId(undefined);
-                                            }
-                                        }}
-                                    >
-                                        <SelectTrigger
-                                            id="delivery_mode"
-                                            className="w-full"
-                                        >
-                                            <SelectValue
-                                                placeholder={t(
-                                                    'orders.delivery_mode.label',
-                                                )}
-                                            />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="delivery">
-                                                {t(
-                                                    'orders.delivery_mode.delivery',
-                                                )}
-                                            </SelectItem>
-                                            <SelectItem value="pickup">
-                                                {t(
-                                                    'orders.delivery_mode.pickup',
-                                                )}
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <InputError
-                                        message={errors['delivery_mode']}
-                                    />
-                                </div>
-
-                                {deliveryMode === 'delivery' ? (
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="delivery_address_id">
-                                            {t('orders.address.label')}
-                                        </Label>
-                                        <Select
-                                            name="delivery_address_id"
-                                            value={deliveryAddressId}
-                                            onValueChange={setDeliveryAddressId}
-                                        >
-                                            <SelectTrigger
-                                                id="delivery_address_id"
-                                                className="w-full"
-                                            >
-                                                <SelectValue
-                                                    placeholder={t(
-                                                        'orders.address.label',
-                                                    )}
-                                                />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {addresses.map((address) => (
-                                                    <SelectItem
-                                                        key={address.id}
-                                                        value={String(
-                                                            address.id,
-                                                        )}
-                                                    >
-                                                        {address.caption} —{' '}
-                                                        {address.address}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <InputError
-                                            message={
-                                                errors['delivery_address_id']
-                                            }
-                                        />
-                                        <Button
-                                            asChild
-                                            variant="link"
-                                            className="px-0"
-                                        >
-                                            <a href={addressesIndex().url}>
-                                                {t('orders.address.empty')}
-                                            </a>
-                                        </Button>
-                                    </div>
-                                ) : null}
-
-                                {errors['lines'] ? (
-                                    <InputError message={errors['lines']} />
-                                ) : null}
-
-                                <Button
-                                    type="submit"
-                                    disabled={
-                                        processing ||
-                                        Object.values(lines).every(
-                                            (line) => line.quantity === 0,
-                                        )
-                                    }
-                                >
-                                    {t('orders.submit')}
-                                </Button>
-                            </>
-                        )}
-                    </Form>
+                    <CategorySections
+                        categories={categories}
+                        onAdd={(dish, selection) => cart.add(dish, selection)}
+                    />
                 )}
             </div>
+
+            <CartDrawer
+                cart={cart}
+                footer={
+                    <div className="space-y-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="delivery_mode">
+                                {t('orders.delivery_mode.label')}
+                            </Label>
+                            <Select
+                                value={deliveryMode}
+                                onValueChange={(value) => {
+                                    setDeliveryMode(
+                                        value as 'delivery' | 'pickup',
+                                    );
+
+                                    if (value === 'pickup') {
+                                        setDeliveryAddressId(undefined);
+                                    }
+                                }}
+                            >
+                                <SelectTrigger id="delivery_mode" className="w-full">
+                                    <SelectValue
+                                        placeholder={t(
+                                            'orders.delivery_mode.label',
+                                        )}
+                                    />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="delivery">
+                                        {t('orders.delivery_mode.delivery')}
+                                    </SelectItem>
+                                    <SelectItem value="pickup">
+                                        {t('orders.delivery_mode.pickup')}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <InputError message={errors['delivery_mode']} />
+                        </div>
+
+                        {deliveryMode === 'delivery' ? (
+                            <div className="grid gap-2">
+                                <Label htmlFor="delivery_address_id">
+                                    {t('orders.address.label')}
+                                </Label>
+                                <Select
+                                    value={deliveryAddressId}
+                                    onValueChange={setDeliveryAddressId}
+                                >
+                                    <SelectTrigger
+                                        id="delivery_address_id"
+                                        className="w-full"
+                                    >
+                                        <SelectValue
+                                            placeholder={t(
+                                                'orders.address.label',
+                                            )}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {addresses.map((address) => (
+                                            <SelectItem
+                                                key={address.id}
+                                                value={String(address.id)}
+                                            >
+                                                {address.caption} —{' '}
+                                                {address.address}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <InputError
+                                    message={errors['delivery_address_id']}
+                                />
+                                <Button asChild variant="link" className="px-0">
+                                    <a href={addressesIndex().url}>
+                                        {t('orders.address.empty')}
+                                    </a>
+                                </Button>
+                            </div>
+                        ) : null}
+
+                        {errors['lines'] ? (
+                            <InputError message={errors['lines']} />
+                        ) : null}
+
+                        <Button
+                            className="w-full"
+                            disabled={
+                                processing ||
+                                cart.items.length === 0 ||
+                                (deliveryMode === 'delivery' &&
+                                    !deliveryAddressId)
+                            }
+                            onClick={submit}
+                        >
+                            {t('orders.submit')}
+                        </Button>
+                    </div>
+                }
+            />
         </>
     );
 }

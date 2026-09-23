@@ -28,8 +28,10 @@ test('a visitor can view the public menu of a verified restaurant without loggin
         ->assertInertia(fn ($page) => $page
             ->component('storefront/show')
             ->where('restaurant.name_en', 'Pizza Palace')
-            ->has('dishes', 1)
-            ->where('dishes.0.id', $dish->id));
+            ->has('categories', 1)
+            ->where('categories.0.id', $dish->category_id)
+            ->has('categories.0.dishes', 1)
+            ->where('categories.0.dishes.0.id', $dish->id));
 });
 
 test('unavailable dishes are excluded from the public menu', function () {
@@ -43,7 +45,9 @@ test('unavailable dishes are excluded from the public menu', function () {
         ->create(['is_available' => false]);
 
     $this->get("/r/{$restaurant->slug}")
-        ->assertInertia(fn ($page) => $page->has('dishes', 1));
+        ->assertInertia(fn ($page) => $page
+            ->has('categories', 1)
+            ->has('categories.0.dishes', 1));
 });
 
 test('a restaurants public menu never includes another restaurants dishes', function () {
@@ -59,8 +63,54 @@ test('a restaurants public menu never includes another restaurants dishes', func
 
     $this->get("/r/{$restaurantA->slug}")
         ->assertInertia(fn ($page) => $page
-            ->has('dishes', 1)
-            ->where('dishes.0.id', $dishA->id));
+            ->has('categories', 1)
+            ->has('categories.0.dishes', 1)
+            ->where('categories.0.dishes.0.id', $dishA->id));
+});
+
+test('a dish nested under a subcategory appears under its parent category', function () {
+    $restaurant = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    $parent = Category::factory()->for($restaurant, 'restaurant')->create();
+    $child = Category::factory()->for($restaurant, 'restaurant')->create(['parent_id' => $parent->id]);
+    $dish = Dish::factory()
+        ->for($child, 'category')
+        ->for(Kitchen::factory()->for($restaurant, 'restaurant'), 'kitchen')
+        ->create();
+
+    $this->get("/r/{$restaurant->slug}")
+        ->assertInertia(fn ($page) => $page
+            ->has('categories', 1)
+            ->where('categories.0.id', $parent->id)
+            ->has('categories.0.children', 1)
+            ->where('categories.0.children.0.id', $child->id)
+            ->has('categories.0.children.0.dishes', 1)
+            ->where('categories.0.children.0.dishes.0.id', $dish->id));
+});
+
+test('a category with no dishes anywhere in its subtree is omitted from the public menu', function () {
+    $restaurant = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    Category::factory()->for($restaurant, 'restaurant')->create();
+
+    $this->get("/r/{$restaurant->slug}")
+        ->assertInertia(fn ($page) => $page->has('categories', 0));
+});
+
+test('an inactive category is excluded from the public menu even with available dishes', function () {
+    $restaurant = Restaurant::factory()
+        ->has(RestaurantVerification::factory()->state(['verified' => true]), 'verification')
+        ->create();
+    $category = Category::factory()->for($restaurant, 'restaurant')->create(['is_active' => false]);
+    Dish::factory()
+        ->for($category, 'category')
+        ->for(Kitchen::factory()->for($restaurant, 'restaurant'), 'kitchen')
+        ->create();
+
+    $this->get("/r/{$restaurant->slug}")
+        ->assertInertia(fn ($page) => $page->has('categories', 0));
 });
 
 test('a restaurant explicitly marked unverified has no public menu', function () {

@@ -47,7 +47,7 @@ export function DeliveryAddressCard({
                 {address.is_default && (
                     <Badge
                         variant="secondary"
-                        className="absolute end-2 -top-3 z-10"
+                        className="absolute inset-e-2 -top-3 z-10"
                     >
                         {t('addresses.index.default')}
                     </Badge>
@@ -67,7 +67,7 @@ export function DeliveryAddressCard({
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <MapPin className="mt-1 size-5 flex-shrink-0 text-primary" />
+                        <MapPin className="mt-1 size-5 shrink-0 text-primary" />
                         <div className="flex-1 space-y-1">
                             {address.caption && (
                                 <h3 className="text-lg font-medium">

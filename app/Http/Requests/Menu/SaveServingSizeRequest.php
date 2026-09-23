@@ -16,6 +16,7 @@ class SaveServingSizeRequest extends FormRequest
             'name_ar' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'is_default' => ['sometimes', 'boolean'],
+            'servings_count' => ['sometimes', 'integer', 'min:1'],
         ];
     }
 }

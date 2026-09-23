@@ -29,6 +29,54 @@
             "search": "Search"
         }
     },
+    "dashboard": {
+        "admin": {
+            "title": "Platform",
+            "description": "Companies and restaurants across the platform",
+            "companies_one": "{{count}} company",
+            "companies_other": "{{count}} companies",
+            "unverified_one": "{{count}} unverified restaurant",
+            "unverified_other": "{{count}} unverified restaurants",
+            "cta": "Manage companies"
+        },
+        "manager": {
+            "title": "Your restaurants",
+            "description": "Restaurants under your company",
+            "restaurants_one": "{{count}} restaurant",
+            "restaurants_other": "{{count}} restaurants",
+            "cta": "Manage restaurants"
+        },
+        "chef": {
+            "title": "Your kitchens",
+            "description": "Kitchens you prepare dishes for",
+            "kitchens_one": "{{count}} kitchen",
+            "kitchens_other": "{{count}} kitchens",
+            "actionable_orders_one": "{{count}} order needs attention",
+            "actionable_orders_other": "{{count}} orders need attention",
+            "cta": "View kitchen orders"
+        },
+        "waiter": {
+            "title": "Pickups",
+            "description": "Orders ready for pickup hand-off",
+            "pickups_one": "{{count}} order waiting",
+            "pickups_other": "{{count}} orders waiting",
+            "cta": "View pickups"
+        },
+        "rider": {
+            "title": "Deliveries",
+            "description": "Orders ready for delivery",
+            "deliveries_one": "{{count}} order waiting",
+            "deliveries_other": "{{count}} orders waiting",
+            "cta": "View deliveries"
+        },
+        "customer": {
+            "title": "Your orders",
+            "description": "Orders you've placed",
+            "active_orders_one": "{{count}} active order",
+            "active_orders_other": "{{count}} active orders",
+            "cta": "View your orders"
+        }
+    },
     "nav": {
         "user_menu": "User menu",
         "settings": "Settings",
@@ -482,35 +530,72 @@
                 "page_title": "Dishes",
                 "heading": "Dishes for {{restaurant}}",
                 "new_dish": "New dish",
-                "no_dishes": "No dishes yet."
+                "no_dishes": "No dishes yet.",
+                "unavailable": "Unavailable",
+                "public_link": "View public menu"
             },
-            "create": {
-                "page_title": "New dish",
-                "heading": "New dish",
-                "submit": "Create dish"
-            },
-            "edit": {
-                "page_title": "Edit {{name}}",
-                "heading": "Dish settings",
-                "submit": "Save"
+            "dialog": {
+                "create_title": "New dish",
+                "edit_title": "Edit {{name}}",
+                "cancel": "Cancel",
+                "create": "Create dish",
+                "save": "Save"
             },
             "fields": {
                 "name_en": "Name (English)",
                 "name_ar": "Name (Arabic)",
                 "price": "Price",
                 "kitchen": "Kitchen",
-                "category": "Category"
+                "category": "Category",
+                "description_en": "Description (English)",
+                "description_ar": "Description (Arabic)",
+                "is_available": "Available",
+                "kitchen_placeholder": "Choose a kitchen",
+                "category_placeholder": "Choose a category",
+                "images": "Images",
+                "servings_count": "Servings"
             },
             "options": {
                 "heading": "Options",
                 "add": "Add option",
-                "remove": "Remove"
+                "remove": "Remove",
+                "save": "Save"
             },
             "serving_sizes": {
                 "heading": "Serving sizes",
                 "add": "Add serving size",
                 "default": "Default",
-                "remove": "Remove"
+                "remove": "Remove",
+                "save": "Save"
+            },
+            "images": {
+                "add": "Add images",
+                "remove": "Remove image",
+                "hint": "Up to {{max}} images, {{size}} MB each.",
+                "file_too_large": "“{{name}}” is larger than {{size}} MB.",
+                "request_too_large": "These images are too large to upload together (limit {{size}} MB). Pick fewer or smaller images."
+            }
+        },
+        "browse": {
+            "dish_card": {
+                "customize": "Customize",
+                "add_to_cart": "Add to cart"
+            },
+            "customize": {
+                "select_size": "Choose a size",
+                "addons": "Add-ons",
+                "total": "Total",
+                "add_to_cart": "Add to cart"
+            },
+            "cart": {
+                "open": "Open cart",
+                "title": "Your cart",
+                "empty": "Your cart is empty.",
+                "remove": "Remove",
+                "decrease": "Decrease quantity",
+                "increase": "Increase quantity",
+                "total": "Total",
+                "total_note": "Delivery fee and VAT are calculated at checkout."
             }
         }
     },
@@ -595,10 +680,6 @@
             "label": "Delivery address",
             "empty": "No saved delivery addresses yet"
         },
-        "quantity": "Quantity",
-        "in_order": "In order",
-        "options": "Options",
-        "serving_size": "Serving size",
         "lines_error": "An order may only contain dishes from one restaurant.",
         "submit": "Place order",
         "no_dishes": "This restaurant has no available dishes yet.",

@@ -23,7 +23,7 @@ class DishOptionController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Option added.')]);
 
-        return to_route('dishes.edit', $dish);
+        return to_route('dishes.index', $dish->kitchen->restaurant);
     }
 
     /**
@@ -37,7 +37,7 @@ class DishOptionController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Option updated.')]);
 
-        return to_route('dishes.edit', $dishOption->dish);
+        return to_route('dishes.index', $dishOption->dish->kitchen->restaurant);
     }
 
     /**
@@ -52,6 +52,6 @@ class DishOptionController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Option removed.')]);
 
-        return to_route('dishes.edit', $dish);
+        return to_route('dishes.index', $dish->kitchen->restaurant);
     }
 }

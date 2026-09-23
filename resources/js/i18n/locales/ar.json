@@ -29,6 +29,86 @@
             "search": "بحث"
         }
     },
+    "dashboard": {
+        "admin": {
+            "title": "المنصة",
+            "description": "الشركات والمطاعم على المنصة",
+            "companies_zero": "لا توجد شركات",
+            "companies_one": "شركة واحدة",
+            "companies_two": "شركتان",
+            "companies_few": "{{count}} شركات",
+            "companies_many": "{{count}} شركة",
+            "companies_other": "{{count}} شركة",
+            "unverified_zero": "لا توجد مطاعم غير موثّقة",
+            "unverified_one": "مطعم واحد غير موثّق",
+            "unverified_two": "مطعمان غير موثّقين",
+            "unverified_few": "{{count}} مطاعم غير موثّقة",
+            "unverified_many": "{{count}} مطعمًا غير موثّق",
+            "unverified_other": "{{count}} مطعم غير موثّق",
+            "cta": "إدارة الشركات"
+        },
+        "manager": {
+            "title": "مطاعمك",
+            "description": "المطاعم التابعة لشركتك",
+            "restaurants_zero": "لا توجد مطاعم",
+            "restaurants_one": "مطعم واحد",
+            "restaurants_two": "مطعمان",
+            "restaurants_few": "{{count}} مطاعم",
+            "restaurants_many": "{{count}} مطعمًا",
+            "restaurants_other": "{{count}} مطعم",
+            "cta": "إدارة المطاعم"
+        },
+        "chef": {
+            "title": "مطابخك",
+            "description": "المطابخ التي تُحضّر أطباقها",
+            "kitchens_zero": "لا توجد مطابخ",
+            "kitchens_one": "مطبخ واحد",
+            "kitchens_two": "مطبخان",
+            "kitchens_few": "{{count}} مطابخ",
+            "kitchens_many": "{{count}} مطبخًا",
+            "kitchens_other": "{{count}} مطبخ",
+            "actionable_orders_zero": "لا توجد طلبات تحتاج إلى إجراء",
+            "actionable_orders_one": "طلب واحد يحتاج إلى إجراء",
+            "actionable_orders_two": "طلبان يحتاجان إلى إجراء",
+            "actionable_orders_few": "{{count}} طلبات تحتاج إلى إجراء",
+            "actionable_orders_many": "{{count}} طلبًا يحتاج إلى إجراء",
+            "actionable_orders_other": "{{count}} طلب يحتاج إلى إجراء",
+            "cta": "عرض طلبات المطبخ"
+        },
+        "waiter": {
+            "title": "الاستلام من الفرع",
+            "description": "الطلبات الجاهزة لتسليم الاستلام",
+            "pickups_zero": "لا توجد طلبات في الانتظار",
+            "pickups_one": "طلب واحد في الانتظار",
+            "pickups_two": "طلبان في الانتظار",
+            "pickups_few": "{{count}} طلبات في الانتظار",
+            "pickups_many": "{{count}} طلبًا في الانتظار",
+            "pickups_other": "{{count}} طلب في الانتظار",
+            "cta": "عرض طلبات الاستلام"
+        },
+        "rider": {
+            "title": "التوصيلات",
+            "description": "الطلبات الجاهزة للتوصيل",
+            "deliveries_zero": "لا توجد طلبات في الانتظار",
+            "deliveries_one": "طلب واحد في الانتظار",
+            "deliveries_two": "طلبان في الانتظار",
+            "deliveries_few": "{{count}} طلبات في الانتظار",
+            "deliveries_many": "{{count}} طلبًا في الانتظار",
+            "deliveries_other": "{{count}} طلب في الانتظار",
+            "cta": "عرض طلبات التوصيل"
+        },
+        "customer": {
+            "title": "طلباتك",
+            "description": "الطلبات التي قمت بها",
+            "active_orders_zero": "لا توجد طلبات نشطة",
+            "active_orders_one": "طلب واحد نشط",
+            "active_orders_two": "طلبان نشطان",
+            "active_orders_few": "{{count}} طلبات نشطة",
+            "active_orders_many": "{{count}} طلبًا نشطًا",
+            "active_orders_other": "{{count}} طلب نشط",
+            "cta": "عرض طلباتك"
+        }
+    },
     "nav": {
         "user_menu": "قائمة المستخدم",
         "settings": "الإعدادات",
@@ -482,35 +562,72 @@
                 "page_title": "الأطباق",
                 "heading": "أطباق {{restaurant}}",
                 "new_dish": "طبق جديد",
-                "no_dishes": "لا توجد أطباق بعد."
+                "no_dishes": "لا توجد أطباق بعد.",
+                "unavailable": "غير متاح",
+                "public_link": "عرض القائمة العامة"
             },
-            "create": {
-                "page_title": "طبق جديد",
-                "heading": "طبق جديد",
-                "submit": "إنشاء الطبق"
-            },
-            "edit": {
-                "page_title": "تعديل {{name}}",
-                "heading": "إعدادات الطبق",
-                "submit": "حفظ"
+            "dialog": {
+                "create_title": "طبق جديد",
+                "edit_title": "تعديل {{name}}",
+                "cancel": "إلغاء",
+                "create": "إنشاء الطبق",
+                "save": "حفظ"
             },
             "fields": {
                 "name_en": "الاسم (إنجليزي)",
                 "name_ar": "الاسم (عربي)",
                 "price": "السعر",
                 "kitchen": "المطبخ",
-                "category": "الصنف"
+                "category": "الصنف",
+                "description_en": "الوصف (بالإنجليزية)",
+                "description_ar": "الوصف (بالعربية)",
+                "is_available": "متاح",
+                "kitchen_placeholder": "اختر مطبخًا",
+                "category_placeholder": "اختر فئة",
+                "images": "الصور",
+                "servings_count": "عدد الحصص"
             },
             "options": {
                 "heading": "الإضافات",
                 "add": "إضافة خيار",
-                "remove": "إزالة"
+                "remove": "إزالة",
+                "save": "حفظ"
             },
             "serving_sizes": {
                 "heading": "أحجام التقديم",
                 "add": "إضافة حجم",
                 "default": "افتراضي",
-                "remove": "إزالة"
+                "remove": "إزالة",
+                "save": "حفظ"
+            },
+            "images": {
+                "add": "إضافة صور",
+                "remove": "إزالة الصورة",
+                "hint": "حتى {{max}} صور، بحجم {{size}} ميغابايت لكل صورة.",
+                "file_too_large": "حجم «{{name}}» أكبر من {{size}} ميغابايت.",
+                "request_too_large": "حجم هذه الصور معًا أكبر من المسموح ({{size}} ميغابايت). اختر صورًا أقل أو أصغر."
+            }
+        },
+        "browse": {
+            "dish_card": {
+                "customize": "تخصيص",
+                "add_to_cart": "أضف إلى السلة"
+            },
+            "customize": {
+                "select_size": "اختر الحجم",
+                "addons": "الإضافات",
+                "total": "الإجمالي",
+                "add_to_cart": "أضف إلى السلة"
+            },
+            "cart": {
+                "open": "فتح السلة",
+                "title": "سلتك",
+                "empty": "سلتك فارغة.",
+                "remove": "إزالة",
+                "decrease": "إنقاص الكمية",
+                "increase": "زيادة الكمية",
+                "total": "الإجمالي",
+                "total_note": "تُحسب رسوم التوصيل وضريبة القيمة المضافة عند إتمام الطلب."
             }
         }
     },
@@ -595,10 +712,6 @@
             "label": "عنوان التوصيل",
             "empty": "لا توجد عناوين توصيل محفوظة بعد"
         },
-        "quantity": "الكمية",
-        "in_order": "في الطلب",
-        "options": "الخيارات",
-        "serving_size": "حجم الحصة",
         "lines_error": "لا يمكن أن يحتوي الطلب على أطباق من أكثر من مطعم واحد.",
         "submit": "إتمام الطلب",
         "no_dishes": "لا توجد أطباق متاحة في هذا المطعم بعد.",

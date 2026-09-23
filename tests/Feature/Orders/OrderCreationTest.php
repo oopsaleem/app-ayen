@@ -265,6 +265,39 @@ test('the order placement page renders with the restaurant menu', function () {
         ->assertInertia(fn ($page) => $page
             ->component('restaurants/order')
             ->where('restaurant.name_en', 'Pizza Place')
-            ->has('dishes', 1)
+            ->has('categories', 1)
+            ->has('categories.0.dishes', 1)
             ->has('addresses'));
+});
+
+test('an order may contain the same dish twice with different serving sizes as separate lines', function () {
+    $user = User::factory()->create();
+    $dish = dishFor(Restaurant::factory()->create(), price: '10.00');
+    $small = ServingSize::factory()->for($dish)->create(['price' => '0.00']);
+    $large = ServingSize::factory()->for($dish)->create(['price' => '5.00']);
+
+    $this->actingAs($user)->post(route('orders.store'), [
+        'delivery_mode' => 'pickup',
+        'lines' => [
+            ['dish_id' => $dish->id, 'serving_size_id' => $small->id, 'option_ids' => [], 'quantity' => 1],
+            ['dish_id' => $dish->id, 'serving_size_id' => $large->id, 'option_ids' => [], 'quantity' => 2],
+        ],
+    ])->assertRedirect();
+
+    $order = Order::query()->sole();
+    $this->assertDatabaseCount('order_dishes', 2);
+    $this->assertDatabaseHas('order_dishes', [
+        'order_id' => $order->id,
+        'dish_id' => $dish->id,
+        'serving_size_id' => $small->id,
+        'quantity' => 1,
+        'unit_price' => '10.00',
+    ]);
+    $this->assertDatabaseHas('order_dishes', [
+        'order_id' => $order->id,
+        'dish_id' => $dish->id,
+        'serving_size_id' => $large->id,
+        'quantity' => 2,
+        'unit_price' => '15.00',
+    ]);
 });

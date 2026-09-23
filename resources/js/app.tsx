@@ -1,31 +1,15 @@
 import { createInertiaApp } from '@inertiajs/react';
-import { lazy } from 'react';
-import { Toaster } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import InertiaApp from '@/components/inertia-app';
 import '@/i18n';
 import { initializeTheme } from '@/hooks/use-appearance';
-import { useFlashToast } from '@/hooks/use-flash-toast';
 import { initializeLocale } from '@/hooks/use-locale';
+import { AppLayout, AuthLayout, SettingsLayout } from '@/layouts/lazy-layouts';
 
-// Lazy-loaded so the welcome page (and any page that opts out of a layout)
-// doesn't have to download authenticated-app chrome (nav, team switcher,
-// settings tabs) it never renders.
-const AppLayout = lazy(() => import('@/layouts/app-layout'));
-const AuthLayout = lazy(() => import('@/layouts/auth-layout'));
-const SettingsLayout = lazy(() => import('@/layouts/settings/layout'));
-
+// Keep component and lazy() declarations out of this entry file. Declaring
+// them here makes Vite's React Refresh wrapper re-import it as app.tsx?t=…
+// after any HMR update, which runs createInertiaApp twice and leaves a stale
+// second React root fighting the live one (e.g. reverting locale switches).
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
-function InertiaApp({ children }: { children: React.ReactNode }) {
-    useFlashToast();
-
-    return (
-        <TooltipProvider delayDuration={0}>
-            {children}
-            <Toaster />
-        </TooltipProvider>
-    );
-}
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),

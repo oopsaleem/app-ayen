@@ -6,14 +6,15 @@ use App\Actions\Orders\CreateOrder;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\StoreOrderRequest;
-use App\Models\Dish;
 use App\Models\Order;
 use App\Models\OrderDish;
 use App\Models\OrderStatusHistory;
 use App\Models\Restaurant;
+use App\Support\MenuTree;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use LogicException;
@@ -149,19 +150,14 @@ class OrderController extends Controller
     {
         Gate::authorize('create', Order::class);
 
-        $dishes = Dish::query()
-            ->whereHas('kitchen', fn ($query) => $query->where('restaurant_id', $restaurant->id))
-            ->where('is_available', true)
-            ->with([
-                'servingSizes' => fn ($query) => $query->orderByDesc('is_default')->orderBy('name_en'),
-                'options' => fn ($query) => $query->where('is_available', true)->orderBy('name_en'),
-            ])
-            ->orderBy('name_en')
-            ->get(['id', 'name_en', 'name_ar', 'description_en', 'price']);
+        $imageDisk = Storage::disk('public');
 
         return Inertia::render('restaurants/order', [
-            'restaurant' => $restaurant->only(['id', 'name_en']),
-            'dishes' => $dishes,
+            'restaurant' => [
+                ...$restaurant->only(['id', 'name_en', 'description_en']),
+                'image_urls' => array_map(fn (string $path) => $imageDisk->url($path), $restaurant->images ?? []),
+            ],
+            'categories' => MenuTree::forRestaurant($restaurant),
             'addresses' => $request->user()->deliveryAddresses()
                 ->orderByDesc('is_default')
                 ->orderBy('caption')

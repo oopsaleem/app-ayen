@@ -18,7 +18,7 @@ test('a manager can add a serving size and mark it default', function () {
 
     $this->actingAs($manager)->post(route('serving-sizes.store', $dish), [
         'name_en' => 'Small', 'name_ar' => 'صغير', 'price' => 10, 'is_default' => true,
-    ])->assertRedirect(route('dishes.edit', $dish));
+    ])->assertRedirect(route('dishes.index', $restaurant));
 
     $this->assertDatabaseHas('serving_sizes', ['dish_id' => $dish->id, 'name_en' => 'Small', 'is_default' => true]);
 });

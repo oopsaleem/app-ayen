@@ -22,7 +22,7 @@ test('a manager can add an option to their dish', function () {
         'price' => 2.5,
     ]);
 
-    $response->assertRedirect(route('dishes.edit', $dish));
+    $response->assertRedirect(route('dishes.index', $restaurant));
     $this->assertDatabaseHas('dish_options', ['dish_id' => $dish->id, 'name_en' => 'Extra cheese']);
 });
 
@@ -39,12 +39,12 @@ test('a manager can update and delete an option on their dish', function () {
         'name_en' => 'Renamed',
         'name_ar' => $option->name_ar,
         'price' => 3,
-    ])->assertRedirect(route('dishes.edit', $dish));
+    ])->assertRedirect(route('dishes.index', $restaurant));
 
     expect($option->fresh()->name_en)->toBe('Renamed');
 
     $this->actingAs($manager)->delete(route('dish-options.destroy', $option))
-        ->assertRedirect(route('dishes.edit', $dish));
+        ->assertRedirect(route('dishes.index', $restaurant));
 
     $this->assertDatabaseMissing('dish_options', ['id' => $option->id]);
 });

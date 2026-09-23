@@ -30,7 +30,7 @@ class ServingSizeController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Serving size added.')]);
 
-        return to_route('dishes.edit', $dish);
+        return to_route('dishes.index', $dish->kitchen->restaurant);
     }
 
     /**
@@ -50,7 +50,7 @@ class ServingSizeController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Serving size updated.')]);
 
-        return to_route('dishes.edit', $servingSize->dish);
+        return to_route('dishes.index', $servingSize->dish->kitchen->restaurant);
     }
 
     /**
@@ -65,6 +65,6 @@ class ServingSizeController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Serving size removed.')]);
 
-        return to_route('dishes.edit', $dish);
+        return to_route('dishes.index', $dish->kitchen->restaurant);
     }
 }

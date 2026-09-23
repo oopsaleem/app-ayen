@@ -39,9 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
 
     Route::get('restaurants/{restaurant}/dishes', [DishController::class, 'index'])->name('dishes.index');
-    Route::get('restaurants/{restaurant}/dishes/create', [DishController::class, 'create'])->name('dishes.create');
     Route::post('restaurants/{restaurant}/dishes', [DishController::class, 'store'])->name('dishes.store');
-    Route::get('dishes/{dish}/edit', [DishController::class, 'edit'])->name('dishes.edit');
     Route::patch('dishes/{dish}', [DishController::class, 'update'])->name('dishes.update');
 
     Route::post('dishes/{dish}/options', [DishOptionController::class, 'store'])->name('dish-options.store');
