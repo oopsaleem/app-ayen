@@ -27,7 +27,9 @@ class SaveDishRequest extends FormRequest
             default => null,
         };
 
-        $childRowPresence = $routeDish instanceof Dish ? 'prohibited' : 'sometimes';
+        $childRowId = $routeDish instanceof Dish
+            ? fn (string $table): array => ['nullable', 'integer', Rule::exists($table, 'id')->where('dish_id', $routeDish->id)]
+            : fn (string $table): array => ['prohibited'];
 
         return [
             'name_en' => ['required', 'string', 'max:255'],
@@ -48,11 +50,13 @@ class SaveDishRequest extends FormRequest
             'images.*' => ['image', 'max:'.self::MAX_IMAGE_KILOBYTES],
             'removed_images' => ['sometimes', 'array'],
             'removed_images.*' => ['string', Rule::in($routeDish instanceof Dish ? ($routeDish->images ?? []) : [])],
-            'options' => [$childRowPresence, 'array'],
+            'options' => ['sometimes', 'array'],
+            'options.*.id' => $childRowId('dish_options'),
             'options.*.name_en' => ['required', 'string', 'max:255'],
             'options.*.name_ar' => ['required', 'string', 'max:255'],
             'options.*.price' => ['required', 'numeric', 'min:0'],
-            'serving_sizes' => [$childRowPresence, 'array'],
+            'serving_sizes' => ['sometimes', 'array'],
+            'serving_sizes.*.id' => $childRowId('serving_sizes'),
             'serving_sizes.*.name_en' => ['required', 'string', 'max:255'],
             'serving_sizes.*.name_ar' => ['required', 'string', 'max:255'],
             'serving_sizes.*.price' => ['required', 'numeric', 'min:0'],

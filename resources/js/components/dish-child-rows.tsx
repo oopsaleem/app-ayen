@@ -1,9 +1,6 @@
-import { router, useForm } from '@inertiajs/react';
-import { Check, Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import DishOptionController from '@/actions/App/Http/Controllers/Menu/DishOptionController';
-import ServingSizeController from '@/actions/App/Http/Controllers/Menu/ServingSizeController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,8 +34,15 @@ export type ServingSizeRow = {
 type NewOption = Omit<DishOptionRow, 'id'>;
 type NewServingSize = Omit<ServingSizeRow, 'id'>;
 
-const EMPTY_OPTION: NewOption = { name_en: '', name_ar: '', price: '' };
-const EMPTY_SERVING_SIZE: NewServingSize = {
+/**
+ * A row in the dish form: saved rows keep their id so the server updates
+ * them in place, new rows have none.
+ */
+export type OptionInput = NewOption & { id?: number };
+export type ServingSizeInput = NewServingSize & { id?: number };
+
+const EMPTY_OPTION: OptionInput = { name_en: '', name_ar: '', price: '' };
+const EMPTY_SERVING_SIZE: ServingSizeInput = {
     name_en: '',
     name_ar: '',
     price: '',
@@ -46,20 +50,17 @@ const EMPTY_SERVING_SIZE: NewServingSize = {
     servings_count: 1,
 };
 
-const preserveScroll = { preserveScroll: true };
-
 /**
- * Option rows for a dish that has not been created yet; they are sent
- * along with the dish itself.
+ * Editable option rows of the dish form; they are saved with the dish.
  */
-export function NewOptionRows({
+export function OptionRows({
     rows,
     errors,
     onChange,
 }: {
-    rows: NewOption[];
+    rows: OptionInput[];
     errors: Record<string, string | undefined>;
-    onChange: (rows: NewOption[]) => void;
+    onChange: (rows: OptionInput[]) => void;
 }) {
     const { t } = useTranslation();
 
@@ -76,7 +77,7 @@ export function NewOptionRows({
             onAdd={() => onChange([...rows, EMPTY_OPTION])}
         >
             {rows.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow key={row.id ?? `new-${index}`}>
                     <OptionCells
                         values={row}
                         errorFor={(field) =>
@@ -99,17 +100,17 @@ export function NewOptionRows({
 }
 
 /**
- * Serving size rows for a dish that has not been created yet. Only one
- * row can be the default.
+ * Editable serving size rows of the dish form; they are saved with the
+ * dish. Only one row can be the default.
  */
-export function NewServingSizeRows({
+export function ServingSizeRows({
     rows,
     errors,
     onChange,
 }: {
-    rows: NewServingSize[];
+    rows: ServingSizeInput[];
     errors: Record<string, string | undefined>;
-    onChange: (rows: NewServingSize[]) => void;
+    onChange: (rows: ServingSizeInput[]) => void;
 }) {
     const { t } = useTranslation();
 
@@ -132,7 +133,7 @@ export function NewServingSizeRows({
             onAdd={() => onChange([...rows, EMPTY_SERVING_SIZE])}
         >
             {rows.map((row, index) => (
-                <TableRow key={index}>
+                <TableRow key={row.id ?? `new-${index}`}>
                     <ServingSizeCells
                         values={row}
                         errorFor={(field) =>
@@ -154,189 +155,16 @@ export function NewServingSizeRows({
     );
 }
 
-/**
- * Option rows of an existing dish; each row is saved or removed on its own.
- */
-export function SavedOptionRows({
-    dishId,
-    rows,
-}: {
-    dishId: number;
-    rows: DishOptionRow[];
-}) {
-    const { t } = useTranslation();
-    const newRow = useForm<NewOption>(EMPTY_OPTION);
-
-    return (
-        <RowsTable
-            caption={t('menu.dishes.options.heading')}
-            headings={optionHeadings(t)}
-            addLabel={t('menu.dishes.options.add')}
-            addDisabled={newRow.processing}
-            onAdd={() =>
-                newRow.post(DishOptionController.store.url(dishId), {
-                    ...preserveScroll,
-                    onSuccess: () => newRow.reset(),
-                })
-            }
-        >
-            {rows.map((row) => (
-                <SavedOptionRow key={JSON.stringify(row)} row={row} />
-            ))}
-            <TableRow>
-                <OptionCells
-                    values={newRow.data}
-                    errorFor={(field) => newRow.errors[field]}
-                    onChange={(changes) =>
-                        newRow.setData({ ...newRow.data, ...changes })
-                    }
-                />
-                <TableCell />
-            </TableRow>
-        </RowsTable>
-    );
-}
-
-function SavedOptionRow({ row }: { row: DishOptionRow }) {
-    const { t } = useTranslation();
-    const form = useForm<NewOption>({
-        name_en: row.name_en,
-        name_ar: row.name_ar,
-        price: row.price,
-    });
-
-    return (
-        <TableRow>
-            <OptionCells
-                values={form.data}
-                errorFor={(field) => form.errors[field]}
-                onChange={(changes) =>
-                    form.setData({ ...form.data, ...changes })
-                }
-            />
-            <TableCell>
-                <SavedRowActions
-                    isDirty={form.isDirty}
-                    processing={form.processing}
-                    saveLabel={t('menu.dishes.options.save')}
-                    removeLabel={t('menu.dishes.options.remove')}
-                    onSave={() =>
-                        form.patch(
-                            DishOptionController.update.url(row.id),
-                            preserveScroll,
-                        )
-                    }
-                    onRemove={() =>
-                        router.delete(
-                            DishOptionController.destroy.url(row.id),
-                            preserveScroll,
-                        )
-                    }
-                />
-            </TableCell>
-        </TableRow>
-    );
-}
-
-/**
- * Serving size rows of an existing dish; each row is saved or removed on
- * its own. The server clears the other defaults when one is saved as default.
- */
-export function SavedServingSizeRows({
-    dishId,
-    rows,
-}: {
-    dishId: number;
-    rows: ServingSizeRow[];
-}) {
-    const { t } = useTranslation();
-    const newRow = useForm<NewServingSize>(EMPTY_SERVING_SIZE);
-
-    return (
-        <RowsTable
-            caption={t('menu.dishes.serving_sizes.heading')}
-            headings={servingSizeHeadings(t)}
-            addLabel={t('menu.dishes.serving_sizes.add')}
-            addDisabled={newRow.processing}
-            onAdd={() =>
-                newRow.post(ServingSizeController.store.url(dishId), {
-                    ...preserveScroll,
-                    onSuccess: () => newRow.reset(),
-                })
-            }
-        >
-            {rows.map((row) => (
-                <SavedServingSizeRow key={JSON.stringify(row)} row={row} />
-            ))}
-            <TableRow>
-                <ServingSizeCells
-                    values={newRow.data}
-                    errorFor={(field) => newRow.errors[field]}
-                    onChange={(changes) =>
-                        newRow.setData({ ...newRow.data, ...changes })
-                    }
-                />
-                <TableCell />
-            </TableRow>
-        </RowsTable>
-    );
-}
-
-function SavedServingSizeRow({ row }: { row: ServingSizeRow }) {
-    const { t } = useTranslation();
-    const form = useForm<NewServingSize>({
-        name_en: row.name_en,
-        name_ar: row.name_ar,
-        price: row.price,
-        is_default: row.is_default,
-        servings_count: row.servings_count,
-    });
-
-    return (
-        <TableRow>
-            <ServingSizeCells
-                values={form.data}
-                errorFor={(field) => form.errors[field]}
-                onChange={(changes) =>
-                    form.setData({ ...form.data, ...changes })
-                }
-            />
-            <TableCell>
-                <SavedRowActions
-                    isDirty={form.isDirty}
-                    processing={form.processing}
-                    saveLabel={t('menu.dishes.serving_sizes.save')}
-                    removeLabel={t('menu.dishes.serving_sizes.remove')}
-                    onSave={() =>
-                        form.patch(
-                            ServingSizeController.update.url(row.id),
-                            preserveScroll,
-                        )
-                    }
-                    onRemove={() =>
-                        router.delete(
-                            ServingSizeController.destroy.url(row.id),
-                            preserveScroll,
-                        )
-                    }
-                />
-            </TableCell>
-        </TableRow>
-    );
-}
-
 function RowsTable({
     caption,
     headings,
     addLabel,
-    addDisabled = false,
     onAdd,
     children,
 }: {
     caption: string;
     headings: string[];
     addLabel: string;
-    addDisabled?: boolean;
     onAdd: () => void;
     children: ReactNode;
 }) {
@@ -358,13 +186,7 @@ function RowsTable({
                 </TableHeader>
                 <TableBody>{children}</TableBody>
             </Table>
-            <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={addDisabled}
-                onClick={onAdd}
-            >
+            <Button type="button" variant="outline" size="sm" onClick={onAdd}>
                 <Plus /> {addLabel}
             </Button>
         </div>
@@ -489,38 +311,6 @@ function PriceInput({
             value={value}
             onChange={(e) => onChange(e.target.value)}
         />
-    );
-}
-
-function SavedRowActions({
-    isDirty,
-    processing,
-    saveLabel,
-    removeLabel,
-    onSave,
-    onRemove,
-}: {
-    isDirty: boolean;
-    processing: boolean;
-    saveLabel: string;
-    removeLabel: string;
-    onSave: () => void;
-    onRemove: () => void;
-}) {
-    return (
-        <div className="flex gap-1">
-            <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label={saveLabel}
-                disabled={!isDirty || processing}
-                onClick={onSave}
-            >
-                <Check />
-            </Button>
-            <RemoveButton label={removeLabel} onClick={onRemove} />
-        </div>
     );
 }
 

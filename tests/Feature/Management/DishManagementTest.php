@@ -4,10 +4,12 @@ use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Dish;
+use App\Models\DishOption;
 use App\Models\Kitchen;
 use App\Models\Manager;
 use App\Models\Restaurant;
 use App\Models\RestaurantVerification;
+use App\Models\ServingSize;
 use App\Models\User;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
@@ -25,6 +27,22 @@ function dishManagementFixture(): array
     Manager::factory()->create(['user_id' => $manager->id, 'company_id' => $restaurant->company_id]);
 
     return compact('restaurant', 'kitchen', 'category', 'manager');
+}
+
+/**
+ * @param  array<string, mixed>  $overrides
+ * @return array<string, mixed>
+ */
+function dishUpdatePayload(Kitchen $kitchen, Category $category, array $overrides = []): array
+{
+    return [
+        'name_en' => 'Dish',
+        'name_ar' => 'طبق',
+        'price' => 12,
+        'kitchen_id' => $kitchen->id,
+        'category_id' => $category->id,
+        ...$overrides,
+    ];
 }
 
 test('the dish index lists a restaurants dishes', function () {
@@ -263,4 +281,72 @@ test('a manager cannot assign a dish to a kitchen from another restaurant', func
         'kitchen_id' => $otherKitchen->id,
         'category_id' => $category->id,
     ])->assertInvalid(['kitchen_id']);
+});
+
+test('a manager can update, add and remove a dishs options and serving sizes in one save', function () {
+    ['restaurant' => $restaurant, 'kitchen' => $kitchen, 'category' => $category, 'manager' => $manager] = dishManagementFixture();
+    $dish = Dish::factory()->create(['kitchen_id' => $kitchen->id, 'category_id' => $category->id]);
+    $keptOption = DishOption::factory()->create(['dish_id' => $dish->id, 'name_en' => 'Old name']);
+    $removedOption = DishOption::factory()->create(['dish_id' => $dish->id]);
+    $smallSize = ServingSize::factory()->create(['dish_id' => $dish->id, 'is_default' => true]);
+    $removedSize = ServingSize::factory()->create(['dish_id' => $dish->id, 'is_default' => false]);
+
+    $this->actingAs($manager)->patch(route('dishes.update', $dish), dishUpdatePayload($kitchen, $category, [
+        'options' => [
+            ['id' => $keptOption->id, 'name_en' => 'Extra rice', 'name_ar' => 'أرز إضافي', 'price' => 2],
+            ['name_en' => 'Extra sauce', 'name_ar' => 'صلصة إضافية', 'price' => 1],
+        ],
+        'serving_sizes' => [
+            ['id' => $smallSize->id, 'name_en' => 'Small', 'name_ar' => 'صغير', 'price' => 20, 'is_default' => false, 'servings_count' => 2],
+            ['name_en' => 'Large', 'name_ar' => 'كبير', 'price' => 30, 'is_default' => true, 'servings_count' => 3],
+        ],
+    ]))->assertRedirect(route('dishes.index', $restaurant));
+
+    $dish->refresh();
+
+    expect($dish->options->pluck('name_en')->all())->toEqualCanonicalizing(['Extra rice', 'Extra sauce'])
+        ->and($keptOption->fresh()->name_en)->toBe('Extra rice')
+        ->and($dish->servingSizes->pluck('name_en')->all())->toEqualCanonicalizing(['Small', 'Large'])
+        ->and($smallSize->fresh()->servings_count)->toBe(2)
+        ->and($smallSize->fresh()->is_default)->toBeFalse()
+        ->and($dish->servingSizes->firstWhere('is_default', true)->name_en)->toBe('Large');
+    $this->assertModelMissing($removedOption);
+    $this->assertModelMissing($removedSize);
+});
+
+test('updating a dish without options or serving sizes removes the ones it had', function () {
+    ['restaurant' => $restaurant, 'kitchen' => $kitchen, 'category' => $category, 'manager' => $manager] = dishManagementFixture();
+    $dish = Dish::factory()->create(['kitchen_id' => $kitchen->id, 'category_id' => $category->id]);
+    DishOption::factory()->create(['dish_id' => $dish->id]);
+    ServingSize::factory()->create(['dish_id' => $dish->id]);
+
+    $this->actingAs($manager)->patch(route('dishes.update', $dish), dishUpdatePayload($kitchen, $category))
+        ->assertRedirect(route('dishes.index', $restaurant));
+
+    expect($dish->options()->count())->toBe(0)
+        ->and($dish->servingSizes()->count())->toBe(0);
+});
+
+test('a dish update cannot touch options or serving sizes of another dish', function () {
+    ['kitchen' => $kitchen, 'category' => $category, 'manager' => $manager] = dishManagementFixture();
+    $dish = Dish::factory()->create(['kitchen_id' => $kitchen->id, 'category_id' => $category->id]);
+    $otherOption = DishOption::factory()->create(['name_en' => 'Untouched']);
+    $otherSize = ServingSize::factory()->create(['name_en' => 'Untouched']);
+
+    $this->actingAs($manager)->patch(route('dishes.update', $dish), dishUpdatePayload($kitchen, $category, [
+        'options' => [['id' => $otherOption->id, 'name_en' => 'Hijacked', 'name_ar' => 'x', 'price' => 1]],
+        'serving_sizes' => [['id' => $otherSize->id, 'name_en' => 'Hijacked', 'name_ar' => 'x', 'price' => 1]],
+    ]))->assertInvalid(['options.0.id', 'serving_sizes.0.id']);
+
+    expect($otherOption->fresh()->name_en)->toBe('Untouched')
+        ->and($otherSize->fresh()->name_en)->toBe('Untouched');
+});
+
+test('a new dish cannot be created with existing option ids', function () {
+    ['restaurant' => $restaurant, 'kitchen' => $kitchen, 'category' => $category, 'manager' => $manager] = dishManagementFixture();
+    $option = DishOption::factory()->create();
+
+    $this->actingAs($manager)->post(route('dishes.store', $restaurant), dishUpdatePayload($kitchen, $category, [
+        'options' => [['id' => $option->id, 'name_en' => 'Extra rice', 'name_ar' => 'أرز', 'price' => 2]],
+    ]))->assertInvalid(['options.0.id']);
 });

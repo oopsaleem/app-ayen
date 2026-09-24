@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Menu\SaveDishRequest;
 use App\Models\Dish;
 use App\Models\Restaurant;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -87,6 +90,7 @@ class DishController extends Controller
 
     /**
      * Update the specified dish, adding new images and deleting removed ones.
+     * Its options and serving sizes become exactly the submitted rows.
      */
     public function update(SaveDishRequest $request, Dish $dish): RedirectResponse
     {
@@ -94,17 +98,46 @@ class DishController extends Controller
 
         $removedImages = $request->validated('removed_images', []);
         $keptImages = array_values(array_diff($dish->images ?? [], $removedImages));
+        $images = [...$keptImages, ...$this->storeImages($request)];
 
-        $dish->update([
-            ...$request->dishAttributes(),
-            'images' => [...$keptImages, ...$this->storeImages($request)],
-        ]);
+        DB::transaction(function () use ($request, $dish, $images) {
+            $dish->update([...$request->dishAttributes(), 'images' => $images]);
+
+            $this->syncRows($dish->options(), $request->validated('options', []));
+            $this->syncRows($dish->servingSizes(), $request->validated('serving_sizes', []));
+        });
 
         Storage::disk(self::IMAGE_DISK)->delete($removedImages);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Dish updated.')]);
 
         return to_route('dishes.index', $dish->kitchen->restaurant);
+    }
+
+    /**
+     * Make a dish's child rows match the submitted ones: rows with an id are
+     * updated, rows without one are created, and rows left out are deleted.
+     *
+     * @param  HasMany<Model, Dish>  $relation
+     * @param  array<int, array<string, mixed>>  $rows
+     */
+    private function syncRows(HasMany $relation, array $rows): void
+    {
+        $existing = $relation->get()->keyBy('id');
+        $keptIds = [];
+
+        foreach ($rows as $row) {
+            $attributes = Arr::except($row, 'id');
+
+            if (isset($row['id'])) {
+                $existing[$row['id']]->update($attributes);
+                $keptIds[] = $row['id'];
+            } else {
+                $relation->create($attributes);
+            }
+        }
+
+        $existing->except($keptIds)->each->delete();
     }
 
     /**

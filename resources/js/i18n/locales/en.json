@@ -558,15 +558,13 @@
             "options": {
                 "heading": "Options",
                 "add": "Add option",
-                "remove": "Remove",
-                "save": "Save"
+                "remove": "Remove"
             },
             "serving_sizes": {
                 "heading": "Serving sizes",
                 "add": "Add serving size",
                 "default": "Default",
-                "remove": "Remove",
-                "save": "Save"
+                "remove": "Remove"
             },
             "images": {
                 "add": "Add images",

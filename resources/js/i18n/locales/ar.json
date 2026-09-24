@@ -590,15 +590,13 @@
             "options": {
                 "heading": "الإضافات",
                 "add": "إضافة خيار",
-                "remove": "إزالة",
-                "save": "حفظ"
+                "remove": "إزالة"
             },
             "serving_sizes": {
                 "heading": "أحجام التقديم",
                 "add": "إضافة حجم",
                 "default": "افتراضي",
-                "remove": "إزالة",
-                "save": "حفظ"
+                "remove": "إزالة"
             },
             "images": {
                 "add": "إضافة صور",

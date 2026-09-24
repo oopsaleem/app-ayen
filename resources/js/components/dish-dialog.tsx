@@ -4,14 +4,11 @@ import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import DishController from '@/actions/App/Http/Controllers/Menu/DishController';
-import {
-    NewOptionRows,
-    NewServingSizeRows,
-    SavedOptionRows,
-    SavedServingSizeRows,
-} from '@/components/dish-child-rows';
+import { OptionRows, ServingSizeRows } from '@/components/dish-child-rows';
 import type {
     DishOptionRow,
+    OptionInput,
+    ServingSizeInput,
     ServingSizeRow,
 } from '@/components/dish-child-rows';
 import InputError from '@/components/input-error';
@@ -122,8 +119,8 @@ type DishFormData = {
     category_id: string;
     images: File[];
     removed_images: string[];
-    options: Omit<DishOptionRow, 'id'>[];
-    serving_sizes: Omit<ServingSizeRow, 'id'>[];
+    options: OptionInput[];
+    serving_sizes: ServingSizeInput[];
 };
 
 type DishDialogProps = {
@@ -137,8 +134,8 @@ type DishDialogProps = {
 };
 
 /**
- * Create or edit a dish in a dialog. New dishes send their options and
- * serving sizes with the dish; existing dishes save each row on its own.
+ * Create or edit a dish in a dialog. Its options and serving sizes are
+ * saved together with the dish.
  */
 export function DishDialog({
     open,
@@ -198,8 +195,8 @@ function DishForm({
         category_id: dish ? String(dish.category_id) : '',
         images: [],
         removed_images: [],
-        options: [],
-        serving_sizes: [],
+        options: dish?.options ?? [],
+        serving_sizes: dish?.serving_sizes ?? [],
     });
     const { data, setData, errors, processing } = form;
     const [selectionError, setSelectionError] = useState<string | null>(null);
@@ -225,18 +222,8 @@ function DishForm({
         const options = { preserveScroll: true, onSuccess: onClose };
 
         if (dish) {
-            // Files need a multipart POST, so spoof PATCH. Existing dishes
-            // save their options and serving sizes row by row instead.
-            form.transform((fields) => {
-                const payload: Record<string, unknown> = {
-                    ...fields,
-                    _method: 'patch',
-                };
-                delete payload.options;
-                delete payload.serving_sizes;
-
-                return payload;
-            });
+            // Files need a multipart POST, so spoof PATCH.
+            form.transform((fields) => ({ ...fields, _method: 'patch' }));
             form.post(DishController.update.url(dish.id), options);
 
             return;
@@ -283,7 +270,7 @@ function DishForm({
         .map(([, message]) => message);
 
     return (
-        <div className="space-y-8">
+        <div>
             <form onSubmit={submit} className="space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                     <div className="grid gap-2">
@@ -509,20 +496,18 @@ function DishForm({
                     </div>
                 </div>
 
-                {dish ? null : (
-                    <div className="grid gap-6 lg:grid-cols-2">
-                        <NewOptionRows
-                            rows={data.options}
-                            errors={errors}
-                            onChange={(rows) => setData('options', rows)}
-                        />
-                        <NewServingSizeRows
-                            rows={data.serving_sizes}
-                            errors={errors}
-                            onChange={(rows) => setData('serving_sizes', rows)}
-                        />
-                    </div>
-                )}
+                <div className="grid gap-6">
+                    <OptionRows
+                        rows={data.options}
+                        errors={errors}
+                        onChange={(rows) => setData('options', rows)}
+                    />
+                    <ServingSizeRows
+                        rows={data.serving_sizes}
+                        errors={errors}
+                        onChange={(rows) => setData('serving_sizes', rows)}
+                    />
+                </div>
 
                 <DialogFooter>
                     <Button type="button" variant="outline" onClick={onClose}>
@@ -536,16 +521,6 @@ function DishForm({
                     </Button>
                 </DialogFooter>
             </form>
-
-            {dish ? (
-                <div className="grid gap-6 border-t pt-6 lg:grid-cols-2">
-                    <SavedOptionRows dishId={dish.id} rows={dish.options} />
-                    <SavedServingSizeRows
-                        dishId={dish.id}
-                        rows={dish.serving_sizes}
-                    />
-                </div>
-            ) : null}
         </div>
     );
 }
