@@ -566,7 +566,7 @@ function ImageThumbnail({
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="absolute end-1 top-1 size-6"
+                className="absolute inset-e-1 top-1 size-6"
                 aria-label={removeLabel}
                 onClick={onRemove}
             >

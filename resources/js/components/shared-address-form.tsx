@@ -257,7 +257,7 @@ export function SharedAddressForm({
                     <span className="text-destructive">*</span>
                 </Label>
                 <div className="relative">
-                    <MapPin className="absolute start-3 top-3 size-4 text-muted-foreground" />
+                    <MapPin className="absolute inset-s-3 top-3 size-4 text-muted-foreground" />
                     <Input
                         id="address"
                         {...register('address', {

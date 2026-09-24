@@ -126,7 +126,7 @@ export default function LocationPicker({
                 {label ?? t('location_picker.address_label')}
             </Label>
             <div className="relative">
-                <MapPin className="absolute start-3 top-3 size-4 text-muted-foreground" />
+                <MapPin className="absolute inset-s-3 top-3 size-4 text-muted-foreground" />
                 <Input
                     id={`${name}_address`}
                     name={`${name}[address]`}
@@ -164,7 +164,7 @@ export default function LocationPicker({
             <InputError message={latError} />
             <InputError message={lngError} />
 
-            <div className="relative h-[300px] overflow-hidden rounded-lg border">
+            <div className="relative h-75 overflow-hidden rounded-lg border">
                 <Map
                     {...viewport}
                     onMove={(event) => setViewport(event.viewState)}

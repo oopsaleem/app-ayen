@@ -31,7 +31,7 @@ export function CartDrawer({
             <Button
                 type="button"
                 size="icon"
-                className="fixed bottom-4 end-4 z-40 size-12 rounded-full shadow-lg"
+                className="fixed bottom-4 inset-e-4 z-40 size-12 rounded-full shadow-lg"
                 aria-label={t('menu.browse.cart.open')}
                 onClick={() => setOpen(true)}
             >
@@ -39,7 +39,7 @@ export function CartDrawer({
                 {itemCount > 0 ? (
                     <Badge
                         variant="destructive"
-                        className="absolute -top-2 -start-2"
+                        className="absolute -top-2 -inset-s-2"
                     >
                         {itemCount}
                     </Badge>
