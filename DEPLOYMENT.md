@@ -1,6 +1,6 @@
-# Deploying to HostGator cPanel
+# Deploying to HostGator cPanel - MobLand
 
-Deployment target: `app.algelowb.com` on HostGator shared hosting (server `gator2021.hostgator.com`).
+Deployment target: `myapp.algelowb.com` on HostGator shared hosting (server `gator2021.hostgator.com`).
 
 ## 1. SSH access
 
@@ -55,8 +55,8 @@ Available here: `ea-php80` through `ea-php85`. Use the full binary path to run a
 ## 4. Create the subdomain
 
 1. cPanel → **Domains** → **Create A New Domain**
-2. Domain: `app.algelowb.com`
-3. **Document Root**: set explicitly to `app.algelowb.com/public` (must point at Laravel's `public/` folder, never the app root — otherwise `.env` and source become publicly browsable)
+2. Domain: `myapp.algelowb.com`
+3. **Document Root**: set explicitly to `myapp.algelowb.com/public` (must point at Laravel's `public/` folder, never the app root — otherwise `.env` and source become publicly browsable)
 4. Submit
 
 ## 5. Set the correct PHP version for the domain
@@ -79,11 +79,11 @@ cPanel pre-creates the document root folder (with placeholder files) when you cr
 
 ```
 cd ~
-rm -rf app.algelowb.com    # only if it just has cPanel's placeholder content
-mkdir app.algelowb.com
+rm -rf myapp.algelowb.com    # only if it just has cPanel's placeholder content
+mkdir myapp.algelowb.com
 git clone https://github.com/oopsaleem/laravel-app.git /tmp/laravel-clone
 shopt -s dotglob
-mv /tmp/laravel-clone/* app.algelowb.com/
+mv /tmp/laravel-clone/* myapp.algelowb.com/
 rmdir /tmp/laravel-clone
 ```
 
@@ -93,7 +93,7 @@ Verify `public/index.php` and `.htaccess` exist, and `.git/` is present at the a
 
 ```
 # depends on the php version. e.g. ea-php84
-cd ~/app.algelowb.com
+cd ~/myapp.algelowb.com
 /opt/cpanel/ea-php84/root/usr/bin/php ~/bin/composer install --no-dev --optimize-autoloader
 ```
 
@@ -108,7 +108,7 @@ Edit `.env` (via `nano .env` or cPanel File Manager) and set:
 APP_NAME="..."
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://app.algelowb.com
+APP_URL=https://myapp.algelowb.com
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -136,12 +136,15 @@ npm run build
 
 This produces `public/build/`. Upload it via SFTP using the same SSH key and port:
 
-```
-sftp -P 22 -i ~/.ssh/laravel_deploy <cpanel_username>@gator2021.hostgator.com
-cd app.algelowb.com/public
+```bash
+sftp -P 22 -i ~/.ssh/laravel_deploy -o IdentitiesOnly=yes wedo@gator2021.hostgator.com
+cd myapp.algelowb.com/public
 put -r build
 ```
-
+### 🔁 CI/CD deploy
+1. Run npm run build.
+2. Upload `public/build/`.
+3. If you changed PHP, pull the changes on the server and run `php artisan config:clear`.  
 ## Gotchas hit during this deployment
 
 - `git@github.com:...` SSH clone URLs need a deploy key on GitHub; for public repos, use the `https://` clone URL instead to skip that setup.
