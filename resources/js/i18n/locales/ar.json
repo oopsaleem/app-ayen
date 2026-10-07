@@ -313,5 +313,22 @@
                 "accept": "قبول"
             }
         }
-    }
+    },
+        "password_strength": {
+            "title": "قوة كلمة المرور",
+            "levels": {
+                "empty": "أدخل كلمة مرور",
+                "weak": "ضعيفة",
+                "fair": "مقبولة",
+                "good": "جيدة",
+                "strong": "قوية"
+            },
+            "requirements": {
+                "min_length": "{{count}} أحرف على الأقل",
+                "lower": "حرف صغير",
+                "upper": "حرف كبير",
+                "digit": "رقم",
+                "special": "رمز"
+            }
+        }
 }

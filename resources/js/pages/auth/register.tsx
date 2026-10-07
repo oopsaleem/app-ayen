@@ -87,6 +87,7 @@ export default function Register({ passwordRules, teamInvitation }: Props) {
                                     name="password"
                                     placeholder={t('auth.register.password')}
                                     passwordrules={passwordRules}
+                                    showChecklist
                                 />
                                 <InputError message={errors.password} />
                             </div>

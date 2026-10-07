@@ -114,4 +114,18 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Password Complexity
+    |--------------------------------------------------------------------------
+    |
+    | Controls how strict new passwords must be. Supported levels:
+    | "basic" (min 8 chars), "medium" (min 8, letters and numbers),
+    | "strict" (min 12, mixed case, letters, numbers, symbols, not leaked).
+    | Defaults to "strict" in production and "basic" elsewhere.
+    |
+    */
+
+    'password_complexity' => env('PASSWORD_COMPLEXITY', env('APP_ENV') === 'production' ? 'strict' : 'basic'),
+
 ];

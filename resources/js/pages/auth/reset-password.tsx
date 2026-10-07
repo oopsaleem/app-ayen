@@ -59,6 +59,7 @@ export default function ResetPassword({ token, email, passwordRules }: Props) {
                                 autoFocus
                                 placeholder={t('auth.reset_password.password')}
                                 passwordrules={passwordRules}
+                                showChecklist
                             />
                             <InputError message={errors.password} />
                         </div>

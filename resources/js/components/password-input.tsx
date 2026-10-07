@@ -1,22 +1,64 @@
 import { Eye, EyeOff } from 'lucide-react';
 import type { ComponentProps, Ref } from 'react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import PasswordChecklist from '@/components/password-checklist';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+
+type Props = Omit<ComponentProps<'input'>, 'type'> & {
+    ref?: Ref<HTMLInputElement>;
+    passwordrules?: string;
+    showChecklist?: boolean;
+};
 
 export default function PasswordInput({
     className,
     ref,
+    showChecklist = false,
+    onChange,
     ...props
-}: Omit<ComponentProps<'input'>, 'type'> & { ref?: Ref<HTMLInputElement> }) {
+}: Props) {
     const [showPassword, setShowPassword] = useState(false);
+    const [value, setValue] = useState('');
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
-    return (
+    useEffect(() => {
+        const form = inputRef.current?.form;
+
+        if (!showChecklist || !form) {
+            return;
+        }
+
+        const syncAfterReset = () =>
+            requestAnimationFrame(() =>
+                setValue(inputRef.current?.value ?? ''),
+            );
+
+        form.addEventListener('reset', syncAfterReset);
+
+        return () => form.removeEventListener('reset', syncAfterReset);
+    }, [showChecklist]);
+
+    const setRefs = (element: HTMLInputElement | null) => {
+        inputRef.current = element;
+
+        if (typeof ref === 'function') {
+            ref(element);
+        } else if (ref) {
+            ref.current = element;
+        }
+    };
+
+    const input = (
         <div className="relative">
             <Input
                 type={showPassword ? 'text' : 'password'}
                 className={cn('pr-10', className)}
-                ref={ref}
+                ref={setRefs}
+                onChange={(event) => {
+                    setValue(event.target.value);
+                    onChange?.(event);
+                }}
                 {...props}
             />
             <button
@@ -32,6 +74,20 @@ export default function PasswordInput({
                     <Eye className="size-4" />
                 )}
             </button>
+        </div>
+    );
+
+    if (!showChecklist) {
+        return input;
+    }
+
+    return (
+        <div className="grid gap-3">
+            {input}
+            <PasswordChecklist
+                password={value}
+                rules={props.passwordrules ?? ''}
+            />
         </div>
     );
 }

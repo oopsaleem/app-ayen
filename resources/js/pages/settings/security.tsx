@@ -96,6 +96,7 @@ export default function Security(props: Props) {
                                         'settings.security.new_password',
                                     )}
                                     passwordrules={props.passwordRules}
+                                    showChecklist
                                 />
 
                                 <InputError message={errors.password} />

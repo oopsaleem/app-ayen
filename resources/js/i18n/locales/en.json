@@ -313,5 +313,22 @@
                 "accept": "Accept"
             }
         }
-    }
+    },
+        "password_strength": {
+            "title": "Password strength",
+            "levels": {
+                "empty": "Enter a password",
+                "weak": "Weak",
+                "fair": "Fair",
+                "good": "Good",
+                "strong": "Strong"
+            },
+            "requirements": {
+                "min_length": "At least {{count}} characters",
+                "lower": "A lowercase letter",
+                "upper": "An uppercase letter",
+                "digit": "A number",
+                "special": "A symbol"
+            }
+        }
 }
